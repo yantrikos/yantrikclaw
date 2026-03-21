@@ -1,4 +1,4 @@
-# Dokumentační hub ZeroClaw
+# Dokumentační hub YantrikClaw
 
 Tato stránka je hlavním vstupním bodem do dokumentačního systému.
 
@@ -10,7 +10,7 @@ Lokalizované huby: [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 
 | Chci…                                                                | Přečtěte si toto                                                               |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Rychle nainstalovat a spustit ZeroClaw                              | [README.md (Rychlý start)](../README.md#quick-start)                           |
+| Rychle nainstalovat a spustit YantrikClaw                              | [README.md (Rychlý start)](../README.md#quick-start)                           |
 | Bootstrap jedním příkazem                                           | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Najít příkazy podle úkolu                                           | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Rychle ověřit konfigurační klíče a výchozí hodnoty                  | [config-reference.md](reference/api/config-reference.md)                       |

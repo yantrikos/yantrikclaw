@@ -1,6 +1,6 @@
 # Android Setup
 
-ZeroClaw provides prebuilt binaries for Android devices.
+YantrikClaw provides prebuilt binaries for Android devices.
 
 ## Supported Architectures
 
@@ -11,7 +11,7 @@ ZeroClaw provides prebuilt binaries for Android devices.
 
 ## Installation via Termux
 
-The easiest way to run ZeroClaw on Android is via [Termux](https://termux.dev/).
+The easiest way to run YantrikClaw on Android is via [Termux](https://termux.dev/).
 
 ### 1. Install Termux
 
@@ -19,7 +19,7 @@ Download from [F-Droid](https://f-droid.org/packages/com.termux/) (recommended) 
 
 > ⚠️ **Note:** The Play Store version is outdated and unsupported.
 
-### 2. Download ZeroClaw
+### 2. Download YantrikClaw
 
 ```bash
 # Check your architecture
@@ -28,36 +28,36 @@ uname -m
 
 # Download the appropriate binary
 # For 64-bit (aarch64):
-curl -LO https://github.com/zeroclaw-labs/zeroclaw/releases/latest/download/zeroclaw-aarch64-linux-android.tar.gz
-tar xzf zeroclaw-aarch64-linux-android.tar.gz
+curl -LO https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest/download/yantrikclaw-aarch64-linux-android.tar.gz
+tar xzf yantrikclaw-aarch64-linux-android.tar.gz
 
 # For 32-bit (armv7):
-curl -LO https://github.com/zeroclaw-labs/zeroclaw/releases/latest/download/zeroclaw-armv7-linux-androideabi.tar.gz
-tar xzf zeroclaw-armv7-linux-androideabi.tar.gz
+curl -LO https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest/download/yantrikclaw-armv7-linux-androideabi.tar.gz
+tar xzf yantrikclaw-armv7-linux-androideabi.tar.gz
 ```
 
 ### 3. Install and Run
 
 ```bash
-chmod +x zeroclaw
-mv zeroclaw $PREFIX/bin/
+chmod +x yantrikclaw
+mv yantrikclaw $PREFIX/bin/
 
 # Verify installation
-zeroclaw --version
+yantrikclaw --version
 
 # Run setup
-zeroclaw onboard
+yantrikclaw onboard
 ```
 
 ## Direct Installation via ADB
 
-For advanced users who want to run ZeroClaw outside Termux:
+For advanced users who want to run YantrikClaw outside Termux:
 
 ```bash
 # From your computer with ADB
-adb push zeroclaw /data/local/tmp/
-adb shell chmod +x /data/local/tmp/zeroclaw
-adb shell /data/local/tmp/zeroclaw --version
+adb push yantrikclaw /data/local/tmp/
+adb shell chmod +x /data/local/tmp/yantrikclaw
+adb shell /data/local/tmp/yantrikclaw --version
 ```
 
 > ⚠️ Running outside Termux requires a rooted device or specific permissions for full functionality.
@@ -90,7 +90,7 @@ cargo build --release --target aarch64-linux-android
 
 ### "Permission denied"
 ```bash
-chmod +x zeroclaw
+chmod +x yantrikclaw
 ```
 
 ### "not found" or linker errors

@@ -1,4 +1,4 @@
-# Podsumowanie Dokumentacji ZeroClaw (Ujednolicony Spis Treści)
+# Podsumowanie Dokumentacji YantrikClaw (Ujednolicony Spis Treści)
 
 Ten plik stanowi kanoniczny spis treści systemu dokumentacji.
 

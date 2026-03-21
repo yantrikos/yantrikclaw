@@ -1,4 +1,4 @@
-//! `zeroclaw self-test` — quick and full diagnostic checks.
+//! `yantrikclaw self-test` — quick and full diagnostic checks.
 
 use anyhow::Result;
 use std::path::Path;

@@ -1,6 +1,6 @@
 # Android 安装指南
 
-ZeroClaw 为 Android 设备提供预构建二进制文件。
+YantrikClaw 为 Android 设备提供预构建二进制文件。
 
 ## 支持的架构
 
@@ -11,7 +11,7 @@ ZeroClaw 为 Android 设备提供预构建二进制文件。
 
 ## 通过 Termux 安装
 
-在 Android 上运行 ZeroClaw 最简单的方式是通过 [Termux](https://termux.dev/)。
+在 Android 上运行 YantrikClaw 最简单的方式是通过 [Termux](https://termux.dev/)。
 
 ### 1. 安装 Termux
 
@@ -19,7 +19,7 @@ ZeroClaw 为 Android 设备提供预构建二进制文件。
 
 > ⚠️ **注意：** Play Store 版本已过时且不受支持。
 
-### 2. 下载 ZeroClaw
+### 2. 下载 YantrikClaw
 
 ```bash
 # 检查你的架构
@@ -28,36 +28,36 @@ uname -m
 
 # 下载对应的二进制文件
 # 64 位（aarch64）：
-curl -LO https://github.com/zeroclaw-labs/zeroclaw/releases/latest/download/zeroclaw-aarch64-linux-android.tar.gz
-tar xzf zeroclaw-aarch64-linux-android.tar.gz
+curl -LO https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest/download/yantrikclaw-aarch64-linux-android.tar.gz
+tar xzf yantrikclaw-aarch64-linux-android.tar.gz
 
 # 32 位（armv7）：
-curl -LO https://github.com/zeroclaw-labs/zeroclaw/releases/latest/download/zeroclaw-armv7-linux-androideabi.tar.gz
-tar xzf zeroclaw-armv7-linux-androideabi.tar.gz
+curl -LO https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest/download/yantrikclaw-armv7-linux-androideabi.tar.gz
+tar xzf yantrikclaw-armv7-linux-androideabi.tar.gz
 ```
 
 ### 3. 安装和运行
 
 ```bash
-chmod +x zeroclaw
-mv zeroclaw $PREFIX/bin/
+chmod +x yantrikclaw
+mv yantrikclaw $PREFIX/bin/
 
 # 验证安装
-zeroclaw --version
+yantrikclaw --version
 
 # 运行设置
-zeroclaw onboard
+yantrikclaw onboard
 ```
 
 ## 通过 ADB 直接安装
 
-适用于希望在 Termux 之外运行 ZeroClaw 的高级用户：
+适用于希望在 Termux 之外运行 YantrikClaw 的高级用户：
 
 ```bash
 # 在安装了 ADB（Android 调试桥）的电脑上执行
-adb push zeroclaw /data/local/tmp/
-adb shell chmod +x /data/local/tmp/zeroclaw
-adb shell /data/local/tmp/zeroclaw --version
+adb push yantrikclaw /data/local/tmp/
+adb shell chmod +x /data/local/tmp/yantrikclaw
+adb shell /data/local/tmp/yantrikclaw --version
 ```
 
 > ⚠️ 在 Termux 之外运行需要 root 权限或特定权限才能获得完整功能。
@@ -91,7 +91,7 @@ cargo build --release --target aarch64-linux-android
 ### "Permission denied"
 
 ```bash
-chmod +x zeroclaw
+chmod +x yantrikclaw
 ```
 
 ### "not found" 或链接器错误

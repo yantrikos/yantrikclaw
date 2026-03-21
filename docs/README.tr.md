@@ -1,4 +1,4 @@
-# ZeroClaw Dokümantasyon Merkezi
+# YantrikClaw Dokümantasyon Merkezi
 
 Bu sayfa, dokümantasyon sisteminin ana giriş noktasıdır.
 
@@ -10,7 +10,7 @@ Yerelleştirilmiş merkezler: [简体中文](README.zh-CN.md) · [日本語](REA
 
 | Yapmak istediğim…                                                    | Bunu oku                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ZeroClaw'ı hızlıca kurup çalıştırmak                                | [README.md (Hızlı Başlangıç)](../README.md#quick-start)                        |
+| YantrikClaw'ı hızlıca kurup çalıştırmak                                | [README.md (Hızlı Başlangıç)](../README.md#quick-start)                        |
 | Tek komutla kurulum                                                  | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Göreve göre komut bulmak                                             | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Yapılandırma anahtarlarını ve varsayılan değerleri hızlıca kontrol   | [config-reference.md](reference/api/config-reference.md)                       |

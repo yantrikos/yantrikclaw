@@ -25,7 +25,7 @@ _ensure_bash() {
   elif _have_cmd dnf; then _run_privileged dnf install -y bash
   elif _have_cmd pacman; then
     if _is_container_runtime; then
-      _PACMAN_CFG="$(mktemp /tmp/zeroclaw-pacman.XXXXXX.conf)"
+      _PACMAN_CFG="$(mktemp /tmp/yantrikclaw-pacman.XXXXXX.conf)"
       cp /etc/pacman.conf "$_PACMAN_CFG"
       grep -Eq '^[[:space:]]*DisableSandboxSyscalls([[:space:]]|$)' "$_PACMAN_CFG" || printf '\nDisableSandboxSyscalls\n' >> "$_PACMAN_CFG"
       _run_privileged pacman --config "$_PACMAN_CFG" -Sy --noconfirm
@@ -117,7 +117,7 @@ Options:
 
 Examples:
   # One-click install (interactive)
-  curl -fsSL https://zeroclawlabs.ai/install.sh | bash
+  curl -fsSL https://yantrikclawlabs.ai/install.sh | bash
 
   # Non-interactive with API key
   ./install.sh --api-key "sk-..." --provider openrouter
@@ -132,15 +132,15 @@ Examples:
   ./install.sh --skip-onboard
 
 Environment:
-  ZEROCLAW_CONTAINER_CLI     Container CLI command (default: docker; auto-fallback: podman)
-  ZEROCLAW_DOCKER_DATA_DIR   Host path for Docker config/workspace persistence
-  ZEROCLAW_DOCKER_IMAGE      Docker image tag to build/run (default: zeroclaw-bootstrap:local)
-  ZEROCLAW_API_KEY           Used when --api-key is not provided
-  ZEROCLAW_PROVIDER          Used when --provider is not provided (default: openrouter)
-  ZEROCLAW_MODEL             Used when --model is not provided
-  ZEROCLAW_BOOTSTRAP_MIN_RAM_MB   Minimum RAM threshold for source build preflight (default: 2048)
-  ZEROCLAW_BOOTSTRAP_MIN_DISK_MB  Minimum free disk threshold for source build preflight (default: 6144)
-  ZEROCLAW_DISABLE_ALPINE_AUTO_DEPS
+  YANTRIKCLAW_CONTAINER_CLI     Container CLI command (default: docker; auto-fallback: podman)
+  YANTRIKCLAW_DOCKER_DATA_DIR   Host path for Docker config/workspace persistence
+  YANTRIKCLAW_DOCKER_IMAGE      Docker image tag to build/run (default: yantrikclaw-bootstrap:local)
+  YANTRIKCLAW_API_KEY           Used when --api-key is not provided
+  YANTRIKCLAW_PROVIDER          Used when --provider is not provided (default: openrouter)
+  YANTRIKCLAW_MODEL             Used when --model is not provided
+  YANTRIKCLAW_BOOTSTRAP_MIN_RAM_MB   Minimum RAM threshold for source build preflight (default: 2048)
+  YANTRIKCLAW_BOOTSTRAP_MIN_DISK_MB  Minimum free disk threshold for source build preflight (default: 6144)
+  YANTRIKCLAW_DISABLE_ALPINE_AUTO_DEPS
                             Set to 1 to disable Alpine auto-install of missing prerequisites
 USAGE
 }
@@ -234,8 +234,8 @@ should_attempt_prebuilt_for_resources() {
   local workspace="${1:-.}"
   local min_ram_mb min_disk_mb total_ram_mb free_disk_mb low_resource
 
-  min_ram_mb="${ZEROCLAW_BOOTSTRAP_MIN_RAM_MB:-2048}"
-  min_disk_mb="${ZEROCLAW_BOOTSTRAP_MIN_DISK_MB:-6144}"
+  min_ram_mb="${YANTRIKCLAW_BOOTSTRAP_MIN_RAM_MB:-2048}"
+  min_disk_mb="${YANTRIKCLAW_BOOTSTRAP_MIN_DISK_MB:-6144}"
   total_ram_mb="$(get_total_memory_mb || true)"
   free_disk_mb="$(get_available_disk_mb "$workspace" || true)"
   low_resource=false
@@ -316,7 +316,7 @@ install_prebuilt_binary() {
     return 1
   fi
 
-  asset_name="zeroclaw-${target}.tar.gz"
+  asset_name="yantrikclaw-${target}.tar.gz"
 
   # Try the GitHub API first to find the newest release (including prereleases)
   # that actually contains the asset, then fall back to /releases/latest/.
@@ -325,7 +325,7 @@ install_prebuilt_binary() {
     archive_url="https://github.com/yantrikos/yantrikclaw/releases/latest/download/${asset_name}"
   fi
 
-  temp_dir="$(mktemp -d -t zeroclaw-prebuilt-XXXXXX)"
+  temp_dir="$(mktemp -d -t yantrikclaw-prebuilt-XXXXXX)"
   archive_path="$temp_dir/${asset_name}"
 
   step_dot "Attempting pre-built binary install for target: $target"
@@ -341,22 +341,22 @@ install_prebuilt_binary() {
     return 1
   fi
 
-  extracted_bin="$temp_dir/zeroclaw"
+  extracted_bin="$temp_dir/yantrikclaw"
   if [[ ! -x "$extracted_bin" ]]; then
-    extracted_bin="$(find "$temp_dir" -maxdepth 2 -type f -name zeroclaw -perm -u+x | head -n 1 || true)"
+    extracted_bin="$(find "$temp_dir" -maxdepth 2 -type f -name yantrikclaw -perm -u+x | head -n 1 || true)"
   fi
   if [[ -z "$extracted_bin" || ! -x "$extracted_bin" ]]; then
-    warn "Archive did not contain an executable zeroclaw binary."
+    warn "Archive did not contain an executable yantrikclaw binary."
     rm -rf "$temp_dir"
     return 1
   fi
 
   install_dir="$HOME/.cargo/bin"
   mkdir -p "$install_dir"
-  install -m 0755 "$extracted_bin" "$install_dir/zeroclaw"
+  install -m 0755 "$extracted_bin" "$install_dir/yantrikclaw"
   rm -rf "$temp_dir"
 
-  step_ok "Installed pre-built binary to $install_dir/zeroclaw"
+  step_ok "Installed pre-built binary to $install_dir/yantrikclaw"
   if [[ ":$PATH:" != *":$install_dir:"* ]]; then
     warn "$install_dir is not in PATH for this shell."
     warn "Run: export PATH=\"$install_dir:\$PATH\""
@@ -401,7 +401,7 @@ run_pacman() {
 
   local pacman_cfg_tmp=""
   local pacman_rc=0
-  pacman_cfg_tmp="$(mktemp /tmp/zeroclaw-pacman.XXXXXX.conf)"
+  pacman_cfg_tmp="$(mktemp /tmp/yantrikclaw-pacman.XXXXXX.conf)"
   cp /etc/pacman.conf "$pacman_cfg_tmp"
   if ! grep -Eq '^[[:space:]]*DisableSandboxSyscalls([[:space:]]|$)' "$pacman_cfg_tmp"; then
     printf '\nDisableSandboxSyscalls\n' >> "$pacman_cfg_tmp"
@@ -675,7 +675,7 @@ prompt_api_key() {
     API_KEY="$api_key_input"
     step_ok "API key set"
   else
-    warn "No API key entered — you can configure it later with zeroclaw onboard"
+    warn "No API key entered — you can configure it later with yantrikclaw onboard"
     SKIP_ONBOARD=true
   fi
 }
@@ -761,8 +761,8 @@ ensure_default_config_and_workspace() {
   # onboard wizard was skipped (e.g. --skip-build --prefer-prebuilt, or
   # Docker mode without an API key).
   #
-  # $1 — config directory  (e.g. ~/.zeroclaw or $docker_data_dir/.zeroclaw)
-  # $2 — workspace directory (e.g. ~/.zeroclaw/workspace or $docker_data_dir/workspace)
+  # $1 — config directory  (e.g. ~/.yantrikclaw or $docker_data_dir/.yantrikclaw)
+  # $2 — workspace directory (e.g. ~/.yantrikclaw/workspace or $docker_data_dir/workspace)
   # $3 — provider name      (default: openrouter)
   local config_dir="$1"
   local workspace_dir="$2"
@@ -776,7 +776,7 @@ ensure_default_config_and_workspace() {
     step_dot "Creating default config.toml"
     cat > "$config_path" <<TOML
 # YantrikClaw configuration — generated by install.sh
-# Edit this file or run 'zeroclaw onboard' to reconfigure.
+# Edit this file or run 'yantrikclaw onboard' to reconfigure.
 
 default_provider = "${provider}"
 workspace_dir = "${workspace_dir}"
@@ -892,7 +892,7 @@ You are **${agent_name}**. Built in Rust. 3MB binary. Zero bloat.
 
 resolve_container_cli() {
   local requested_cli
-  requested_cli="${ZEROCLAW_CONTAINER_CLI:-docker}"
+  requested_cli="${YANTRIKCLAW_CONTAINER_CLI:-docker}"
 
   if have_cmd "$requested_cli"; then
     CONTAINER_CLI="$requested_cli"
@@ -907,9 +907,9 @@ resolve_container_cli() {
 
   error "Container CLI '$requested_cli' is not installed."
   if [[ "$requested_cli" != "docker" ]]; then
-    error "Set ZEROCLAW_CONTAINER_CLI to an installed Docker-compatible CLI (e.g., docker or podman)."
+    error "Set YANTRIKCLAW_CONTAINER_CLI to an installed Docker-compatible CLI (e.g., docker or podman)."
   else
-    error "Install Docker, install podman, or set ZEROCLAW_CONTAINER_CLI to an available Docker-compatible CLI."
+    error "Install Docker, install podman, or set YANTRIKCLAW_CONTAINER_CLI to an available Docker-compatible CLI."
   fi
   exit 1
 }
@@ -928,17 +928,17 @@ run_docker_bootstrap() {
   local docker_image docker_data_dir default_data_dir fallback_image
   local config_mount workspace_mount
   local -a container_run_user_args container_run_namespace_args
-  docker_image="${ZEROCLAW_DOCKER_IMAGE:-zeroclaw-bootstrap:local}"
+  docker_image="${YANTRIKCLAW_DOCKER_IMAGE:-yantrikclaw-bootstrap:local}"
   fallback_image="ghcr.io/yantrikos/yantrikclaw:latest"
   if [[ "$TEMP_CLONE" == true ]]; then
-    default_data_dir="$HOME/.zeroclaw-docker"
+    default_data_dir="$HOME/.yantrikclaw-docker"
   else
-    default_data_dir="$WORK_DIR/.zeroclaw-docker"
+    default_data_dir="$WORK_DIR/.yantrikclaw-docker"
   fi
-  docker_data_dir="${ZEROCLAW_DOCKER_DATA_DIR:-$default_data_dir}"
+  docker_data_dir="${YANTRIKCLAW_DOCKER_DATA_DIR:-$default_data_dir}"
   DOCKER_DATA_DIR="$docker_data_dir"
 
-  mkdir -p "$docker_data_dir/.zeroclaw" "$docker_data_dir/workspace"
+  mkdir -p "$docker_data_dir/.yantrikclaw" "$docker_data_dir/workspace"
 
   if [[ "$SKIP_INSTALL" == true ]]; then
     warn "--skip-install has no effect with --docker."
@@ -964,8 +964,8 @@ run_docker_bootstrap() {
     fi
   fi
 
-  config_mount="$docker_data_dir/.zeroclaw:/zeroclaw-data/.zeroclaw"
-  workspace_mount="$docker_data_dir/workspace:/zeroclaw-data/workspace"
+  config_mount="$docker_data_dir/.yantrikclaw:/yantrikclaw-data/.yantrikclaw"
+  workspace_mount="$docker_data_dir/workspace:/yantrikclaw-data/workspace"
   if [[ "$CONTAINER_CLI" == "podman" ]]; then
     config_mount+=":Z"
     workspace_mount+=":Z"
@@ -1002,20 +1002,20 @@ run_docker_bootstrap() {
     "$CONTAINER_CLI" run --rm -it \
       "${container_run_namespace_args[@]+"${container_run_namespace_args[@]}"}" \
       "${container_run_user_args[@]}" \
-      -e HOME=/zeroclaw-data \
-      -e ZEROCLAW_WORKSPACE=/zeroclaw-data/workspace \
+      -e HOME=/yantrikclaw-data \
+      -e YANTRIKCLAW_WORKSPACE=/yantrikclaw-data/workspace \
       -v "$config_mount" \
       -v "$workspace_mount" \
       "$docker_image" \
       "${onboard_cmd[@]}" || true
   else
-    info "Docker image ready. Run zeroclaw onboard inside the container to configure."
+    info "Docker image ready. Run yantrikclaw onboard inside the container to configure."
   fi
 
   # Ensure config.toml and workspace scaffold exist on the host even when
   # onboard was skipped, failed, or ran non-interactively inside the container.
   ensure_default_config_and_workspace \
-    "$docker_data_dir/.zeroclaw" \
+    "$docker_data_dir/.yantrikclaw" \
     "$docker_data_dir/workspace" \
     "$PROVIDER"
 }
@@ -1037,10 +1037,10 @@ SKIP_ONBOARD=false
 SKIP_BUILD=false
 SKIP_INSTALL=false
 PREBUILT_INSTALLED=false
-CONTAINER_CLI="${ZEROCLAW_CONTAINER_CLI:-docker}"
-API_KEY="${ZEROCLAW_API_KEY:-}"
-PROVIDER="${ZEROCLAW_PROVIDER:-openrouter}"
-MODEL="${ZEROCLAW_MODEL:-}"
+CONTAINER_CLI="${YANTRIKCLAW_CONTAINER_CLI:-docker}"
+API_KEY="${YANTRIKCLAW_API_KEY:-}"
+PROVIDER="${YANTRIKCLAW_PROVIDER:-openrouter}"
+MODEL="${YANTRIKCLAW_MODEL:-}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -1155,11 +1155,11 @@ if [[ "$DOCKER_MODE" == true ]]; then
       warn "--install-rust is ignored with --docker."
   fi
 else
-  if [[ "$OS_NAME" == "Linux" && -z "${ZEROCLAW_DISABLE_ALPINE_AUTO_DEPS:-}" ]] && have_cmd apk; then
+  if [[ "$OS_NAME" == "Linux" && -z "${YANTRIKCLAW_DISABLE_ALPINE_AUTO_DEPS:-}" ]] && have_cmd apk; then
     find_missing_alpine_prereqs
     if [[ ${#ALPINE_MISSING_PKGS[@]} -gt 0 && "$INSTALL_SYSTEM_DEPS" == false ]]; then
       info "Detected Alpine with missing prerequisites: ${ALPINE_MISSING_PKGS[*]}"
-      info "Auto-enabling system dependency installation (set ZEROCLAW_DISABLE_ALPINE_AUTO_DEPS=1 to disable)."
+      info "Auto-enabling system dependency installation (set YANTRIKCLAW_DISABLE_ALPINE_AUTO_DEPS=1 to disable)."
       INSTALL_SYSTEM_DEPS=true
     fi
   fi
@@ -1200,7 +1200,7 @@ if [[ ! -f "$WORK_DIR/Cargo.toml" ]]; then
       exit 1
     fi
 
-    TEMP_DIR="$(mktemp -d -t zeroclaw-bootstrap-XXXXXX)"
+    TEMP_DIR="$(mktemp -d -t yantrikclaw-bootstrap-XXXXXX)"
     info "No local repository detected; cloning latest master branch"
     git clone --depth 1 --branch master "$REPO_URL" "$TEMP_DIR"
     WORK_DIR="$TEMP_DIR"
@@ -1217,11 +1217,11 @@ step_ok "Detected: ${BOLD}$(echo "$OS_NAME" | tr '[:upper:]' '[:lower:]')${RESET
 # --- Detect existing installation and version ---
 EXISTING_VERSION=""
 INSTALL_MODE="fresh"
-if have_cmd zeroclaw; then
-  EXISTING_VERSION="$(zeroclaw --version 2>/dev/null | awk '{print $NF}' || true)"
+if have_cmd yantrikclaw; then
+  EXISTING_VERSION="$(yantrikclaw --version 2>/dev/null | awk '{print $NF}' || true)"
   INSTALL_MODE="upgrade"
-elif [[ -x "$HOME/.cargo/bin/zeroclaw" ]]; then
-  EXISTING_VERSION="$("$HOME/.cargo/bin/zeroclaw" --version 2>/dev/null | awk '{print $NF}' || true)"
+elif [[ -x "$HOME/.cargo/bin/yantrikclaw" ]]; then
+  EXISTING_VERSION="$("$HOME/.cargo/bin/yantrikclaw" --version 2>/dev/null | awk '{print $NF}' || true)"
   INSTALL_MODE="upgrade"
 fi
 
@@ -1277,11 +1277,11 @@ if [[ "$DOCKER_MODE" == true ]]; then
   echo -e "${BOLD}Dashboard URL:${RESET} ${BLUE}http://127.0.0.1:42617${RESET}"
   echo
   echo -e "${BOLD}Next steps:${RESET}"
-  echo -e "  ${DIM}zeroclaw status${RESET}"
-  echo -e "  ${DIM}zeroclaw agent -m \"Hello, YantrikClaw!\"${RESET}"
-  echo -e "  ${DIM}zeroclaw gateway${RESET}"
+  echo -e "  ${DIM}yantrikclaw status${RESET}"
+  echo -e "  ${DIM}yantrikclaw agent -m \"Hello, YantrikClaw!\"${RESET}"
+  echo -e "  ${DIM}yantrikclaw gateway${RESET}"
   echo
-  echo -e "${BOLD}Docs:${RESET} ${BLUE}https://www.zeroclawlabs.ai/docs${RESET}"
+  echo -e "${BOLD}Docs:${RESET} ${BLUE}https://www.yantrikclawlabs.ai/docs${RESET}"
   exit 0
 fi
 
@@ -1362,15 +1362,15 @@ else
 fi
 
 if [[ "$SKIP_INSTALL" == false ]]; then
-  step_dot "Installing zeroclaw to cargo bin"
+  step_dot "Installing yantrikclaw to cargo bin"
 
-  # Clean up stale cargo install tracking from the old "zeroclaw" package name
-  # (renamed to "zeroclawlabs"). Without this, `cargo install zeroclawlabs` from
-  # crates.io fails with "binary already exists as part of `zeroclaw`".
+  # Clean up stale cargo install tracking from the old "yantrikclaw" package name
+  # (renamed to "yantrikclawlabs"). Without this, `cargo install yantrikclawlabs` from
+  # crates.io fails with "binary already exists as part of `yantrikclaw`".
   if have_cmd cargo; then
-    if [[ -f "$HOME/.cargo/.crates.toml" ]] && grep -q '^"zeroclaw ' "$HOME/.cargo/.crates.toml" 2>/dev/null; then
-      step_dot "Removing stale cargo tracking for old 'zeroclaw' package name"
-      cargo uninstall zeroclaw 2>/dev/null || true
+    if [[ -f "$HOME/.cargo/.crates.toml" ]] && grep -q '^"yantrikclaw ' "$HOME/.cargo/.crates.toml" 2>/dev/null; then
+      step_dot "Removing stale cargo tracking for old 'yantrikclaw' package name"
+      cargo uninstall yantrikclaw 2>/dev/null || true
     fi
   fi
 
@@ -1379,44 +1379,44 @@ if [[ "$SKIP_INSTALL" == false ]]; then
 
   # Sync binary to ~/.local/bin so PATH lookups find the fresh version
   if [[ -d "$HOME/.local/bin" ]]; then
-    cp -f "$HOME/.cargo/bin/zeroclaw" "$HOME/.local/bin/zeroclaw" 2>/dev/null && \
+    cp -f "$HOME/.cargo/bin/yantrikclaw" "$HOME/.local/bin/yantrikclaw" 2>/dev/null && \
       step_ok "Synced binary to ~/.local/bin" || true
   fi
 else
   step_dot "Skipping install"
 fi
 
-ZEROCLAW_BIN=""
-if [[ -x "$HOME/.cargo/bin/zeroclaw" ]]; then
-  ZEROCLAW_BIN="$HOME/.cargo/bin/zeroclaw"
-elif [[ -x "$WORK_DIR/target/release/zeroclaw" ]]; then
-  ZEROCLAW_BIN="$WORK_DIR/target/release/zeroclaw"
-elif have_cmd zeroclaw; then
-  ZEROCLAW_BIN="zeroclaw"
+YANTRIKCLAW_BIN=""
+if [[ -x "$HOME/.cargo/bin/yantrikclaw" ]]; then
+  YANTRIKCLAW_BIN="$HOME/.cargo/bin/yantrikclaw"
+elif [[ -x "$WORK_DIR/target/release/yantrikclaw" ]]; then
+  YANTRIKCLAW_BIN="$WORK_DIR/target/release/yantrikclaw"
+elif have_cmd yantrikclaw; then
+  YANTRIKCLAW_BIN="yantrikclaw"
 fi
 
 echo
 echo -e "${BOLD_BLUE}[3/3]${RESET} ${BOLD}Finalizing setup${RESET}"
 
 # --- Inline onboarding (provider + API key configuration) ---
-if [[ "$SKIP_ONBOARD" == false && -n "$ZEROCLAW_BIN" ]]; then
+if [[ "$SKIP_ONBOARD" == false && -n "$YANTRIKCLAW_BIN" ]]; then
   if [[ -n "$API_KEY" ]]; then
     step_dot "Configuring provider: ${PROVIDER}"
-    ONBOARD_CMD=("$ZEROCLAW_BIN" onboard --api-key "$API_KEY" --provider "$PROVIDER")
+    ONBOARD_CMD=("$YANTRIKCLAW_BIN" onboard --api-key "$API_KEY" --provider "$PROVIDER")
     if [[ -n "$MODEL" ]]; then
       ONBOARD_CMD+=(--model "$MODEL")
     fi
     if "${ONBOARD_CMD[@]}" 2>/dev/null; then
       step_ok "Provider configured"
     else
-      step_fail "Provider configuration failed — run zeroclaw onboard to retry"
+      step_fail "Provider configuration failed — run yantrikclaw onboard to retry"
     fi
   elif [[ "$PROVIDER" == "ollama" ]]; then
     step_dot "Configuring Ollama (no API key needed)"
-    if "$ZEROCLAW_BIN" onboard --provider ollama 2>/dev/null; then
+    if "$YANTRIKCLAW_BIN" onboard --provider ollama 2>/dev/null; then
       step_ok "Ollama configured"
     else
-      step_fail "Ollama configuration failed — run zeroclaw onboard to retry"
+      step_fail "Ollama configuration failed — run yantrikclaw onboard to retry"
     fi
   else
     # No API key and not ollama — prompt inline if interactive, skip otherwise
@@ -1424,47 +1424,47 @@ if [[ "$SKIP_ONBOARD" == false && -n "$ZEROCLAW_BIN" ]]; then
       prompt_provider
       prompt_api_key
       if [[ -n "$API_KEY" ]]; then
-        ONBOARD_CMD=("$ZEROCLAW_BIN" onboard --api-key "$API_KEY" --provider "$PROVIDER")
+        ONBOARD_CMD=("$YANTRIKCLAW_BIN" onboard --api-key "$API_KEY" --provider "$PROVIDER")
         if [[ -n "$MODEL" ]]; then
           ONBOARD_CMD+=(--model "$MODEL")
         fi
         if "${ONBOARD_CMD[@]}" 2>/dev/null; then
           step_ok "Provider configured"
         else
-          step_fail "Provider configuration failed — run zeroclaw onboard to retry"
+          step_fail "Provider configuration failed — run yantrikclaw onboard to retry"
         fi
       fi
     else
-      step_dot "No API key provided — run zeroclaw onboard to configure"
+      step_dot "No API key provided — run yantrikclaw onboard to configure"
     fi
   fi
 elif [[ "$SKIP_ONBOARD" == true ]]; then
-  step_dot "Skipping configuration (run zeroclaw onboard later)"
-elif [[ -z "$ZEROCLAW_BIN" ]]; then
+  step_dot "Skipping configuration (run yantrikclaw onboard later)"
+elif [[ -z "$YANTRIKCLAW_BIN" ]]; then
   warn "YantrikClaw binary not found — cannot configure provider"
 fi
 
 # Ensure config.toml and workspace scaffold exist even when onboard was
 # skipped, unavailable, or failed (e.g. --skip-build --prefer-prebuilt
 # without an API key, or when the binary could not run onboard).
-_native_config_dir="${ZEROCLAW_CONFIG_DIR:-$HOME/.zeroclaw}"
-_native_workspace_dir="${ZEROCLAW_WORKSPACE:-$_native_config_dir/workspace}"
+_native_config_dir="${YANTRIKCLAW_CONFIG_DIR:-$HOME/.yantrikclaw}"
+_native_workspace_dir="${YANTRIKCLAW_WORKSPACE:-$_native_config_dir/workspace}"
 ensure_default_config_and_workspace "$_native_config_dir" "$_native_workspace_dir" "$PROVIDER"
 
 # --- Gateway service management ---
-if [[ -n "$ZEROCLAW_BIN" ]]; then
+if [[ -n "$YANTRIKCLAW_BIN" ]]; then
   # Try to install and start the gateway service
   step_dot "Checking gateway service"
-  if "$ZEROCLAW_BIN" service install 2>/dev/null; then
+  if "$YANTRIKCLAW_BIN" service install 2>/dev/null; then
     step_ok "Gateway service installed"
-    if "$ZEROCLAW_BIN" service restart 2>/dev/null; then
+    if "$YANTRIKCLAW_BIN" service restart 2>/dev/null; then
       step_ok "Gateway service restarted"
 
       # Fetch and display pairing code from running gateway
       PAIR_CODE=""
       for i in 1 2 3 4 5; do
         sleep 2
-        if PAIR_CODE=$("$ZEROCLAW_BIN" gateway get-paircode 2>/dev/null | grep -oE '[0-9]{6}'); then
+        if PAIR_CODE=$("$YANTRIKCLAW_BIN" gateway get-paircode 2>/dev/null | grep -oE '[0-9]{6}'); then
           break
         fi
       done
@@ -1477,28 +1477,28 @@ if [[ -n "$ZEROCLAW_BIN" ]]; then
         echo -e "  ${BOLD_BLUE}└──────────────┘${RESET}"
         echo
         echo -e "  ${DIM}Enter this code in the dashboard to pair your device.${RESET}"
-        echo -e "  ${DIM}Run 'zeroclaw gateway get-paircode --new' anytime to generate a fresh code.${RESET}"
+        echo -e "  ${DIM}Run 'yantrikclaw gateway get-paircode --new' anytime to generate a fresh code.${RESET}"
       fi
     else
-      step_fail "Gateway service restart failed — re-run with zeroclaw service start"
+      step_fail "Gateway service restart failed — re-run with yantrikclaw service start"
     fi
   else
-    step_dot "Gateway service not installed (run zeroclaw service install later)"
+    step_dot "Gateway service not installed (run yantrikclaw service install later)"
   fi
 
   # --- Post-install doctor check ---
   step_dot "Running doctor to validate installation"
-  if "$ZEROCLAW_BIN" doctor 2>/dev/null; then
+  if "$YANTRIKCLAW_BIN" doctor 2>/dev/null; then
     step_ok "Doctor complete"
   else
-    warn "Doctor reported issues — run zeroclaw doctor --fix to resolve"
+    warn "Doctor reported issues — run yantrikclaw doctor --fix to resolve"
   fi
 fi
 
 # --- Determine installed version ---
 INSTALLED_VERSION=""
-if [[ -n "$ZEROCLAW_BIN" ]]; then
-  INSTALLED_VERSION="$("$ZEROCLAW_BIN" --version 2>/dev/null | awk '{print $NF}' || true)"
+if [[ -n "$YANTRIKCLAW_BIN" ]]; then
+  INSTALLED_VERSION="$("$YANTRIKCLAW_BIN" --version 2>/dev/null | awk '{print $NF}' || true)"
 fi
 
 # --- Success banner ---
@@ -1509,9 +1509,9 @@ else
   echo -e "${BOLD_BLUE}${CRAB} YantrikClaw installed successfully!${RESET}"
 fi
 
-if [[ -x "$HOME/.cargo/bin/zeroclaw" ]] && ! have_cmd zeroclaw; then
+if [[ -x "$HOME/.cargo/bin/yantrikclaw" ]] && ! have_cmd yantrikclaw; then
   echo
-  warn "zeroclaw is installed in $HOME/.cargo/bin, but that directory is not in PATH for this shell."
+  warn "yantrikclaw is installed in $HOME/.cargo/bin, but that directory is not in PATH for this shell."
   warn 'Run: export PATH="$HOME/.cargo/bin:$PATH"'
   step_dot "To persist it, add that export line to ~/.bashrc, ~/.zshrc, or your shell profile, then open a new shell."
 fi
@@ -1525,7 +1525,7 @@ GATEWAY_PORT=42617
 DASHBOARD_URL="http://127.0.0.1:${GATEWAY_PORT}"
 echo
 echo -e "${BOLD}Dashboard URL:${RESET} ${BLUE}${DASHBOARD_URL}${RESET}"
-echo -e "${DIM}  Run 'zeroclaw gateway get-paircode' to get your pairing code.${RESET}"
+echo -e "${DIM}  Run 'yantrikclaw gateway get-paircode' to get your pairing code.${RESET}"
 
 # --- Copy to clipboard ---
 COPIED_TO_CLIPBOARD=false
@@ -1569,9 +1569,9 @@ fi
 
 echo
 echo -e "${BOLD}Next steps:${RESET}"
-echo -e "  ${DIM}zeroclaw status${RESET}"
-echo -e "  ${DIM}zeroclaw agent -m \"Hello, YantrikClaw!\"${RESET}"
-echo -e "  ${DIM}zeroclaw gateway${RESET}"
+echo -e "  ${DIM}yantrikclaw status${RESET}"
+echo -e "  ${DIM}yantrikclaw agent -m \"Hello, YantrikClaw!\"${RESET}"
+echo -e "  ${DIM}yantrikclaw gateway${RESET}"
 echo
-echo -e "${BOLD}Docs:${RESET} ${BLUE}https://www.zeroclawlabs.ai/docs${RESET}"
+echo -e "${BOLD}Docs:${RESET} ${BLUE}https://www.yantrikclawlabs.ai/docs${RESET}"
 echo

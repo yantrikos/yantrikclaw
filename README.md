@@ -62,23 +62,23 @@ This starts both YantrikClaw and a SearXNG instance for web search — no API ke
 git clone https://github.com/yantrikos/yantrikclaw.git
 cd yantrikclaw
 cargo build --release
-./target/release/zeroclaw onboard
+./target/release/yantrikclaw onboard
 ```
 
 ## Quick start
 
 ```bash
 # Interactive setup (provider, channels, workspace)
-zeroclaw onboard
+yantrikclaw onboard
 
 # Start the gateway
-zeroclaw start
+yantrikclaw start
 
 # Talk to the assistant
-zeroclaw agent -m "Hello!"
+yantrikclaw agent -m "Hello!"
 
 # Check status
-zeroclaw status
+yantrikclaw status
 ```
 
 ## Model Tier System
@@ -101,7 +101,7 @@ User (Telegram / Discord / Slack / WhatsApp / 20+ channels)
   │
   ▼
 YantrikClaw (single Rust binary)
-  ├── Channels (ZeroClaw: 20+)
+  ├── Channels (20+, from ZeroClaw)
   ├── LLM Providers (Ollama, OpenAI, Anthropic, OpenRouter, etc.)
   ├── Tools (57 with tier-aware selection)
   │   ├── ToolFamily routing (Communicate, Browse, Files, System, etc.)
@@ -117,7 +117,7 @@ YantrikClaw (single Rust binary)
 
 ## Configuration
 
-YantrikClaw uses the same config format as ZeroClaw (`~/.zeroclaw/config.toml`) with additional sections:
+YantrikClaw uses the same config format as ZeroClaw (`~/.yantrikclaw/config.toml`) with additional sections:
 
 ```toml
 # Companion (optional — for proactive messaging)

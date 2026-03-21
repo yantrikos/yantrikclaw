@@ -1,4 +1,4 @@
-# ZeroClaw Dokumentasjonshub
+# YantrikClaw Dokumentasjonshub
 
 Denne siden er hovedinngangen til dokumentasjonssystemet.
 
@@ -10,7 +10,7 @@ Lokaliserte huber: [简体中文](README.zh-CN.md) · [日本語](README.ja.md) 
 
 | Jeg vil…                                                            | Les dette                                                                      |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Installere og kjøre ZeroClaw raskt                                  | [README.md (Hurtigstart)](../README.md#quick-start)                            |
+| Installere og kjøre YantrikClaw raskt                                  | [README.md (Hurtigstart)](../README.md#quick-start)                            |
 | Bootstrap med en enkelt kommando                                    | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | Oppdatere eller avinstallere på macOS                               | [macos-update-uninstall.md](setup-guides/macos-update-uninstall.md)            |
 | Finne kommandoer etter oppgave                                      | [commands-reference.md](reference/cli/commands-reference.md)                   |

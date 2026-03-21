@@ -1,4 +1,4 @@
-# ZeroClaw दस्तावेज़ीकरण केंद्र
+# YantrikClaw दस्तावेज़ीकरण केंद्र
 
 यह पृष्ठ दस्तावेज़ीकरण प्रणाली का प्राथमिक प्रवेश बिंदु है।
 
@@ -10,7 +10,7 @@
 
 | मैं चाहता/चाहती हूँ…                                                | यह पढ़ें                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ZeroClaw को जल्दी से इंस्टॉल और चलाना                              | [README.md (त्वरित प्रारंभ)](../README.md#quick-start)                         |
+| YantrikClaw को जल्दी से इंस्टॉल और चलाना                              | [README.md (त्वरित प्रारंभ)](../README.md#quick-start)                         |
 | एक कमांड में बूटस्ट्रैप                                             | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | कार्य के अनुसार कमांड खोजना                                         | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | कॉन्फ़िग कुंजियों और डिफ़ॉल्ट मानों को जल्दी जाँचना                | [config-reference.md](reference/api/config-reference.md)                       |

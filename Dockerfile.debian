@@ -8,7 +8,7 @@ RUN npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
 COPY web/ .
 RUN npm run build
 
-# Dockerfile.debian — Shell-equipped variant of the ZeroClaw container.
+# Dockerfile.debian — Shell-equipped variant of the YantrikClaw container.
 #
 # The default Dockerfile produces a distroless "release" image with no shell,
 # which is ideal for minimal attack surface but prevents the agent from using
@@ -18,7 +18,7 @@ RUN npm run build
 # essential CLI tools so the agent can operate as a full coding assistant.
 #
 # Build:
-#   docker build -f Dockerfile.debian -t zeroclaw:debian .
+#   docker build -f Dockerfile.debian -t yantrikclaw:debian .
 #
 # Or with docker compose:
 #   docker compose -f docker-compose.yml -f docker-compose.debian.yml up
@@ -27,7 +27,7 @@ RUN npm run build
 FROM rust:1.94-bookworm AS builder
 
 WORKDIR /app
-ARG ZEROCLAW_CARGO_FEATURES="memory-postgres"
+ARG YANTRIKCLAW_CARGO_FEATURES="memory-postgres"
 
 # Install build dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -46,11 +46,11 @@ RUN mkdir -p src benches \
     && echo "fn main() {}" > src/main.rs \
     && echo "" > src/lib.rs \
     && echo "fn main() {}" > benches/agent_benchmarks.rs
-RUN --mount=type=cache,id=zeroclaw-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
-    --mount=type=cache,id=zeroclaw-cargo-git,target=/usr/local/cargo/git,sharing=locked \
-    --mount=type=cache,id=zeroclaw-target,target=/app/target,sharing=locked \
-    if [ -n "$ZEROCLAW_CARGO_FEATURES" ]; then \
-      cargo build --release --locked --features "$ZEROCLAW_CARGO_FEATURES"; \
+RUN --mount=type=cache,id=yantrikclaw-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=yantrikclaw-cargo-git,target=/usr/local/cargo/git,sharing=locked \
+    --mount=type=cache,id=yantrikclaw-target,target=/app/target,sharing=locked \
+    if [ -n "$YANTRIKCLAW_CARGO_FEATURES" ]; then \
+      cargo build --release --locked --features "$YANTRIKCLAW_CARGO_FEATURES"; \
     else \
       cargo build --release --locked; \
     fi
@@ -61,24 +61,24 @@ COPY src/ src/
 COPY benches/ benches/
 COPY --from=web-builder /web/dist web/dist
 RUN touch src/main.rs
-RUN --mount=type=cache,id=zeroclaw-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
-    --mount=type=cache,id=zeroclaw-cargo-git,target=/usr/local/cargo/git,sharing=locked \
-    --mount=type=cache,id=zeroclaw-target,target=/app/target,sharing=locked \
-    if [ -n "$ZEROCLAW_CARGO_FEATURES" ]; then \
-      cargo build --release --locked --features "$ZEROCLAW_CARGO_FEATURES"; \
+RUN --mount=type=cache,id=yantrikclaw-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=yantrikclaw-cargo-git,target=/usr/local/cargo/git,sharing=locked \
+    --mount=type=cache,id=yantrikclaw-target,target=/app/target,sharing=locked \
+    if [ -n "$YANTRIKCLAW_CARGO_FEATURES" ]; then \
+      cargo build --release --locked --features "$YANTRIKCLAW_CARGO_FEATURES"; \
     else \
       cargo build --release --locked; \
     fi && \
-    cp target/release/zeroclaw /app/zeroclaw && \
-    strip /app/zeroclaw
-RUN size=$(stat -c%s /app/zeroclaw) && \
+    cp target/release/yantrikclaw /app/yantrikclaw && \
+    strip /app/yantrikclaw
+RUN size=$(stat -c%s /app/yantrikclaw) && \
     if [ "$size" -lt 1000000 ]; then echo "ERROR: binary too small (${size} bytes), likely dummy build artifact" && exit 1; fi
 
 # Prepare runtime directory structure and default config inline (no extra stage)
-RUN mkdir -p /zeroclaw-data/.zeroclaw /zeroclaw-data/workspace && \
+RUN mkdir -p /yantrikclaw-data/.yantrikclaw /yantrikclaw-data/workspace && \
     printf '%s\n' \
-        'workspace_dir = "/zeroclaw-data/workspace"' \
-        'config_path = "/zeroclaw-data/.zeroclaw/config.toml"' \
+        'workspace_dir = "/yantrikclaw-data/workspace"' \
+        'config_path = "/yantrikclaw-data/.yantrikclaw/config.toml"' \
         'api_key = ""' \
         'default_provider = "openrouter"' \
         'default_model = "anthropic/claude-sonnet-4-20250514"' \
@@ -88,8 +88,8 @@ RUN mkdir -p /zeroclaw-data/.zeroclaw /zeroclaw-data/workspace && \
         'port = 42617' \
         'host = "[::]"' \
         'allow_public_bind = true' \
-        > /zeroclaw-data/.zeroclaw/config.toml && \
-    chown -R 65534:65534 /zeroclaw-data
+        > /yantrikclaw-data/.yantrikclaw/config.toml && \
+    chown -R 65534:65534 /yantrikclaw-data
 
 # ── Stage 2: Runtime (Debian with shell) ─────────────────────
 FROM debian:bookworm-slim AS runtime
@@ -102,24 +102,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/zeroclaw /usr/local/bin/zeroclaw
-COPY --from=builder /zeroclaw-data /zeroclaw-data
+COPY --from=builder /app/yantrikclaw /usr/local/bin/yantrikclaw
+COPY --from=builder /yantrikclaw-data /yantrikclaw-data
 
 # Environment setup
 # Ensure UTF-8 locale so CJK / multibyte input is handled correctly
 ENV LANG=C.UTF-8
-ENV ZEROCLAW_WORKSPACE=/zeroclaw-data/workspace
-ENV HOME=/zeroclaw-data
+ENV YANTRIKCLAW_WORKSPACE=/yantrikclaw-data/workspace
+ENV HOME=/yantrikclaw-data
 # Default provider and model are set in config.toml, not here,
 # so config file edits are not silently overridden
-ENV ZEROCLAW_GATEWAY_PORT=42617
+ENV YANTRIKCLAW_GATEWAY_PORT=42617
 
 # API_KEY must be provided at runtime!
 
-WORKDIR /zeroclaw-data
+WORKDIR /yantrikclaw-data
 USER 65534:65534
 EXPOSE 42617
 HEALTHCHECK --interval=60s --timeout=10s --retries=3 --start-period=10s \
-    CMD ["zeroclaw", "status", "--format=exit-code"]
-ENTRYPOINT ["zeroclaw"]
+    CMD ["yantrikclaw", "status", "--format=exit-code"]
+ENTRYPOINT ["yantrikclaw"]
 CMD ["daemon"]

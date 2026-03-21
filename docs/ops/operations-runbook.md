@@ -1,4 +1,4 @@
-# ZeroClaw Operations Runbook
+# YantrikClaw Operations Runbook
 
 This runbook is for operators who maintain availability, security posture, and incident response.
 
@@ -19,15 +19,15 @@ For first-time installation, start from [one-click-bootstrap.md](../setup-guides
 
 | Mode | Command | When to use |
 |---|---|---|
-| Foreground runtime | `zeroclaw daemon` | local debugging, short-lived sessions |
-| Foreground gateway only | `zeroclaw gateway` | webhook endpoint testing |
-| User service | `zeroclaw service install && zeroclaw service start` | persistent operator-managed runtime |
+| Foreground runtime | `yantrikclaw daemon` | local debugging, short-lived sessions |
+| Foreground gateway only | `yantrikclaw gateway` | webhook endpoint testing |
+| User service | `yantrikclaw service install && yantrikclaw service start` | persistent operator-managed runtime |
 | Docker / Podman | `docker compose up -d` | containerized deployment |
 
 ## Docker / Podman Runtime
 
 If you installed via `./install.sh --docker`, the container exits after onboarding. To run
-ZeroClaw as a long-lived container, use the repository `docker-compose.yml` or start a
+YantrikClaw as a long-lived container, use the repository `docker-compose.yml` or start a
 container manually against the persisted data directory.
 
 ### Recommended: docker-compose
@@ -49,27 +49,27 @@ Replace `docker` with `podman` if using Podman.
 
 ```bash
 # Start a new container from the bootstrap image
-docker run -d --name zeroclaw \
+docker run -d --name yantrikclaw \
   --restart unless-stopped \
-  -v "$PWD/.zeroclaw-docker/.zeroclaw:/zeroclaw-data/.zeroclaw" \
-  -v "$PWD/.zeroclaw-docker/workspace:/zeroclaw-data/workspace" \
-  -e HOME=/zeroclaw-data \
-  -e ZEROCLAW_WORKSPACE=/zeroclaw-data/workspace \
+  -v "$PWD/.yantrikclaw-docker/.yantrikclaw:/yantrikclaw-data/.yantrikclaw" \
+  -v "$PWD/.yantrikclaw-docker/workspace:/yantrikclaw-data/workspace" \
+  -e HOME=/yantrikclaw-data \
+  -e YANTRIKCLAW_WORKSPACE=/yantrikclaw-data/workspace \
   -p 42617:42617 \
-  zeroclaw-bootstrap:local \
+  yantrikclaw-bootstrap:local \
   gateway
 
 # Stop (preserves config and workspace)
-docker stop zeroclaw
+docker stop yantrikclaw
 
 # Restart a stopped container
-docker start zeroclaw
+docker start yantrikclaw
 
 # View logs
-docker logs -f zeroclaw
+docker logs -f yantrikclaw
 
 # Health check
-docker exec zeroclaw zeroclaw status
+docker exec yantrikclaw yantrikclaw status
 ```
 
 For Podman, add `--userns keep-id --user "$(id -u):$(id -g)"` and append `:Z` to volume mounts.
@@ -86,50 +86,50 @@ For full setup instructions, see [one-click-bootstrap.md](../setup-guides/one-cl
 1. Validate configuration:
 
 ```bash
-zeroclaw status
+yantrikclaw status
 ```
 
 2. Verify diagnostics:
 
 ```bash
-zeroclaw doctor
-zeroclaw channel doctor
+yantrikclaw doctor
+yantrikclaw channel doctor
 ```
 
 3. Start runtime:
 
 ```bash
-zeroclaw daemon
+yantrikclaw daemon
 ```
 
 4. For persistent user session service:
 
 ```bash
-zeroclaw service install
-zeroclaw service start
-zeroclaw service status
+yantrikclaw service install
+yantrikclaw service start
+yantrikclaw service status
 ```
 
 ## Health and State Signals
 
 | Signal | Command / File | Expected |
 |---|---|---|
-| Config validity | `zeroclaw doctor` | no critical errors |
-| Channel connectivity | `zeroclaw channel doctor` | configured channels healthy |
-| Runtime summary | `zeroclaw status` | expected provider/model/channels |
-| Daemon heartbeat/state | `~/.zeroclaw/daemon_state.json` | file updates periodically |
+| Config validity | `yantrikclaw doctor` | no critical errors |
+| Channel connectivity | `yantrikclaw channel doctor` | configured channels healthy |
+| Runtime summary | `yantrikclaw status` | expected provider/model/channels |
+| Daemon heartbeat/state | `~/.yantrikclaw/daemon_state.json` | file updates periodically |
 
 ## Logs and Diagnostics
 
 ### macOS / Windows (service wrapper logs)
 
-- `~/.zeroclaw/logs/daemon.stdout.log`
-- `~/.zeroclaw/logs/daemon.stderr.log`
+- `~/.yantrikclaw/logs/daemon.stdout.log`
+- `~/.yantrikclaw/logs/daemon.stderr.log`
 
 ### Linux (systemd user service)
 
 ```bash
-journalctl --user -u zeroclaw.service -f
+journalctl --user -u yantrikclaw.service -f
 ```
 
 ## Incident Triage Flow (Fast Path)
@@ -137,25 +137,25 @@ journalctl --user -u zeroclaw.service -f
 1. Snapshot system state:
 
 ```bash
-zeroclaw status
-zeroclaw doctor
-zeroclaw channel doctor
+yantrikclaw status
+yantrikclaw doctor
+yantrikclaw channel doctor
 ```
 
 2. Check service state:
 
 ```bash
-zeroclaw service status
+yantrikclaw service status
 ```
 
 3. If service is unhealthy, restart cleanly:
 
 ```bash
-zeroclaw service stop
-zeroclaw service start
+yantrikclaw service stop
+yantrikclaw service start
 ```
 
-4. If channels still fail, verify allowlists and credentials in `~/.zeroclaw/config.toml`.
+4. If channels still fail, verify allowlists and credentials in `~/.yantrikclaw/config.toml`.
 
 5. If gateway is involved, verify bind/auth settings (`[gateway]`) and local reachability.
 
@@ -163,9 +163,9 @@ zeroclaw service start
 
 Before applying config changes:
 
-1. backup `~/.zeroclaw/config.toml`
+1. backup `~/.yantrikclaw/config.toml`
 2. apply one logical change at a time
-3. run `zeroclaw doctor`
+3. run `yantrikclaw doctor`
 4. restart daemon/service
 5. verify with `status` + `channel doctor`
 

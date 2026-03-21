@@ -100,7 +100,7 @@ impl WhatsAppChannel {
                         tracing::warn!(
                             "WhatsApp: ignoring message from unauthorized number: {normalized_from}. \
                             Add to channels.whatsapp.allowed_numbers in config.toml, \
-                            or run `zeroclaw onboard --channels-only` to configure interactively."
+                            or run `yantrikclaw onboard --channels-only` to configure interactively."
                         );
                         continue;
                     }
@@ -309,7 +309,7 @@ mod tests {
                             "timestamp": "1699999999",
                             "type": "text",
                             "text": {
-                                "body": "Hello ZeroClaw!"
+                                "body": "Hello YantrikClaw!"
                             }
                         }]
                     },
@@ -321,7 +321,7 @@ mod tests {
         let msgs = ch.parse_webhook_payload(&payload);
         assert_eq!(msgs.len(), 1);
         assert_eq!(msgs[0].sender, "+1234567890");
-        assert_eq!(msgs[0].content, "Hello ZeroClaw!");
+        assert_eq!(msgs[0].content, "Hello YantrikClaw!");
         assert_eq!(msgs[0].channel, "whatsapp");
         assert_eq!(msgs[0].timestamp, 1_699_999_999);
     }

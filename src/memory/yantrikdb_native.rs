@@ -93,7 +93,7 @@ impl Memory for YantrikDbNativeMemory {
             "default",
             0.9,   // certainty
             "general",
-            "zeroclaw",
+            "yantrikclaw",
             None, // emotional_state
         ) {
             Ok(rid) => {

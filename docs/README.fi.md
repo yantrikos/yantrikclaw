@@ -1,4 +1,4 @@
-# ZeroClaw-dokumentaatiokeskus
+# YantrikClaw-dokumentaatiokeskus
 
 Tämä sivu on dokumentaatiojärjestelmän ensisijainen aloituspiste.
 
@@ -10,7 +10,7 @@ Lokalisoidut keskukset: [简体中文](README.zh-CN.md) · [日本語](README.ja
 
 | Haluan…                                                             | Lue tämä                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Asentaa ja ajaa ZeroClaw nopeasti                                   | [README.md (Pikaopas)](../README.md#quick-start)                               |
+| Asentaa ja ajaa YantrikClaw nopeasti                                   | [README.md (Pikaopas)](../README.md#quick-start)                               |
 | Käynnistys yhdellä komennolla                                       | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | Löytää komentoja tehtävän mukaan                                    | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Tarkistaa nopeasti asetusavaimet ja oletusarvot                     | [config-reference.md](reference/api/config-reference.md)                       |

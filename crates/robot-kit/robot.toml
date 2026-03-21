@@ -1,5 +1,5 @@
-# ZeroClaw Robot Kit Configuration
-# Copy to ~/.zeroclaw/robot.toml
+# YantrikClaw Robot Kit Configuration
+# Copy to ~/.yantrikclaw/robot.toml
 
 # =============================================================================
 # DRIVE SYSTEM

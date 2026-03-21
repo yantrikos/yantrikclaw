@@ -3,7 +3,7 @@
 //! Validates: config defaults, backward compatibility, invalid input rejection,
 //! and gateway/security/agent config boundary conditions.
 
-use zeroclaw::config::{AutonomyConfig, ChannelsConfig, Config, GatewayConfig, SecurityConfig};
+use yantrikclaw::config::{AutonomyConfig, ChannelsConfig, Config, GatewayConfig, SecurityConfig};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Invalid value fail-fast
@@ -290,7 +290,7 @@ default_temperature = 0.7
 
 [channels_config.telegram]
 bot_token = "test_token"
-allowed_users = ["zeroclaw_user"]
+allowed_users = ["yantrikclaw_user"]
 
 [channels_config.discord]
 bot_token = "test_token"

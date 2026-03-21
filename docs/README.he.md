@@ -1,4 +1,4 @@
-# מרכז התיעוד של ZeroClaw
+# מרכז התיעוד של YantrikClaw
 
 דף זה הוא נקודת הכניסה הראשית למערכת התיעוד.
 
@@ -10,7 +10,7 @@
 
 | אני רוצה…                                                          | קראו זאת                                                                      |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| להתקין ולהריץ את ZeroClaw במהירות                                   | [README.md (התחלה מהירה)](../README.md#quick-start)                            |
+| להתקין ולהריץ את YantrikClaw במהירות                                   | [README.md (התחלה מהירה)](../README.md#quick-start)                            |
 | אתחול בפקודה אחת                                                   | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | למצוא פקודות לפי משימה                                              | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | לבדוק במהירות מפתחות ובררות מחדל של הגדרות                         | [config-reference.md](reference/api/config-reference.md)                       |

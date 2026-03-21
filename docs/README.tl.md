@@ -1,4 +1,4 @@
-# Sentro ng Dokumentasyon ng ZeroClaw
+# Sentro ng Dokumentasyon ng YantrikClaw
 
 Ang pahinang ito ang pangunahing entry point ng sistema ng dokumentasyon.
 
@@ -10,7 +10,7 @@ Mga lokal na sentro: [简体中文](README.zh-CN.md) · [日本語](README.ja.md
 
 | Gusto ko…                                                           | Basahin ito                                                                    |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| I-install at patakbuhin ang ZeroClaw nang mabilis                    | [README.md (Mabilis na Pagsisimula)](../README.md#quick-start)                 |
+| I-install at patakbuhin ang YantrikClaw nang mabilis                    | [README.md (Mabilis na Pagsisimula)](../README.md#quick-start)                 |
 | Bootstrap sa isang utos                                              | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Hanapin ang mga utos ayon sa gawain                                  | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Mabilisang suriin ang mga config key at default na halaga             | [config-reference.md](reference/api/config-reference.md)                       |

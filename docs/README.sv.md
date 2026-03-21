@@ -1,4 +1,4 @@
-# ZeroClaw Dokumentationshubb
+# YantrikClaw Dokumentationshubb
 
 Denna sida är den primära ingångspunkten för dokumentationssystemet.
 
@@ -10,7 +10,7 @@ Lokaliserade hubbar: [简体中文](README.zh-CN.md) · [日本語](README.ja.md
 
 | Jag vill…                                                           | Läs detta                                                                      |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Installera och köra ZeroClaw snabbt                                 | [README.md (Snabbstart)](../README.md#quick-start)                             |
+| Installera och köra YantrikClaw snabbt                                 | [README.md (Snabbstart)](../README.md#quick-start)                             |
 | Bootstrap med ett enda kommando                                     | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Hitta kommandon efter uppgift                                       | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Snabbt kontrollera konfigurationsnycklar och standardvärden         | [config-reference.md](reference/api/config-reference.md)                       |

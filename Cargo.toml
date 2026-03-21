@@ -8,7 +8,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["spranab", "theonlyhennygod"]
 license = "MIT OR Apache-2.0"
-description = "Personal AI assistant with cognitive memory, tier-aware tools, and 20+ messaging channels. Fork of ZeroClaw."
+description = "Personal AI assistant with cognitive memory, tier-aware tools, and 20+ messaging channels. Fork of YantrikClaw."
 repository = "https://github.com/yantrikos/yantrikclaw"
 readme = "README.md"
 keywords = ["ai", "agent", "cli", "assistant", "chatbot"]
@@ -26,11 +26,11 @@ include = [
 ]
 
 [[bin]]
-name = "zeroclaw"
+name = "yantrikclaw"
 path = "src/main.rs"
 
 [lib]
-name = "zeroclaw"
+name = "yantrikclaw"
 path = "src/lib.rs"
 
 [dependencies]
@@ -174,7 +174,7 @@ mime_guess = "2"
 
 # OpenTelemetry — OTLP trace + metrics export.
 # Use the blocking HTTP exporter client to avoid Tokio-reactor panics in
-# OpenTelemetry background batch threads when ZeroClaw emits spans/metrics from
+# OpenTelemetry background batch threads when YantrikClaw emits spans/metrics from
 # non-Tokio contexts.
 opentelemetry = { version = "0.31", default-features = false, features = ["trace", "metrics"], optional = true }
 opentelemetry_sdk = { version = "0.31", default-features = false, features = ["trace", "metrics"], optional = true }

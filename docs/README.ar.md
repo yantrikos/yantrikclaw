@@ -1,4 +1,4 @@
-# مركز توثيق ZeroClaw
+# مركز توثيق YantrikClaw
 
 هذه الصفحة هي نقطة الدخول الرئيسية لنظام التوثيق.
 
@@ -10,7 +10,7 @@
 
 | أريد أن…                                                            | اقرأ هذا                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| تثبيت وتشغيل ZeroClaw بسرعة                                        | [README.md (البدء السريع)](../README.md#quick-start)                           |
+| تثبيت وتشغيل YantrikClaw بسرعة                                        | [README.md (البدء السريع)](../README.md#quick-start)                           |
 | إعداد بأمر واحد                                                     | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | البحث عن أوامر حسب المهمة                                           | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | التحقق السريع من مفاتيح وقيم الإعدادات الافتراضية                   | [config-reference.md](reference/api/config-reference.md)                       |

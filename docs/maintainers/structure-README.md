@@ -1,4 +1,4 @@
-# ZeroClaw Docs Structure Map
+# YantrikClaw Docs Structure Map
 
 This page defines the documentation structure across three axes:
 

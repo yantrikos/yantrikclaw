@@ -1,4 +1,4 @@
-# Centro de Documentación ZeroClaw
+# Centro de Documentación YantrikClaw
 
 Esta página es el punto de entrada principal del sistema de documentación.
 
@@ -10,7 +10,7 @@ Centros localizados: [简体中文](README.zh-CN.md) · [日本語](README.ja.md
 
 | Quiero…                                                             | Leer esto                                                                      |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Instalar y ejecutar ZeroClaw rápidamente                            | [README.md (Inicio Rápido)](../README.md#quick-start)                          |
+| Instalar y ejecutar YantrikClaw rápidamente                            | [README.md (Inicio Rápido)](../README.md#quick-start)                          |
 | Arranque con un solo comando                                        | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | Encontrar comandos por tarea                                        | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Verificar rápidamente claves y valores predeterminados de config    | [config-reference.md](reference/api/config-reference.md)                       |

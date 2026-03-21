@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/docs/assets/zeroclaw-banner.png" alt="ZeroClaw" width="600" />
+  <img src="https://raw.githubusercontent.com/yantrikclaw-labs/yantrikclaw/master/docs/assets/yantrikclaw-banner.png" alt="YantrikClaw" width="600" />
 </p>
 
-<h1 align="center">🦀 ZeroClaw — Asistente Personal de IA</h1>
+<h1 align="center">🦀 YantrikClaw — Asistente Personal de IA</h1>
 
 <p align="center">
   <strong>Cero sobrecarga. Cero compromisos. 100% Rust. 100% Agnóstico.</strong><br>
@@ -11,15 +11,15 @@
 
 <p align="center">
   <a href="LICENSE-APACHE"><img src="https://img.shields.io/badge/license-MIT%20OR%20Apache%202.0-blue.svg" alt="License: MIT OR Apache-2.0" /></a>
-  <a href="https://github.com/zeroclaw-labs/zeroclaw/graphs/contributors"><img src="https://img.shields.io/github/contributors/zeroclaw-labs/zeroclaw?color=green" alt="Contributors" /></a>
+  <a href="https://github.com/yantrikclaw-labs/yantrikclaw/graphs/contributors"><img src="https://img.shields.io/github/contributors/yantrikclaw-labs/yantrikclaw?color=green" alt="Contributors" /></a>
   <a href="https://buymeacoffee.com/argenistherose"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow.svg?style=flat&logo=buy-me-a-coffee" alt="Buy Me a Coffee" /></a>
-  <a href="https://x.com/zeroclawlabs?s=21"><img src="https://img.shields.io/badge/X-%40zeroclawlabs-000000?style=flat&logo=x&logoColor=white" alt="X: @zeroclawlabs" /></a>
-  <a href="https://www.facebook.com/groups/zeroclawlabs"><img src="https://img.shields.io/badge/Facebook-Group-1877F2?style=flat&logo=facebook&logoColor=white" alt="Facebook Group" /></a>
+  <a href="https://x.com/yantrikclawlabs?s=21"><img src="https://img.shields.io/badge/X-%40yantrikclawlabs-000000?style=flat&logo=x&logoColor=white" alt="X: @yantrikclawlabs" /></a>
+  <a href="https://www.facebook.com/groups/yantrikclawlabs"><img src="https://img.shields.io/badge/Facebook-Group-1877F2?style=flat&logo=facebook&logoColor=white" alt="Facebook Group" /></a>
   <a href="https://discord.com/invite/wDshRVqRjx"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="https://www.instagram.com/therealzeroclaw"><img src="https://img.shields.io/badge/Instagram-%40therealzeroclaw-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram: @therealzeroclaw" /></a>
-  <a href="https://www.tiktok.com/@zeroclawlabs"><img src="https://img.shields.io/badge/TikTok-%40zeroclawlabs-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok: @zeroclawlabs" /></a>
+  <a href="https://www.instagram.com/therealyantrikclaw"><img src="https://img.shields.io/badge/Instagram-%40therealyantrikclaw-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram: @therealyantrikclaw" /></a>
+  <a href="https://www.tiktok.com/@yantrikclawlabs"><img src="https://img.shields.io/badge/TikTok-%40yantrikclawlabs-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok: @yantrikclawlabs" /></a>
   <a href="https://www.rednote.com/user/profile/69b735e6000000002603927e"><img src="https://img.shields.io/badge/RedNote-Official-FF2442?style=flat" alt="RedNote" /></a>
-  <a href="https://www.reddit.com/r/zeroclawlabs/"><img src="https://img.shields.io/badge/Reddit-r%2Fzeroclawlabs-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit: r/zeroclawlabs" /></a>
+  <a href="https://www.reddit.com/r/yantrikclawlabs/"><img src="https://img.shields.io/badge/Reddit-r%2Fyantrikclawlabs-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit: r/yantrikclawlabs" /></a>
 </p>
 
 <p align="center">
@@ -61,12 +61,12 @@ Construido por estudiantes y miembros de las comunidades de Harvard, MIT y Sunda
   <a href="README.nb.md">🇳🇴 Norsk</a>
 </p>
 
-ZeroClaw es un asistente personal de IA que ejecutas en tus propios dispositivos. Te responde en los canales que ya usas (WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Matrix, IRC, Email, Bluesky, Nostr, Mattermost, Nextcloud Talk, DingTalk, Lark, QQ, Reddit, LinkedIn, Twitter, MQTT, WeChat Work y más). Tiene un panel web para control en tiempo real y puede conectarse a periféricos de hardware (ESP32, STM32, Arduino, Raspberry Pi). El Gateway es solo el plano de control — el producto es el asistente.
+YantrikClaw es un asistente personal de IA que ejecutas en tus propios dispositivos. Te responde en los canales que ya usas (WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Matrix, IRC, Email, Bluesky, Nostr, Mattermost, Nextcloud Talk, DingTalk, Lark, QQ, Reddit, LinkedIn, Twitter, MQTT, WeChat Work y más). Tiene un panel web para control en tiempo real y puede conectarse a periféricos de hardware (ESP32, STM32, Arduino, Raspberry Pi). El Gateway es solo el plano de control — el producto es el asistente.
 
 Si quieres un asistente personal, de un solo usuario, que se sienta local, rápido y siempre activo, esto es lo que buscas.
 
 <p align="center">
-  <a href="https://zeroclawlabs.ai">Sitio web</a> ·
+  <a href="https://yantrikclawlabs.ai">Sitio web</a> ·
   <a href="docs/README.md">Documentación</a> ·
   <a href="docs/architecture.md">Arquitectura</a> ·
   <a href="#inicio-rápido">Primeros pasos</a> ·
@@ -75,7 +75,7 @@ Si quieres un asistente personal, de un solo usuario, que se sienta local, rápi
   <a href="https://discord.com/invite/wDshRVqRjx">Discord</a>
 </p>
 
-> **Configuración recomendada:** ejecuta `zeroclaw onboard` en tu terminal. ZeroClaw Onboard te guía paso a paso en la configuración del gateway, workspace, canales y proveedor. Es la ruta de configuración recomendada y funciona en macOS, Linux y Windows (vía WSL2). ¿Nueva instalación? Empieza aquí: [Primeros pasos](#inicio-rápido)
+> **Configuración recomendada:** ejecuta `yantrikclaw onboard` en tu terminal. YantrikClaw Onboard te guía paso a paso en la configuración del gateway, workspace, canales y proveedor. Es la ruta de configuración recomendada y funciona en macOS, Linux y Windows (vía WSL2). ¿Nueva instalación? Empieza aquí: [Primeros pasos](#inicio-rápido)
 
 ### Autenticación por suscripción (OAuth)
 
@@ -95,18 +95,18 @@ Requisito: toolchain estable de Rust. Un solo binario, sin dependencias de runti
 ### Homebrew (macOS/Linuxbrew)
 
 ```bash
-brew install zeroclaw
+brew install yantrikclaw
 ```
 
 ### Bootstrap con un clic
 
 ```bash
-git clone https://github.com/zeroclaw-labs/zeroclaw.git
-cd zeroclaw
+git clone https://github.com/yantrikclaw-labs/yantrikclaw.git
+cd yantrikclaw
 ./install.sh
 ```
 
-`zeroclaw onboard` se ejecuta automáticamente después de la instalación para configurar tu workspace y proveedor.
+`yantrikclaw onboard` se ejecuta automáticamente después de la instalación para configurar tu workspace y proveedor.
 
 ## Inicio rápido (TL;DR)
 
@@ -117,67 +117,67 @@ Guía completa para principiantes (autenticación, emparejamiento, canales): [Pr
 ./install.sh --api-key "sk-..." --provider openrouter
 
 # Iniciar el gateway (servidor webhook + panel web)
-zeroclaw gateway                # por defecto: 127.0.0.1:42617
-zeroclaw gateway --port 0       # puerto aleatorio (seguridad reforzada)
+yantrikclaw gateway                # por defecto: 127.0.0.1:42617
+yantrikclaw gateway --port 0       # puerto aleatorio (seguridad reforzada)
 
 # Hablar con el asistente
-zeroclaw agent -m "Hello, ZeroClaw!"
+yantrikclaw agent -m "Hello, YantrikClaw!"
 
 # Modo interactivo
-zeroclaw agent
+yantrikclaw agent
 
 # Iniciar runtime autónomo completo (gateway + canales + cron + hands)
-zeroclaw daemon
+yantrikclaw daemon
 
 # Verificar estado
-zeroclaw status
+yantrikclaw status
 
 # Ejecutar diagnósticos
-zeroclaw doctor
+yantrikclaw doctor
 ```
 
-¿Actualizando? Ejecuta `zeroclaw doctor` después de actualizar.
+¿Actualizando? Ejecuta `yantrikclaw doctor` después de actualizar.
 
 ### Desde el código fuente (desarrollo)
 
 ```bash
-git clone https://github.com/zeroclaw-labs/zeroclaw.git
-cd zeroclaw
+git clone https://github.com/yantrikclaw-labs/yantrikclaw.git
+cd yantrikclaw
 
 cargo build --release --locked
 cargo install --path . --force --locked
 
-zeroclaw onboard
+yantrikclaw onboard
 ```
 
 > **Alternativa para desarrollo (sin instalación global):** antepón `cargo run --release --` a los comandos (ejemplo: `cargo run --release -- status`).
 
 ## Migración desde OpenClaw
 
-ZeroClaw puede importar tu workspace, memoria y configuración de OpenClaw:
+YantrikClaw puede importar tu workspace, memoria y configuración de OpenClaw:
 
 ```bash
 # Vista previa de lo que se migrará (seguro, solo lectura)
-zeroclaw migrate openclaw --dry-run
+yantrikclaw migrate openclaw --dry-run
 
 # Ejecutar la migración
-zeroclaw migrate openclaw
+yantrikclaw migrate openclaw
 ```
 
-Esto migra tus entradas de memoria, archivos del workspace y configuración de `~/.openclaw/` a `~/.zeroclaw/`. La configuración se convierte de JSON a TOML automáticamente.
+Esto migra tus entradas de memoria, archivos del workspace y configuración de `~/.openclaw/` a `~/.yantrikclaw/`. La configuración se convierte de JSON a TOML automáticamente.
 
 ## Valores predeterminados de seguridad (acceso por DM)
 
-ZeroClaw se conecta a superficies de mensajería reales. Trata los DMs entrantes como entrada no confiable.
+YantrikClaw se conecta a superficies de mensajería reales. Trata los DMs entrantes como entrada no confiable.
 
 Guía completa de seguridad: [SECURITY.md](SECURITY.md)
 
 Comportamiento predeterminado en todos los canales:
 
 - **Emparejamiento por DM** (predeterminado): los remitentes desconocidos reciben un código de emparejamiento corto y el bot no procesa su mensaje.
-- Aprobar con: `zeroclaw pairing approve <channel> <code>` (luego el remitente se agrega a una lista de permitidos local).
+- Aprobar con: `yantrikclaw pairing approve <channel> <code>` (luego el remitente se agrega a una lista de permitidos local).
 - Los DMs públicos entrantes requieren una activación explícita en `config.toml`.
-- Ejecuta `zeroclaw doctor` para detectar políticas de DM riesgosas o mal configuradas.
+- Ejecuta `yantrikclaw doctor` para detectar políticas de DM riesgosas o mal configuradas.
 
 **Niveles de autonomía:**
 
@@ -198,8 +198,8 @@ Usa este tablero para avisos importantes (cambios incompatibles, avisos de segur
 
 | Fecha (UTC) | Nivel       | Aviso                                                                                                                                                                                                                                                                                                                                                 | Acción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ---------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-02-19 | _Crítico_  | **No estamos afiliados** con `openagen/zeroclaw`, `zeroclaw.org` ni `zeroclaw.net`. Los dominios `zeroclaw.org` y `zeroclaw.net` actualmente apuntan al fork `openagen/zeroclaw`, y ese dominio/repositorio están suplantando nuestro sitio web/proyecto oficial.                                                                                       | No confíes en información, binarios, recaudaciones de fondos o anuncios de esas fuentes. Usa solo [este repositorio](https://github.com/zeroclaw-labs/zeroclaw) y nuestras cuentas sociales verificadas.                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 2026-02-21 | _Importante_ | Nuestro sitio web oficial ya está en línea: [zeroclawlabs.ai](https://zeroclawlabs.ai). Gracias por tu paciencia mientras preparábamos el lanzamiento. Seguimos viendo intentos de suplantación, así que **no** te unas a ninguna actividad de inversión o recaudación que use el nombre de ZeroClaw a menos que se publique a través de nuestros canales oficiales.                            | Usa [este repositorio](https://github.com/zeroclaw-labs/zeroclaw) como la única fuente de verdad. Sigue [X (@zeroclawlabs)](https://x.com/zeroclawlabs?s=21), [Facebook (Grupo)](https://www.facebook.com/groups/zeroclawlabs) y [Reddit (r/zeroclawlabs)](https://www.reddit.com/r/zeroclawlabs/) para actualizaciones oficiales. |
+| 2026-02-19 | _Crítico_  | **No estamos afiliados** con `openagen/yantrikclaw`, `yantrikclaw.org` ni `yantrikclaw.net`. Los dominios `yantrikclaw.org` y `yantrikclaw.net` actualmente apuntan al fork `openagen/yantrikclaw`, y ese dominio/repositorio están suplantando nuestro sitio web/proyecto oficial.                                                                                       | No confíes en información, binarios, recaudaciones de fondos o anuncios de esas fuentes. Usa solo [este repositorio](https://github.com/yantrikclaw-labs/yantrikclaw) y nuestras cuentas sociales verificadas.                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 2026-02-21 | _Importante_ | Nuestro sitio web oficial ya está en línea: [yantrikclawlabs.ai](https://yantrikclawlabs.ai). Gracias por tu paciencia mientras preparábamos el lanzamiento. Seguimos viendo intentos de suplantación, así que **no** te unas a ninguna actividad de inversión o recaudación que use el nombre de YantrikClaw a menos que se publique a través de nuestros canales oficiales.                            | Usa [este repositorio](https://github.com/yantrikclaw-labs/yantrikclaw) como la única fuente de verdad. Sigue [X (@yantrikclawlabs)](https://x.com/yantrikclawlabs?s=21), [Facebook (Grupo)](https://www.facebook.com/groups/yantrikclawlabs) y [Reddit (r/yantrikclawlabs)](https://www.reddit.com/r/yantrikclawlabs/) para actualizaciones oficiales. |
 | 2026-02-19 | _Importante_ | Anthropic actualizó los términos de Autenticación y Uso de Credenciales el 2026-02-19. Los tokens OAuth de Claude Code (Free, Pro, Max) están destinados exclusivamente para Claude Code y Claude.ai; usar tokens OAuth de Claude Free/Pro/Max en cualquier otro producto, herramienta o servicio (incluyendo Agent SDK) no está permitido y puede violar los Términos de Servicio del Consumidor. | Por favor, evita temporalmente las integraciones OAuth de Claude Code para prevenir pérdidas potenciales. Cláusula original: [Authentication and Credential Use](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use).                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ## Características destacadas
@@ -219,18 +219,18 @@ Usa este tablero para avisos importantes (cambios incompatibles, avisos de segur
 - **Plataforma de skills** — skills incluidos, comunitarios y del workspace con auditoría de seguridad.
 - **Soporte de túneles** — Cloudflare, Tailscale, ngrok, OpenVPN y túneles personalizados para acceso remoto.
 
-### Por qué los equipos eligen ZeroClaw
+### Por qué los equipos eligen YantrikClaw
 
 - **Ligero por defecto:** binario pequeño de Rust, arranque rápido, bajo consumo de memoria.
 - **Seguro por diseño:** emparejamiento, sandboxing estricto, listas de permitidos explícitas, alcance del workspace.
 - **Totalmente intercambiable:** los sistemas centrales son traits (proveedores, canales, herramientas, memoria, túneles).
 - **Sin dependencia de proveedor:** soporte de proveedores compatibles con OpenAI + endpoints personalizados conectables.
 
-## Resumen de benchmarks (ZeroClaw vs OpenClaw, reproducible)
+## Resumen de benchmarks (YantrikClaw vs OpenClaw, reproducible)
 
 Benchmark rápido en máquina local (macOS arm64, febrero 2026) normalizado para hardware edge de 0.8GHz.
 
-|                           | OpenClaw      | NanoBot        | PicoClaw        | ZeroClaw 🦀          |
+|                           | OpenClaw      | NanoBot        | PicoClaw        | YantrikClaw 🦀          |
 | ------------------------- | ------------- | -------------- | --------------- | -------------------- |
 | **Lenguaje**              | TypeScript    | Python         | Go              | **Rust**             |
 | **RAM**                   | > 1GB         | > 100MB        | < 10MB          | **< 5MB**            |
@@ -238,20 +238,20 @@ Benchmark rápido en máquina local (macOS arm64, febrero 2026) normalizado para
 | **Tamaño del binario**    | ~28MB (dist)  | N/A (Scripts)  | ~8MB            | **~8.8 MB**          |
 | **Costo**                 | Mac Mini $599 | Linux SBC ~$50 | Linux Board $10 | **Cualquier hardware $10** |
 
-> Notas: Los resultados de ZeroClaw se miden en compilaciones release usando `/usr/bin/time -l`. OpenClaw requiere el runtime de Node.js (típicamente ~390MB de sobrecarga adicional de memoria), mientras que NanoBot requiere el runtime de Python. PicoClaw y ZeroClaw son binarios estáticos. Las cifras de RAM anteriores son de memoria en runtime; los requisitos de compilación son mayores.
+> Notas: Los resultados de YantrikClaw se miden en compilaciones release usando `/usr/bin/time -l`. OpenClaw requiere el runtime de Node.js (típicamente ~390MB de sobrecarga adicional de memoria), mientras que NanoBot requiere el runtime de Python. PicoClaw y YantrikClaw son binarios estáticos. Las cifras de RAM anteriores son de memoria en runtime; los requisitos de compilación son mayores.
 
 <p align="center">
-  <img src="docs/assets/zeroclaw-comparison.jpeg" alt="ZeroClaw vs OpenClaw Comparison" width="800" />
+  <img src="docs/assets/yantrikclaw-comparison.jpeg" alt="YantrikClaw vs OpenClaw Comparison" width="800" />
 </p>
 
 ### Medición local reproducible
 
 ```bash
 cargo build --release
-ls -lh target/release/zeroclaw
+ls -lh target/release/yantrikclaw
 
-/usr/bin/time -l target/release/zeroclaw --help
-/usr/bin/time -l target/release/zeroclaw status
+/usr/bin/time -l target/release/yantrikclaw --help
+/usr/bin/time -l target/release/yantrikclaw status
 ```
 
 ## Todo lo que hemos construido hasta ahora
@@ -368,7 +368,7 @@ Bluesky / Nostr / Mattermost / DingTalk / Lark / QQ / Reddit / MQTT / WebSocket
 
 ## Configuración
 
-`~/.zeroclaw/config.toml` mínimo:
+`~/.yantrikclaw/config.toml` mínimo:
 
 ```toml
 default_provider = "anthropic"
@@ -436,35 +436,35 @@ Establece `runtime.kind = "docker"` para sandboxing estricto o aislamiento de re
 
 ## Autenticación por suscripción (OpenAI Codex / Claude Code / Gemini)
 
-ZeroClaw soporta perfiles de autenticación nativos de suscripción (multi-cuenta, cifrados en reposo).
+YantrikClaw soporta perfiles de autenticación nativos de suscripción (multi-cuenta, cifrados en reposo).
 
-- Archivo de almacenamiento: `~/.zeroclaw/auth-profiles.json`
-- Clave de cifrado: `~/.zeroclaw/.secret_key`
+- Archivo de almacenamiento: `~/.yantrikclaw/auth-profiles.json`
+- Clave de cifrado: `~/.yantrikclaw/.secret_key`
 - Formato de id de perfil: `<provider>:<profile_name>` (ejemplo: `openai-codex:work`)
 
 ```bash
 # OpenAI Codex OAuth (suscripción ChatGPT)
-zeroclaw auth login --provider openai-codex --device-code
+yantrikclaw auth login --provider openai-codex --device-code
 
 # Gemini OAuth
-zeroclaw auth login --provider gemini --profile default
+yantrikclaw auth login --provider gemini --profile default
 
 # Anthropic setup-token
-zeroclaw auth paste-token --provider anthropic --profile default --auth-kind authorization
+yantrikclaw auth paste-token --provider anthropic --profile default --auth-kind authorization
 
 # Verificar / refrescar / cambiar perfil
-zeroclaw auth status
-zeroclaw auth refresh --provider openai-codex --profile default
-zeroclaw auth use --provider openai-codex --profile work
+yantrikclaw auth status
+yantrikclaw auth refresh --provider openai-codex --profile default
+yantrikclaw auth use --provider openai-codex --profile work
 
 # Ejecutar el agente con autenticación por suscripción
-zeroclaw agent --provider openai-codex -m "hello"
-zeroclaw agent --provider anthropic -m "hello"
+yantrikclaw agent --provider openai-codex -m "hello"
+yantrikclaw agent --provider anthropic -m "hello"
 ```
 
 ## Workspace del agente + skills
 
-Raíz del workspace: `~/.zeroclaw/workspace/` (configurable vía config).
+Raíz del workspace: `~/.yantrikclaw/workspace/` (configurable vía config).
 
 Archivos de prompt inyectados:
 - `IDENTITY.md` — personalidad y rol del agente
@@ -473,74 +473,74 @@ Archivos de prompt inyectados:
 - `AGENTS.md` — convenciones de sesión y reglas de inicialización
 - `SOUL.md` — identidad central y principios operativos
 
-Skills: `~/.zeroclaw/workspace/skills/<skill>/SKILL.md` o `SKILL.toml`.
+Skills: `~/.yantrikclaw/workspace/skills/<skill>/SKILL.md` o `SKILL.toml`.
 
 ```bash
 # Listar skills instalados
-zeroclaw skills list
+yantrikclaw skills list
 
 # Instalar desde git
-zeroclaw skills install https://github.com/user/my-skill.git
+yantrikclaw skills install https://github.com/user/my-skill.git
 
 # Auditoría de seguridad antes de instalar
-zeroclaw skills audit https://github.com/user/my-skill.git
+yantrikclaw skills audit https://github.com/user/my-skill.git
 
 # Eliminar un skill
-zeroclaw skills remove my-skill
+yantrikclaw skills remove my-skill
 ```
 
 ## Comandos CLI
 
 ```bash
 # Gestión del workspace
-zeroclaw onboard              # Asistente de configuración guiada
-zeroclaw status               # Mostrar estado del daemon/agente
-zeroclaw doctor               # Ejecutar diagnósticos del sistema
+yantrikclaw onboard              # Asistente de configuración guiada
+yantrikclaw status               # Mostrar estado del daemon/agente
+yantrikclaw doctor               # Ejecutar diagnósticos del sistema
 
 # Gateway + daemon
-zeroclaw gateway              # Iniciar servidor gateway (127.0.0.1:42617)
-zeroclaw daemon               # Iniciar runtime autónomo completo
+yantrikclaw gateway              # Iniciar servidor gateway (127.0.0.1:42617)
+yantrikclaw daemon               # Iniciar runtime autónomo completo
 
 # Agente
-zeroclaw agent                # Modo de chat interactivo
-zeroclaw agent -m "message"   # Modo de mensaje único
+yantrikclaw agent                # Modo de chat interactivo
+yantrikclaw agent -m "message"   # Modo de mensaje único
 
 # Gestión de servicios
-zeroclaw service install      # Instalar como servicio del SO (launchd/systemd)
-zeroclaw service start|stop|restart|status
+yantrikclaw service install      # Instalar como servicio del SO (launchd/systemd)
+yantrikclaw service start|stop|restart|status
 
 # Canales
-zeroclaw channel list         # Listar canales configurados
-zeroclaw channel doctor       # Verificar salud de los canales
-zeroclaw channel bind-telegram 123456789
+yantrikclaw channel list         # Listar canales configurados
+yantrikclaw channel doctor       # Verificar salud de los canales
+yantrikclaw channel bind-telegram 123456789
 
 # Cron + programación
-zeroclaw cron list            # Listar trabajos programados
-zeroclaw cron add "*/5 * * * *" --prompt "Check system health"
-zeroclaw cron remove <id>
+yantrikclaw cron list            # Listar trabajos programados
+yantrikclaw cron add "*/5 * * * *" --prompt "Check system health"
+yantrikclaw cron remove <id>
 
 # Memoria
-zeroclaw memory list          # Listar entradas de memoria
-zeroclaw memory get <key>     # Recuperar una memoria
-zeroclaw memory stats         # Estadísticas de memoria
+yantrikclaw memory list          # Listar entradas de memoria
+yantrikclaw memory get <key>     # Recuperar una memoria
+yantrikclaw memory stats         # Estadísticas de memoria
 
 # Perfiles de autenticación
-zeroclaw auth login --provider <name>
-zeroclaw auth status
-zeroclaw auth use --provider <name> --profile <profile>
+yantrikclaw auth login --provider <name>
+yantrikclaw auth status
+yantrikclaw auth use --provider <name> --profile <profile>
 
 # Periféricos de hardware
-zeroclaw hardware discover    # Escanear dispositivos conectados
-zeroclaw peripheral list      # Listar periféricos conectados
-zeroclaw peripheral flash     # Flashear firmware al dispositivo
+yantrikclaw hardware discover    # Escanear dispositivos conectados
+yantrikclaw peripheral list      # Listar periféricos conectados
+yantrikclaw peripheral flash     # Flashear firmware al dispositivo
 
 # Migración
-zeroclaw migrate openclaw --dry-run
-zeroclaw migrate openclaw
+yantrikclaw migrate openclaw --dry-run
+yantrikclaw migrate openclaw
 
 # Completado de shell
-source <(zeroclaw completions bash)
-zeroclaw completions zsh > ~/.zfunc/_zeroclaw
+source <(yantrikclaw completions bash)
+yantrikclaw completions zsh > ~/.zfunc/_yantrikclaw
 ```
 
 Referencia completa de comandos: [docs/reference/cli/commands-reference.md](docs/reference/cli/commands-reference.md)
@@ -608,10 +608,10 @@ Referencia completa de comandos: [docs/reference/cli/commands-reference.md](docs
 
 #### Instalador en una línea
 
-O salta los pasos anteriores e instala todo (dependencias del sistema, Rust, ZeroClaw) en un solo comando:
+O salta los pasos anteriores e instala todo (dependencias del sistema, Rust, YantrikClaw) en un solo comando:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/install.sh | bash
+curl -LsSf https://raw.githubusercontent.com/yantrikclaw-labs/yantrikclaw/master/install.sh | bash
 ```
 
 #### Requisitos de recursos para compilación
@@ -654,7 +654,7 @@ Los assets de release se publican para:
 - Windows: `x86_64`
 
 Descarga los últimos assets desde:
-<https://github.com/zeroclaw-labs/zeroclaw/releases/latest>
+<https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest>
 
 ## Documentación
 
@@ -664,7 +664,7 @@ Usa estos recursos cuando hayas pasado el flujo de onboarding y quieras la refer
 - Lee la [visión general de la arquitectura](docs/architecture.md) para el modelo completo del sistema.
 - Usa la [referencia de configuración](docs/reference/api/config-reference.md) cuando necesites cada clave y ejemplo.
 - Ejecuta el Gateway según el libro con el [runbook operativo](docs/ops/operations-runbook.md).
-- Sigue [ZeroClaw Onboard](#inicio-rápido) para una configuración guiada.
+- Sigue [YantrikClaw Onboard](#inicio-rápido) para una configuración guiada.
 - Depura errores comunes con la [guía de solución de problemas](docs/ops/troubleshooting.md).
 - Revisa la [guía de seguridad](docs/security/README.md) antes de exponer cualquier cosa.
 
@@ -696,14 +696,14 @@ Usa estos recursos cuando hayas pasado el flujo de onboarding y quieras la refer
 
 ## Smooth Crab 🦀
 
-ZeroClaw fue construido para el cangrejo suave 🦀, un asistente de IA rápido y eficiente. Construido por Argenis De La Rosa y la comunidad.
+YantrikClaw fue construido para el cangrejo suave 🦀, un asistente de IA rápido y eficiente. Construido por Argenis De La Rosa y la comunidad.
 
-- [zeroclawlabs.ai](https://zeroclawlabs.ai)
-- [@zeroclawlabs](https://x.com/zeroclawlabs)
+- [yantrikclawlabs.ai](https://yantrikclawlabs.ai)
+- [@yantrikclawlabs](https://x.com/yantrikclawlabs)
 
-## Apoya a ZeroClaw
+## Apoya a YantrikClaw
 
-Si ZeroClaw ayuda en tu trabajo y quieres apoyar el desarrollo continuo, puedes donar aquí:
+Si YantrikClaw ayuda en tu trabajo y quieres apoyar el desarrollo continuo, puedes donar aquí:
 
 <a href="https://buymeacoffee.com/argenistherose"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me a Coffee" /></a>
 
@@ -720,7 +720,7 @@ Estamos construyendo en abierto porque las mejores ideas vienen de todas partes.
 
 ## Contribuir
 
-¿Nuevo en ZeroClaw? Busca issues etiquetados como [`good first issue`](https://github.com/zeroclaw-labs/zeroclaw/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) — consulta nuestra [Guía de contribución](CONTRIBUTING.md#first-time-contributors) para saber cómo empezar. ¡PRs con IA/vibe-coded son bienvenidos! 🤖
+¿Nuevo en YantrikClaw? Busca issues etiquetados como [`good first issue`](https://github.com/yantrikclaw-labs/yantrikclaw/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) — consulta nuestra [Guía de contribución](CONTRIBUTING.md#first-time-contributors) para saber cómo empezar. ¡PRs con IA/vibe-coded son bienvenidos! 🤖
 
 Ver [CONTRIBUTING.md](CONTRIBUTING.md) y [CLA.md](docs/contributing/cla.md). Implementa un trait, envía un PR:
 
@@ -732,26 +732,26 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md) y [CLA.md](docs/contributing/cla.md). Imp
 - Nuevo `Memory` → `src/memory/`
 - Nuevo `Tunnel` → `src/tunnel/`
 - Nuevo `Peripheral` → `src/peripherals/`
-- Nuevo `Skill` → `~/.zeroclaw/workspace/skills/<name>/`
+- Nuevo `Skill` → `~/.yantrikclaw/workspace/skills/<name>/`
 
 <!-- BEGIN:RECENT_CONTRIBUTORS -->
 <!-- END:RECENT_CONTRIBUTORS -->
 
 ## ⚠️ Repositorio oficial y advertencia de suplantación
 
-**Este es el único repositorio oficial de ZeroClaw:**
+**Este es el único repositorio oficial de YantrikClaw:**
 
-> https://github.com/zeroclaw-labs/zeroclaw
+> https://github.com/yantrikclaw-labs/yantrikclaw
 
-Cualquier otro repositorio, organización, dominio o paquete que afirme ser "ZeroClaw" o implique afiliación con ZeroClaw Labs **no está autorizado y no está afiliado con este proyecto**. Los forks no autorizados conocidos se listarán en [TRADEMARK.md](docs/maintainers/trademark.md).
+Cualquier otro repositorio, organización, dominio o paquete que afirme ser "YantrikClaw" o implique afiliación con YantrikClaw Labs **no está autorizado y no está afiliado con este proyecto**. Los forks no autorizados conocidos se listarán en [TRADEMARK.md](docs/maintainers/trademark.md).
 
-Si encuentras suplantación o uso indebido de marca, por favor [abre un issue](https://github.com/zeroclaw-labs/zeroclaw/issues).
+Si encuentras suplantación o uso indebido de marca, por favor [abre un issue](https://github.com/yantrikclaw-labs/yantrikclaw/issues).
 
 ---
 
 ## Licencia
 
-ZeroClaw tiene doble licencia para máxima apertura y protección de los contribuidores:
+YantrikClaw tiene doble licencia para máxima apertura y protección de los contribuidores:
 
 | Licencia | Caso de uso |
 |---|---|
@@ -762,7 +762,7 @@ Puedes elegir cualquiera de las licencias. **Los contribuidores otorgan automát
 
 ### Marca registrada
 
-El nombre y logo de **ZeroClaw** son marcas registradas de ZeroClaw Labs. Esta licencia no otorga permiso para usarlos para implicar respaldo o afiliación. Ver [TRADEMARK.md](docs/maintainers/trademark.md) para usos permitidos y prohibidos.
+El nombre y logo de **YantrikClaw** son marcas registradas de YantrikClaw Labs. Esta licencia no otorga permiso para usarlos para implicar respaldo o afiliación. Ver [TRADEMARK.md](docs/maintainers/trademark.md) para usos permitidos y prohibidos.
 
 ### Protecciones para contribuidores
 
@@ -773,12 +773,12 @@ El nombre y logo de **ZeroClaw** son marcas registradas de ZeroClaw Labs. Esta l
 
 ---
 
-**ZeroClaw** — Cero sobrecarga. Cero compromisos. Despliega en cualquier lugar. Intercambia cualquier cosa. 🦀
+**YantrikClaw** — Cero sobrecarga. Cero compromisos. Despliega en cualquier lugar. Intercambia cualquier cosa. 🦀
 
 ## Contribuidores
 
-<a href="https://github.com/zeroclaw-labs/zeroclaw/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=zeroclaw-labs/zeroclaw" alt="ZeroClaw contributors" />
+<a href="https://github.com/yantrikclaw-labs/yantrikclaw/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yantrikclaw-labs/yantrikclaw" alt="YantrikClaw contributors" />
 </a>
 
 Esta lista se genera a partir del gráfico de contribuidores de GitHub y se actualiza automáticamente.
@@ -786,11 +786,11 @@ Esta lista se genera a partir del gráfico de contribuidores de GitHub y se actu
 ## Historial de estrellas
 
 <p align="center">
-  <a href="https://www.star-history.com/#zeroclaw-labs/zeroclaw&type=date&legend=top-left">
+  <a href="https://www.star-history.com/#yantrikclaw-labs/yantrikclaw&type=date&legend=top-left">
     <picture>
-     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&theme=dark&legend=top-left" />
-     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&legend=top-left" />
-     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&legend=top-left" />
+     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&theme=dark&legend=top-left" />
+     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&legend=top-left" />
+     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&legend=top-left" />
     </picture>
   </a>
 </p>

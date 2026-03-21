@@ -1,4 +1,4 @@
-# ZeroClaw 문서 허브
+# YantrikClaw 문서 허브
 
 이 페이지는 문서 시스템의 기본 진입점입니다.
 
@@ -10,7 +10,7 @@
 
 | 하고 싶은 것…                                                       | 이것을 읽으세요                                                                |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ZeroClaw를 빠르게 설치하고 실행                                     | [README.md (빠른 시작)](../README.md#quick-start)                              |
+| YantrikClaw를 빠르게 설치하고 실행                                     | [README.md (빠른 시작)](../README.md#quick-start)                              |
 | 한 번의 명령으로 부트스트랩                                         | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | macOS에서 업데이트 또는 제거                                        | [macos-update-uninstall.md](setup-guides/macos-update-uninstall.md)            |
 | 작업별 명령어 찾기                                                  | [commands-reference.md](reference/cli/commands-reference.md)                   |

@@ -1,4 +1,4 @@
-# ZeroClaw دستاویزات کا مرکز
+# YantrikClaw دستاویزات کا مرکز
 
 یہ صفحہ دستاویزات کے نظام کا بنیادی داخلی نقطہ ہے۔
 
@@ -10,7 +10,7 @@
 
 | مجھے چاہیے…                                                          | یہ پڑھیں                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ZeroClaw کو تیزی سے انسٹال اور چلانا                                 | [README.md (فوری آغاز)](../README.md#quick-start)                               |
+| YantrikClaw کو تیزی سے انسٹال اور چلانا                                 | [README.md (فوری آغاز)](../README.md#quick-start)                               |
 | ایک کمانڈ سے بوٹسٹریپ                                                | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | کام کے مطابق کمانڈز تلاش کرنا                                        | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | کنفیگریشن کیز اور ڈیفالٹ اقدار کی فوری جانچ                         | [config-reference.md](reference/api/config-reference.md)                       |

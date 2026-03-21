@@ -1,9 +1,9 @@
-//! Yantrik Companion provider — bridges ZeroClaw to the Yantrik cognitive brain.
+//! Yantrik Companion provider — bridges YantrikClaw to the Yantrik cognitive brain.
 //!
 //! The companion binary handles LLM inference, cognitive memory (YantrikDB),
 //! tool execution (50+ tools), bond tracking, personality evolution, and
 //! proactive cognition (urge pipeline). This provider forwards chat requests
-//! to the companion's HTTP API and maps responses back to ZeroClaw's types.
+//! to the companion's HTTP API and maps responses back to YantrikClaw's types.
 
 use crate::providers::traits::{
     ChatMessage, Provider, ProviderCapabilities, StreamChunk, StreamOptions, StreamResult,
@@ -195,7 +195,7 @@ impl YantrikProvider {
 #[async_trait]
 impl Provider for YantrikProvider {
     fn capabilities(&self) -> ProviderCapabilities {
-        // Companion handles tools internally — from ZeroClaw's perspective,
+        // Companion handles tools internally — from YantrikClaw's perspective,
         // it's a text-in/text-out provider. No native tool calling needed
         // because tools are executed inside the companion binary.
         ProviderCapabilities {

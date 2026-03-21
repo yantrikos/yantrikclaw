@@ -1,5 +1,5 @@
 //! Background loop that polls the Yantrik Companion for proactive urges
-//! and delivers them via the appropriate ZeroClaw channel.
+//! and delivers them via the appropriate YantrikClaw channel.
 //!
 //! The companion's background cognition (70+ instincts) generates urges —
 //! things the AI wants to say proactively. This loop polls `GET /urges`,

@@ -109,8 +109,8 @@ impl WebSearchTool {
 
         // Decrypt if necessary.
         if crate::security::SecretStore::is_encrypted(&raw_key) {
-            let zeroclaw_dir = self.config_path.parent().unwrap_or_else(|| Path::new("."));
-            let store = crate::security::SecretStore::new(zeroclaw_dir, self.secrets_encrypt);
+            let yantrikclaw_dir = self.config_path.parent().unwrap_or_else(|| Path::new("."));
+            let store = crate::security::SecretStore::new(yantrikclaw_dir, self.secrets_encrypt);
             let plaintext = store.decrypt(&raw_key)?;
             if plaintext.is_empty() {
                 anyhow::bail!("Brave API key not configured (decrypted value is empty)");
@@ -256,7 +256,7 @@ impl WebSearchTool {
     /// Search via a self-hosted SearXNG instance (JSON API).
     ///
     /// SearXNG aggregates results from multiple engines (Google, Bing, DuckDuckGo,
-    /// etc.) without API keys. ZeroClaw ships a bundled SearXNG container.
+    /// etc.) without API keys. YantrikClaw ships a bundled SearXNG container.
     async fn search_searxng(&self, query: &str) -> anyhow::Result<String> {
         let encoded_query = urlencoding::encode(query);
         let search_url = format!(

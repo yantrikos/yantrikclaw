@@ -1,4 +1,4 @@
-# ZeroClaw Dokumentáció Összefoglaló (Egységes tartalomjegyzék)
+# YantrikClaw Dokumentáció Összefoglaló (Egységes tartalomjegyzék)
 
 Ez a fájl a dokumentációs rendszer kanonikus tartalomjegyzéke.
 

@@ -1,4 +1,4 @@
-# Κέντρο Τεκμηρίωσης ZeroClaw
+# Κέντρο Τεκμηρίωσης YantrikClaw
 
 Αυτή η σελίδα είναι το κύριο σημείο εισόδου για το σύστημα τεκμηρίωσης.
 
@@ -10,7 +10,7 @@
 
 | Θέλω να…                                                            | Διαβάστε αυτό                                                                  |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Εγκαταστήσω και εκτελέσω το ZeroClaw γρήγορα                       | [README.md (Γρήγορη Εκκίνηση)](../README.md#quick-start)                      |
+| Εγκαταστήσω και εκτελέσω το YantrikClaw γρήγορα                       | [README.md (Γρήγορη Εκκίνηση)](../README.md#quick-start)                      |
 | Εκκίνηση με μία εντολή                                              | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | Βρω εντολές ανά εργασία                                             | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Ελέγξω γρήγορα κλειδιά και προεπιλογές ρυθμίσεων                   | [config-reference.md](reference/api/config-reference.md)                       |

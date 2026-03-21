@@ -1,4 +1,4 @@
-# ศูนย์กลางเอกสาร ZeroClaw
+# ศูนย์กลางเอกสาร YantrikClaw
 
 หน้านี้เป็นจุดเริ่มต้นหลักของระบบเอกสาร
 
@@ -10,7 +10,7 @@
 
 | ฉันต้องการ…                                                          | อ่านสิ่งนี้                                                                    |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ติดตั้งและรัน ZeroClaw อย่างรวดเร็ว                                    | [README.md (เริ่มต้นอย่างรวดเร็ว)](../README.md#quick-start)                    |
+| ติดตั้งและรัน YantrikClaw อย่างรวดเร็ว                                    | [README.md (เริ่มต้นอย่างรวดเร็ว)](../README.md#quick-start)                    |
 | ติดตั้งด้วยคำสั่งเดียว                                                | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | ค้นหาคำสั่งตามงาน                                                    | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | ตรวจสอบคีย์และค่าเริ่มต้นของการตั้งค่าอย่างรวดเร็ว                     | [config-reference.md](reference/api/config-reference.md)                       |

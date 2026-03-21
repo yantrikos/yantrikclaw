@@ -1,4 +1,4 @@
-# ZeroClaw ডকুমেন্টেশন হাব
+# YantrikClaw ডকুমেন্টেশন হাব
 
 এই পৃষ্ঠাটি ডকুমেন্টেশন সিস্টেমের প্রধান প্রবেশ বিন্দু।
 
@@ -10,7 +10,7 @@
 
 | আমি চাই…                                                            | এটি পড়ুন                                                                      |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| দ্রুত ZeroClaw ইনস্টল ও চালু করতে                                   | [README.md (দ্রুত শুরু)](../README.md#quick-start)                             |
+| দ্রুত YantrikClaw ইনস্টল ও চালু করতে                                   | [README.md (দ্রুত শুরু)](../README.md#quick-start)                             |
 | এক-ক্লিকে বুটস্ট্র্যাপ করতে                                        | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | কাজ অনুযায়ী কমান্ড খুঁজতে                                          | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | দ্রুত কনফিগ কী ও ডিফল্ট মান যাচাই করতে                             | [config-reference.md](reference/api/config-reference.md)                       |

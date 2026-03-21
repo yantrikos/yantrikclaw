@@ -1,5 +1,5 @@
-workspace_dir = "/zeroclaw-data/workspace"
-config_path = "/zeroclaw-data/.zeroclaw/config.toml"
+workspace_dir = "/yantrikclaw-data/workspace"
+config_path = "/yantrikclaw-data/.yantrikclaw/config.toml"
 # This is the Ollama Base URL, not a secret key
 api_key = "http://host.docker.internal:11434"
 default_provider = "ollama"

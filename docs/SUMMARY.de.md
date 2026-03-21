@@ -1,4 +1,4 @@
-# ZeroClaw Dokumentationsübersicht (Einheitliches Inhaltsverzeichnis)
+# YantrikClaw Dokumentationsübersicht (Einheitliches Inhaltsverzeichnis)
 
 Diese Datei ist das kanonische Inhaltsverzeichnis des Dokumentationssystems.
 

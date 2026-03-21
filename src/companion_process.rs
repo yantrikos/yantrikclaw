@@ -1,6 +1,6 @@
 //! Lifecycle manager for the Yantrik Companion binary.
 //!
-//! When `manage_process: true` in `CompanionConfig`, ZeroClaw spawns the
+//! When `manage_process: true` in `CompanionConfig`, YantrikClaw spawns the
 //! companion binary as a child process, monitors its health, and restarts
 //! it on failure. On shutdown, it sends a graceful termination signal.
 

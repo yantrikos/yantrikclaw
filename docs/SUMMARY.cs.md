@@ -1,4 +1,4 @@
-# Souhrn dokumentace ZeroClaw (Jednotný obsah)
+# Souhrn dokumentace YantrikClaw (Jednotný obsah)
 
 Tento soubor je kanonický obsah dokumentačního systému.
 

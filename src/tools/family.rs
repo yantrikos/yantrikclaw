@@ -81,7 +81,7 @@ impl ToolFamily {
         }
     }
 
-    /// ZeroClaw tool categories that belong to this family.
+    /// YantrikClaw tool categories that belong to this family.
     pub fn categories(&self) -> &'static [&'static str] {
         match self {
             ToolFamily::Communicate => &["integrate"],

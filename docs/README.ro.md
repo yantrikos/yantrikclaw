@@ -1,4 +1,4 @@
-# Centrul de Documentație ZeroClaw
+# Centrul de Documentație YantrikClaw
 
 Această pagină este punctul de intrare principal al sistemului de documentație.
 
@@ -10,7 +10,7 @@ Centre localizate: [简体中文](README.zh-CN.md) · [日本語](README.ja.md) 
 
 | Vreau să…                                                           | Citiți aceasta                                                                 |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Instalez și rulez ZeroClaw rapid                                    | [README.md (Start Rapid)](../README.md#quick-start)                            |
+| Instalez și rulez YantrikClaw rapid                                    | [README.md (Start Rapid)](../README.md#quick-start)                            |
 | Bootstrap cu o singură comandă                                      | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Găsesc comenzi după sarcină                                         | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Verific rapid cheile de configurare și valorile implicite           | [config-reference.md](reference/api/config-reference.md)                       |

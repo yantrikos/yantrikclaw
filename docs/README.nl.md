@@ -1,4 +1,4 @@
-# ZeroClaw Documentatiehub
+# YantrikClaw Documentatiehub
 
 Deze pagina is het primaire toegangspunt voor het documentatiesysteem.
 
@@ -10,7 +10,7 @@ Gelokaliseerde hubs: [简体中文](README.zh-CN.md) · [日本語](README.ja.md
 
 | Ik wil…                                                             | Lees dit                                                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| ZeroClaw snel installeren en uitvoeren                              | [README.md (Snelle Start)](../README.md#quick-start)                           |
+| YantrikClaw snel installeren en uitvoeren                              | [README.md (Snelle Start)](../README.md#quick-start)                           |
 | Bootstrap met één commando                                          | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Commando's zoeken op taak                                           | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Snel configuratiesleutels en standaardwaarden controleren           | [config-reference.md](reference/api/config-reference.md)                       |

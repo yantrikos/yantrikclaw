@@ -1,4 +1,4 @@
-# ZeroClaw Dokumentációs Központ
+# YantrikClaw Dokumentációs Központ
 
 Ez az oldal a dokumentációs rendszer fő belépési pontja.
 
@@ -10,7 +10,7 @@ Honosított központok: [简体中文](README.zh-CN.md) · [日本語](README.ja
 
 | Szeretném…                                                          | Olvassa el                                                                     |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Gyorsan telepíteni és futtatni a ZeroClaw-t                         | [README.md (Gyorsindítás)](../README.md#quick-start)                           |
+| Gyorsan telepíteni és futtatni a YantrikClaw-t                         | [README.md (Gyorsindítás)](../README.md#quick-start)                           |
 | Egylépéses bootstrap                                                | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                  |
 | Frissítés vagy eltávolítás macOS-en                                 | [macos-update-uninstall.md](setup-guides/macos-update-uninstall.md)            |
 | Parancsok keresése feladat szerint                                  | [commands-reference.md](reference/cli/commands-reference.md)                   |

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/docs/assets/zeroclaw-banner.png" alt="ZeroClaw" width="600" />
+  <img src="https://raw.githubusercontent.com/yantrikclaw-labs/yantrikclaw/master/docs/assets/yantrikclaw-banner.png" alt="YantrikClaw" width="600" />
 </p>
 
-<h1 align="center">🦀 ZeroClaw — Personlig AI-assistent</h1>
+<h1 align="center">🦀 YantrikClaw — Personlig AI-assistent</h1>
 
 <p align="center">
   <strong>Noll overhead. Noll kompromiss. 100% Rust. 100% Agnostisk.</strong><br>
@@ -11,15 +11,15 @@
 
 <p align="center">
   <a href="LICENSE-APACHE"><img src="https://img.shields.io/badge/license-MIT%20OR%20Apache%202.0-blue.svg" alt="License: MIT OR Apache-2.0" /></a>
-  <a href="https://github.com/zeroclaw-labs/zeroclaw/graphs/contributors"><img src="https://img.shields.io/github/contributors/zeroclaw-labs/zeroclaw?color=green" alt="Contributors" /></a>
+  <a href="https://github.com/yantrikclaw-labs/yantrikclaw/graphs/contributors"><img src="https://img.shields.io/github/contributors/yantrikclaw-labs/yantrikclaw?color=green" alt="Contributors" /></a>
   <a href="https://buymeacoffee.com/argenistherose"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow.svg?style=flat&logo=buy-me-a-coffee" alt="Buy Me a Coffee" /></a>
-  <a href="https://x.com/zeroclawlabs?s=21"><img src="https://img.shields.io/badge/X-%40zeroclawlabs-000000?style=flat&logo=x&logoColor=white" alt="X: @zeroclawlabs" /></a>
-  <a href="https://www.facebook.com/groups/zeroclawlabs"><img src="https://img.shields.io/badge/Facebook-Group-1877F2?style=flat&logo=facebook&logoColor=white" alt="Facebook Group" /></a>
+  <a href="https://x.com/yantrikclawlabs?s=21"><img src="https://img.shields.io/badge/X-%40yantrikclawlabs-000000?style=flat&logo=x&logoColor=white" alt="X: @yantrikclawlabs" /></a>
+  <a href="https://www.facebook.com/groups/yantrikclawlabs"><img src="https://img.shields.io/badge/Facebook-Group-1877F2?style=flat&logo=facebook&logoColor=white" alt="Facebook Group" /></a>
   <a href="https://discord.com/invite/wDshRVqRjx"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="https://www.instagram.com/therealzeroclaw"><img src="https://img.shields.io/badge/Instagram-%40therealzeroclaw-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram: @therealzeroclaw" /></a>
-  <a href="https://www.tiktok.com/@zeroclawlabs"><img src="https://img.shields.io/badge/TikTok-%40zeroclawlabs-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok: @zeroclawlabs" /></a>
+  <a href="https://www.instagram.com/therealyantrikclaw"><img src="https://img.shields.io/badge/Instagram-%40therealyantrikclaw-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram: @therealyantrikclaw" /></a>
+  <a href="https://www.tiktok.com/@yantrikclawlabs"><img src="https://img.shields.io/badge/TikTok-%40yantrikclawlabs-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok: @yantrikclawlabs" /></a>
   <a href="https://www.rednote.com/user/profile/69b735e6000000002603927e"><img src="https://img.shields.io/badge/RedNote-Official-FF2442?style=flat" alt="RedNote" /></a>
-  <a href="https://www.reddit.com/r/zeroclawlabs/"><img src="https://img.shields.io/badge/Reddit-r%2Fzeroclawlabs-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit: r/zeroclawlabs" /></a>
+  <a href="https://www.reddit.com/r/yantrikclawlabs/"><img src="https://img.shields.io/badge/Reddit-r%2Fyantrikclawlabs-FF4500?style=flat&logo=reddit&logoColor=white" alt="Reddit: r/yantrikclawlabs" /></a>
 </p>
 
 <p align="center">
@@ -61,12 +61,12 @@ Byggt av studenter och medlemmar i Harvard-, MIT- och Sundai.Club-gemenskaperna.
   <a href="README.nb.md">🇳🇴 Norsk</a>
 </p>
 
-ZeroClaw är en personlig AI-assistent som du kör på dina egna enheter. Den svarar dig via de kanaler du redan använder (WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Matrix, IRC, Email, Bluesky, Nostr, Mattermost, Nextcloud Talk, DingTalk, Lark, QQ, Reddit, LinkedIn, Twitter, MQTT, WeChat Work med flera). Den har en webbpanel för realtidskontroll och kan ansluta till hårdvaruperiferienheter (ESP32, STM32, Arduino, Raspberry Pi). Gateway är bara kontrollplanet — produkten är assistenten.
+YantrikClaw är en personlig AI-assistent som du kör på dina egna enheter. Den svarar dig via de kanaler du redan använder (WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Matrix, IRC, Email, Bluesky, Nostr, Mattermost, Nextcloud Talk, DingTalk, Lark, QQ, Reddit, LinkedIn, Twitter, MQTT, WeChat Work med flera). Den har en webbpanel för realtidskontroll och kan ansluta till hårdvaruperiferienheter (ESP32, STM32, Arduino, Raspberry Pi). Gateway är bara kontrollplanet — produkten är assistenten.
 
 Om du vill ha en personlig, enanvändarassistent som känns lokal, snabb och alltid tillgänglig, är det här lösningen.
 
 <p align="center">
-  <a href="https://zeroclawlabs.ai">Webbplats</a> ·
+  <a href="https://yantrikclawlabs.ai">Webbplats</a> ·
   <a href="docs/README.md">Dokumentation</a> ·
   <a href="docs/architecture.md">Arkitektur</a> ·
   <a href="#snabbstart">Kom igång</a> ·
@@ -75,7 +75,7 @@ Om du vill ha en personlig, enanvändarassistent som känns lokal, snabb och all
   <a href="https://discord.com/invite/wDshRVqRjx">Discord</a>
 </p>
 
-> **Rekommenderad konfiguration:** kör `zeroclaw onboard` i din terminal. ZeroClaw Onboard guidar dig steg för steg genom att konfigurera gateway, arbetsyta, kanaler och leverantör. Det är den rekommenderade installationsvägen och fungerar på macOS, Linux och Windows (via WSL2). Ny installation? Börja här: [Kom igång](#snabbstart)
+> **Rekommenderad konfiguration:** kör `yantrikclaw onboard` i din terminal. YantrikClaw Onboard guidar dig steg för steg genom att konfigurera gateway, arbetsyta, kanaler och leverantör. Det är den rekommenderade installationsvägen och fungerar på macOS, Linux och Windows (via WSL2). Ny installation? Börja här: [Kom igång](#snabbstart)
 
 ### Prenumerationsautentisering (OAuth)
 
@@ -95,18 +95,18 @@ Körmiljö: Rust stable toolchain. Enda binär, inga körtidsberoenden.
 ### Homebrew (macOS/Linuxbrew)
 
 ```bash
-brew install zeroclaw
+brew install yantrikclaw
 ```
 
 ### Ett-klicks-installation
 
 ```bash
-git clone https://github.com/zeroclaw-labs/zeroclaw.git
-cd zeroclaw
+git clone https://github.com/yantrikclaw-labs/yantrikclaw.git
+cd yantrikclaw
 ./install.sh
 ```
 
-`zeroclaw onboard` körs automatiskt efter installationen för att konfigurera din arbetsyta och leverantör.
+`yantrikclaw onboard` körs automatiskt efter installationen för att konfigurera din arbetsyta och leverantör.
 
 ## Snabbstart
 
@@ -117,67 +117,67 @@ Fullständig nybörjarguide (autentisering, parkoppling, kanaler): [Kom igång](
 ./install.sh --api-key "sk-..." --provider openrouter
 
 # Starta gateway (webhook-server + webbpanel)
-zeroclaw gateway                # standard: 127.0.0.1:42617
-zeroclaw gateway --port 0       # slumpmässig port (säkerhetshärdad)
+yantrikclaw gateway                # standard: 127.0.0.1:42617
+yantrikclaw gateway --port 0       # slumpmässig port (säkerhetshärdad)
 
 # Prata med assistenten
-zeroclaw agent -m "Hello, ZeroClaw!"
+yantrikclaw agent -m "Hello, YantrikClaw!"
 
 # Interaktivt läge
-zeroclaw agent
+yantrikclaw agent
 
 # Starta full autonom körmiljö (gateway + kanaler + cron + hands)
-zeroclaw daemon
+yantrikclaw daemon
 
 # Kontrollera status
-zeroclaw status
+yantrikclaw status
 
 # Kör diagnostik
-zeroclaw doctor
+yantrikclaw doctor
 ```
 
-Uppgraderar du? Kör `zeroclaw doctor` efter uppdatering.
+Uppgraderar du? Kör `yantrikclaw doctor` efter uppdatering.
 
 ### Från källkod (utveckling)
 
 ```bash
-git clone https://github.com/zeroclaw-labs/zeroclaw.git
-cd zeroclaw
+git clone https://github.com/yantrikclaw-labs/yantrikclaw.git
+cd yantrikclaw
 
 cargo build --release --locked
 cargo install --path . --force --locked
 
-zeroclaw onboard
+yantrikclaw onboard
 ```
 
 > **Utvecklar-fallback (ingen global installation):** prefixera kommandon med `cargo run --release --` (exempel: `cargo run --release -- status`).
 
 ## Migrera från OpenClaw
 
-ZeroClaw kan importera din OpenClaw-arbetsyta, minne och konfiguration:
+YantrikClaw kan importera din OpenClaw-arbetsyta, minne och konfiguration:
 
 ```bash
 # Förhandsgranska vad som migreras (säkert, skrivskyddat)
-zeroclaw migrate openclaw --dry-run
+yantrikclaw migrate openclaw --dry-run
 
 # Kör migreringen
-zeroclaw migrate openclaw
+yantrikclaw migrate openclaw
 ```
 
-Detta migrerar dina minnesposter, arbetsytefiler och konfiguration från `~/.openclaw/` till `~/.zeroclaw/`. Konfiguration konverteras automatiskt från JSON till TOML.
+Detta migrerar dina minnesposter, arbetsytefiler och konfiguration från `~/.openclaw/` till `~/.yantrikclaw/`. Konfiguration konverteras automatiskt från JSON till TOML.
 
 ## Säkerhetsstandarder (DM-åtkomst)
 
-ZeroClaw ansluter till riktiga meddelandeytor. Behandla inkommande DM som opålitlig indata.
+YantrikClaw ansluter till riktiga meddelandeytor. Behandla inkommande DM som opålitlig indata.
 
 Fullständig säkerhetsguide: [SECURITY.md](SECURITY.md)
 
 Standardbeteende på alla kanaler:
 
 - **DM-parkoppling** (standard): okända avsändare får en kort parkopplingskod och boten behandlar inte deras meddelande.
-- Godkänn med: `zeroclaw pairing approve <channel> <code>` (sedan läggs avsändaren till i en lokal tillåtlista).
+- Godkänn med: `yantrikclaw pairing approve <channel> <code>` (sedan läggs avsändaren till i en lokal tillåtlista).
 - Offentliga inkommande DM kräver ett explicit opt-in i `config.toml`.
-- Kör `zeroclaw doctor` för att hitta riskfyllda eller felkonfigurerade DM-policyer.
+- Kör `yantrikclaw doctor` för att hitta riskfyllda eller felkonfigurerade DM-policyer.
 
 **Autonominivåer:**
 
@@ -198,8 +198,8 @@ Använd denna tavla för viktiga meddelanden (brytande ändringar, säkerhetsrå
 
 | Datum (UTC) | Nivå        | Meddelande                                                                                                                                                                                                                                                                                                                                             | Åtgärd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-02-19  | _Kritisk_   | Vi är **inte affilierade** med `openagen/zeroclaw`, `zeroclaw.org` eller `zeroclaw.net`. Domänerna `zeroclaw.org` och `zeroclaw.net` pekar för närvarande till `openagen/zeroclaw`-forken, och den domänen/repositoryt utger sig för att vara vår officiella webbplats/projekt.                                                                         | Lita inte på information, binärer, insamlingar eller meddelanden från dessa källor. Använd bara [detta repository](https://github.com/zeroclaw-labs/zeroclaw) och våra verifierade sociala konton.                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| 2026-02-21  | _Viktigt_   | Vår officiella webbplats är nu live: [zeroclawlabs.ai](https://zeroclawlabs.ai). Tack för ert tålamod medan vi förberedde lanseringen. Vi ser fortfarande imitationsförsök, så **gå inte** med i några investerings- eller insamlingsaktiviteter som hävdar ZeroClaw-namnet om de inte publicerats via våra officiella kanaler.                         | Använd [detta repository](https://github.com/zeroclaw-labs/zeroclaw) som enda sanningskälla. Följ [X (@zeroclawlabs)](https://x.com/zeroclawlabs?s=21), [Facebook (Grupp)](https://www.facebook.com/groups/zeroclawlabs) och [Reddit (r/zeroclawlabs)](https://www.reddit.com/r/zeroclawlabs/) för officiella uppdateringar. |
+| 2026-02-19  | _Kritisk_   | Vi är **inte affilierade** med `openagen/yantrikclaw`, `yantrikclaw.org` eller `yantrikclaw.net`. Domänerna `yantrikclaw.org` och `yantrikclaw.net` pekar för närvarande till `openagen/yantrikclaw`-forken, och den domänen/repositoryt utger sig för att vara vår officiella webbplats/projekt.                                                                         | Lita inte på information, binärer, insamlingar eller meddelanden från dessa källor. Använd bara [detta repository](https://github.com/yantrikclaw-labs/yantrikclaw) och våra verifierade sociala konton.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 2026-02-21  | _Viktigt_   | Vår officiella webbplats är nu live: [yantrikclawlabs.ai](https://yantrikclawlabs.ai). Tack för ert tålamod medan vi förberedde lanseringen. Vi ser fortfarande imitationsförsök, så **gå inte** med i några investerings- eller insamlingsaktiviteter som hävdar YantrikClaw-namnet om de inte publicerats via våra officiella kanaler.                         | Använd [detta repository](https://github.com/yantrikclaw-labs/yantrikclaw) som enda sanningskälla. Följ [X (@yantrikclawlabs)](https://x.com/yantrikclawlabs?s=21), [Facebook (Grupp)](https://www.facebook.com/groups/yantrikclawlabs) och [Reddit (r/yantrikclawlabs)](https://www.reddit.com/r/yantrikclawlabs/) för officiella uppdateringar. |
 | 2026-02-19  | _Viktigt_   | Anthropic uppdaterade villkoren för autentisering och inloggningsanvändning 2026-02-19. Claude Code OAuth-tokens (Free, Pro, Max) är avsedda uteslutande för Claude Code och Claude.ai; att använda OAuth-tokens från Claude Free/Pro/Max i någon annan produkt, verktyg eller tjänst (inklusive Agent SDK) är inte tillåtet och kan bryta mot Consumer Terms of Service. | Undvik tillfälligt Claude Code OAuth-integrationer för att förhindra potentiell förlust. Originalklausul: [Authentication and Credential Use](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use).                                                                                                                                                                                                                                                                                                                                                                              |
 
 ## Höjdpunkter
@@ -219,18 +219,18 @@ Använd denna tavla för viktiga meddelanden (brytande ändringar, säkerhetsrå
 - **Färdighetsplattform** — medföljande, community- och arbetsytefärdigheter med säkerhetsgranskning.
 - **Tunnelstöd** — Cloudflare, Tailscale, ngrok, OpenVPN och anpassade tunnlar för fjärråtkomst.
 
-### Varför team väljer ZeroClaw
+### Varför team väljer YantrikClaw
 
 - **Lean som standard:** liten Rust-binär, snabb start, lågt minnesavtryck.
 - **Säker från grunden:** parkoppling, strikt sandboxning, explicita tillåtlistor, arbetsyteavgränsning.
 - **Fullt utbytbar:** kärnssystem är traits (providers, channels, tools, memory, tunnels).
 - **Inget leverantörslås:** OpenAI-kompatibelt leverantörsstöd + pluggbara anpassade endpoints.
 
-## Benchmarkögonblicksbild (ZeroClaw vs OpenClaw, Reproducerbar)
+## Benchmarkögonblicksbild (YantrikClaw vs OpenClaw, Reproducerbar)
 
 Lokal maskin-snabbtest (macOS arm64, feb 2026) normaliserat för 0.8GHz edge-hårdvara.
 
-|                           | OpenClaw      | NanoBot        | PicoClaw        | ZeroClaw 🦀          |
+|                           | OpenClaw      | NanoBot        | PicoClaw        | YantrikClaw 🦀          |
 | ------------------------- | ------------- | -------------- | --------------- | -------------------- |
 | **Språk**                 | TypeScript    | Python         | Go              | **Rust**             |
 | **RAM**                   | > 1GB         | > 100MB        | < 10MB          | **< 5MB**            |
@@ -238,20 +238,20 @@ Lokal maskin-snabbtest (macOS arm64, feb 2026) normaliserat för 0.8GHz edge-hå
 | **Binärstorlek**          | ~28MB (dist)  | N/A (Scripts)  | ~8MB            | **~8.8 MB**          |
 | **Kostnad**               | Mac Mini $599 | Linux SBC ~$50 | Linux Board $10 | **Vilken hårdvara som helst $10** |
 
-> Noteringar: ZeroClaw-resultat mäts på release-byggen med `/usr/bin/time -l`. OpenClaw kräver Node.js-körmiljö (typiskt ~390MB extra minnesoverhead), medan NanoBot kräver Python-körmiljö. PicoClaw och ZeroClaw är statiska binärer. RAM-siffrorna ovan är körtidsminne; kompileringskrav vid byggtid är högre.
+> Noteringar: YantrikClaw-resultat mäts på release-byggen med `/usr/bin/time -l`. OpenClaw kräver Node.js-körmiljö (typiskt ~390MB extra minnesoverhead), medan NanoBot kräver Python-körmiljö. PicoClaw och YantrikClaw är statiska binärer. RAM-siffrorna ovan är körtidsminne; kompileringskrav vid byggtid är högre.
 
 <p align="center">
-  <img src="docs/assets/zeroclaw-comparison.jpeg" alt="ZeroClaw vs OpenClaw jämförelse" width="800" />
+  <img src="docs/assets/yantrikclaw-comparison.jpeg" alt="YantrikClaw vs OpenClaw jämförelse" width="800" />
 </p>
 
 ### Reproducerbar lokal mätning
 
 ```bash
 cargo build --release
-ls -lh target/release/zeroclaw
+ls -lh target/release/yantrikclaw
 
-/usr/bin/time -l target/release/zeroclaw --help
-/usr/bin/time -l target/release/zeroclaw status
+/usr/bin/time -l target/release/yantrikclaw --help
+/usr/bin/time -l target/release/yantrikclaw status
 ```
 
 ## Allt vi byggt hittills
@@ -368,7 +368,7 @@ Bluesky / Nostr / Mattermost / DingTalk / Lark / QQ / Reddit / MQTT / WebSocket
 
 ## Konfiguration
 
-Minimal `~/.zeroclaw/config.toml`:
+Minimal `~/.yantrikclaw/config.toml`:
 
 ```toml
 default_provider = "anthropic"
@@ -436,35 +436,35 @@ Ställ in `runtime.kind = "docker"` för strikt sandboxning eller nätverksisole
 
 ## Prenumerationsautentisering (OpenAI Codex / Claude Code / Gemini)
 
-ZeroClaw stöder prenumerationsnativa autentiseringsprofiler (multikonto, krypterat i vila).
+YantrikClaw stöder prenumerationsnativa autentiseringsprofiler (multikonto, krypterat i vila).
 
-- Lagringsfil: `~/.zeroclaw/auth-profiles.json`
-- Krypteringsnyckel: `~/.zeroclaw/.secret_key`
+- Lagringsfil: `~/.yantrikclaw/auth-profiles.json`
+- Krypteringsnyckel: `~/.yantrikclaw/.secret_key`
 - Profil-ID-format: `<provider>:<profile_name>` (exempel: `openai-codex:work`)
 
 ```bash
 # OpenAI Codex OAuth (ChatGPT-prenumeration)
-zeroclaw auth login --provider openai-codex --device-code
+yantrikclaw auth login --provider openai-codex --device-code
 
 # Gemini OAuth
-zeroclaw auth login --provider gemini --profile default
+yantrikclaw auth login --provider gemini --profile default
 
 # Anthropic setup-token
-zeroclaw auth paste-token --provider anthropic --profile default --auth-kind authorization
+yantrikclaw auth paste-token --provider anthropic --profile default --auth-kind authorization
 
 # Kontrollera / uppdatera / byt profil
-zeroclaw auth status
-zeroclaw auth refresh --provider openai-codex --profile default
-zeroclaw auth use --provider openai-codex --profile work
+yantrikclaw auth status
+yantrikclaw auth refresh --provider openai-codex --profile default
+yantrikclaw auth use --provider openai-codex --profile work
 
 # Kör agenten med prenumerationsautentisering
-zeroclaw agent --provider openai-codex -m "hello"
-zeroclaw agent --provider anthropic -m "hello"
+yantrikclaw agent --provider openai-codex -m "hello"
+yantrikclaw agent --provider anthropic -m "hello"
 ```
 
 ## Agentarbetsyta + färdigheter
 
-Arbetsyterot: `~/.zeroclaw/workspace/` (konfigurerbart via config).
+Arbetsyterot: `~/.yantrikclaw/workspace/` (konfigurerbart via config).
 
 Injicerade promptfiler:
 - `IDENTITY.md` — agentpersonlighet och roll
@@ -473,74 +473,74 @@ Injicerade promptfiler:
 - `AGENTS.md` — sessionskonventioner och initieringsregler
 - `SOUL.md` — kärnidentitet och operationsprinciper
 
-Färdigheter: `~/.zeroclaw/workspace/skills/<skill>/SKILL.md` eller `SKILL.toml`.
+Färdigheter: `~/.yantrikclaw/workspace/skills/<skill>/SKILL.md` eller `SKILL.toml`.
 
 ```bash
 # Lista installerade färdigheter
-zeroclaw skills list
+yantrikclaw skills list
 
 # Installera från git
-zeroclaw skills install https://github.com/user/my-skill.git
+yantrikclaw skills install https://github.com/user/my-skill.git
 
 # Säkerhetsgranskning före installation
-zeroclaw skills audit https://github.com/user/my-skill.git
+yantrikclaw skills audit https://github.com/user/my-skill.git
 
 # Ta bort en färdighet
-zeroclaw skills remove my-skill
+yantrikclaw skills remove my-skill
 ```
 
 ## CLI-kommandon
 
 ```bash
 # Arbetsytehantering
-zeroclaw onboard              # Guidad installationsguide
-zeroclaw status               # Visa daemon-/agentstatus
-zeroclaw doctor               # Kör systemdiagnostik
+yantrikclaw onboard              # Guidad installationsguide
+yantrikclaw status               # Visa daemon-/agentstatus
+yantrikclaw doctor               # Kör systemdiagnostik
 
 # Gateway + daemon
-zeroclaw gateway              # Starta gateway-server (127.0.0.1:42617)
-zeroclaw daemon               # Starta full autonom körmiljö
+yantrikclaw gateway              # Starta gateway-server (127.0.0.1:42617)
+yantrikclaw daemon               # Starta full autonom körmiljö
 
 # Agent
-zeroclaw agent                # Interaktivt chattläge
-zeroclaw agent -m "message"   # Enstaka meddelandeläge
+yantrikclaw agent                # Interaktivt chattläge
+yantrikclaw agent -m "message"   # Enstaka meddelandeläge
 
 # Tjänstehantering
-zeroclaw service install      # Installera som OS-tjänst (launchd/systemd)
-zeroclaw service start|stop|restart|status
+yantrikclaw service install      # Installera som OS-tjänst (launchd/systemd)
+yantrikclaw service start|stop|restart|status
 
 # Kanaler
-zeroclaw channel list         # Lista konfigurerade kanaler
-zeroclaw channel doctor       # Kontrollera kanalhälsa
-zeroclaw channel bind-telegram 123456789
+yantrikclaw channel list         # Lista konfigurerade kanaler
+yantrikclaw channel doctor       # Kontrollera kanalhälsa
+yantrikclaw channel bind-telegram 123456789
 
 # Cron + schemaläggning
-zeroclaw cron list            # Lista schemalagda jobb
-zeroclaw cron add "*/5 * * * *" --prompt "Check system health"
-zeroclaw cron remove <id>
+yantrikclaw cron list            # Lista schemalagda jobb
+yantrikclaw cron add "*/5 * * * *" --prompt "Check system health"
+yantrikclaw cron remove <id>
 
 # Minne
-zeroclaw memory list          # Lista minnesposter
-zeroclaw memory get <key>     # Hämta ett minne
-zeroclaw memory stats         # Minnesstatistik
+yantrikclaw memory list          # Lista minnesposter
+yantrikclaw memory get <key>     # Hämta ett minne
+yantrikclaw memory stats         # Minnesstatistik
 
 # Autentiseringsprofiler
-zeroclaw auth login --provider <name>
-zeroclaw auth status
-zeroclaw auth use --provider <name> --profile <profile>
+yantrikclaw auth login --provider <name>
+yantrikclaw auth status
+yantrikclaw auth use --provider <name> --profile <profile>
 
 # Hårdvaruperiferienheter
-zeroclaw hardware discover    # Sök efter anslutna enheter
-zeroclaw peripheral list      # Lista anslutna periferienheter
-zeroclaw peripheral flash     # Flasha firmware till enhet
+yantrikclaw hardware discover    # Sök efter anslutna enheter
+yantrikclaw peripheral list      # Lista anslutna periferienheter
+yantrikclaw peripheral flash     # Flasha firmware till enhet
 
 # Migrering
-zeroclaw migrate openclaw --dry-run
-zeroclaw migrate openclaw
+yantrikclaw migrate openclaw --dry-run
+yantrikclaw migrate openclaw
 
 # Shell-kompletteringar
-source <(zeroclaw completions bash)
-zeroclaw completions zsh > ~/.zfunc/_zeroclaw
+source <(yantrikclaw completions bash)
+yantrikclaw completions zsh > ~/.zfunc/_yantrikclaw
 ```
 
 Fullständig kommandoreferens: [docs/reference/cli/commands-reference.md](docs/reference/cli/commands-reference.md)
@@ -608,10 +608,10 @@ Fullständig kommandoreferens: [docs/reference/cli/commands-reference.md](docs/r
 
 #### Enradsinstallerare
 
-Eller hoppa över stegen ovan och installera allt (systemberoenden, Rust, ZeroClaw) med ett enda kommando:
+Eller hoppa över stegen ovan och installera allt (systemberoenden, Rust, YantrikClaw) med ett enda kommando:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/install.sh | bash
+curl -LsSf https://raw.githubusercontent.com/yantrikclaw-labs/yantrikclaw/master/install.sh | bash
 ```
 
 #### Kompileringsresurskrav
@@ -654,7 +654,7 @@ Release-tillgångar publiceras för:
 - Windows: `x86_64`
 
 Ladda ner de senaste tillgångarna från:
-<https://github.com/zeroclaw-labs/zeroclaw/releases/latest>
+<https://github.com/yantrikclaw-labs/yantrikclaw/releases/latest>
 
 ## Dokumentation
 
@@ -664,7 +664,7 @@ Använd dessa när du är förbi onboarding-flödet och vill ha den djupare refe
 - Läs [arkitekturöversikten](docs/architecture.md) för den fullständiga systemmodellen.
 - Använd [konfigurationsreferensen](docs/reference/api/config-reference.md) när du behöver varje nyckel och exempel.
 - Kör Gateway enligt boken med [operationsrunbook](docs/ops/operations-runbook.md).
-- Följ [ZeroClaw Onboard](#snabbstart) för en guidad installation.
+- Följ [YantrikClaw Onboard](#snabbstart) för en guidad installation.
 - Felsök vanliga problem med [felsökningsguiden](docs/ops/troubleshooting.md).
 - Granska [säkerhetsvägledning](docs/security/README.md) innan du exponerar något.
 
@@ -696,14 +696,14 @@ Använd dessa när du är förbi onboarding-flödet och vill ha den djupare refe
 
 ## Smooth Crab 🦀
 
-ZeroClaw byggdes för smooth crab 🦀, en snabb och effektiv AI-assistent. Byggd av Argenis De La Rosa och gemenskapen.
+YantrikClaw byggdes för smooth crab 🦀, en snabb och effektiv AI-assistent. Byggd av Argenis De La Rosa och gemenskapen.
 
-- [zeroclawlabs.ai](https://zeroclawlabs.ai)
-- [@zeroclawlabs](https://x.com/zeroclawlabs)
+- [yantrikclawlabs.ai](https://yantrikclawlabs.ai)
+- [@yantrikclawlabs](https://x.com/yantrikclawlabs)
 
-## Stöd ZeroClaw
+## Stöd YantrikClaw
 
-Om ZeroClaw hjälper ditt arbete och du vill stödja pågående utveckling kan du donera här:
+Om YantrikClaw hjälper ditt arbete och du vill stödja pågående utveckling kan du donera här:
 
 <a href="https://buymeacoffee.com/argenistherose"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee" alt="Buy Me a Coffee" /></a>
 
@@ -720,7 +720,7 @@ Vi bygger öppet eftersom de bästa idéerna kommer från överallt. Om du läse
 
 ## Bidra
 
-Ny till ZeroClaw? Leta efter ärenden märkta [`good first issue`](https://github.com/zeroclaw-labs/zeroclaw/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) — se vår [Bidragsguide](CONTRIBUTING.md#first-time-contributors) för hur du kommer igång. AI/vibe-kodade PR:er är välkomna! 🤖
+Ny till YantrikClaw? Leta efter ärenden märkta [`good first issue`](https://github.com/yantrikclaw-labs/yantrikclaw/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) — se vår [Bidragsguide](CONTRIBUTING.md#first-time-contributors) för hur du kommer igång. AI/vibe-kodade PR:er är välkomna! 🤖
 
 Se [CONTRIBUTING.md](CONTRIBUTING.md) och [CLA.md](docs/contributing/cla.md). Implementera en trait, skicka in en PR:
 
@@ -732,26 +732,26 @@ Se [CONTRIBUTING.md](CONTRIBUTING.md) och [CLA.md](docs/contributing/cla.md). Im
 - Nytt `Memory` → `src/memory/`
 - Ny `Tunnel` → `src/tunnel/`
 - Ny `Peripheral` → `src/peripherals/`
-- Ny `Skill` → `~/.zeroclaw/workspace/skills/<name>/`
+- Ny `Skill` → `~/.yantrikclaw/workspace/skills/<name>/`
 
 <!-- BEGIN:RECENT_CONTRIBUTORS -->
 <!-- END:RECENT_CONTRIBUTORS -->
 
 ## ⚠️ Officiellt repository & varning för imitation
 
-**Detta är det enda officiella ZeroClaw-repositoryt:**
+**Detta är det enda officiella YantrikClaw-repositoryt:**
 
-> https://github.com/zeroclaw-labs/zeroclaw
+> https://github.com/yantrikclaw-labs/yantrikclaw
 
-Alla andra repositorier, organisationer, domäner eller paket som hävdar att vara "ZeroClaw" eller antyder anslutning till ZeroClaw Labs är **obehöriga och inte affilierade med detta projekt**. Kända obehöriga forkar listas i [TRADEMARK.md](docs/maintainers/trademark.md).
+Alla andra repositorier, organisationer, domäner eller paket som hävdar att vara "YantrikClaw" eller antyder anslutning till YantrikClaw Labs är **obehöriga och inte affilierade med detta projekt**. Kända obehöriga forkar listas i [TRADEMARK.md](docs/maintainers/trademark.md).
 
-Om du stöter på imitation eller varumärkesmissbruk, vänligen [öppna ett ärende](https://github.com/zeroclaw-labs/zeroclaw/issues).
+Om du stöter på imitation eller varumärkesmissbruk, vänligen [öppna ett ärende](https://github.com/yantrikclaw-labs/yantrikclaw/issues).
 
 ---
 
 ## Licens
 
-ZeroClaw är dubbellicensierat för maximal öppenhet och bidragsgivarskydd:
+YantrikClaw är dubbellicensierat för maximal öppenhet och bidragsgivarskydd:
 
 | Licens | Användningsfall |
 |--------|-----------------|
@@ -762,7 +762,7 @@ Du kan välja endera licens. **Bidragsgivare beviljar automatiskt rättigheter u
 
 ### Varumärke
 
-**ZeroClaw**-namnet och logotypen är varumärken som tillhör ZeroClaw Labs. Denna licens beviljar inte tillstånd att använda dem för att antyda stöd eller anslutning. Se [TRADEMARK.md](docs/maintainers/trademark.md) för tillåtna och förbjudna användningar.
+**YantrikClaw**-namnet och logotypen är varumärken som tillhör YantrikClaw Labs. Denna licens beviljar inte tillstånd att använda dem för att antyda stöd eller anslutning. Se [TRADEMARK.md](docs/maintainers/trademark.md) för tillåtna och förbjudna användningar.
 
 ### Bidragsgivarskydd
 
@@ -773,12 +773,12 @@ Du kan välja endera licens. **Bidragsgivare beviljar automatiskt rättigheter u
 
 ---
 
-**ZeroClaw** — Noll overhead. Noll kompromiss. Distribuera var som helst. Byt ut vad som helst. 🦀
+**YantrikClaw** — Noll overhead. Noll kompromiss. Distribuera var som helst. Byt ut vad som helst. 🦀
 
 ## Bidragsgivare
 
-<a href="https://github.com/zeroclaw-labs/zeroclaw/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=zeroclaw-labs/zeroclaw" alt="ZeroClaw-bidragsgivare" />
+<a href="https://github.com/yantrikclaw-labs/yantrikclaw/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yantrikclaw-labs/yantrikclaw" alt="YantrikClaw-bidragsgivare" />
 </a>
 
 Denna lista genereras från GitHub-bidragsgivargrafen och uppdateras automatiskt.
@@ -786,11 +786,11 @@ Denna lista genereras från GitHub-bidragsgivargrafen och uppdateras automatiskt
 ## Stjärnhistorik
 
 <p align="center">
-  <a href="https://www.star-history.com/#zeroclaw-labs/zeroclaw&type=date&legend=top-left">
+  <a href="https://www.star-history.com/#yantrikclaw-labs/yantrikclaw&type=date&legend=top-left">
     <picture>
-     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&theme=dark&legend=top-left" />
-     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&legend=top-left" />
-     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=zeroclaw-labs/zeroclaw&type=date&legend=top-left" />
+     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&theme=dark&legend=top-left" />
+     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&legend=top-left" />
+     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=yantrikclaw-labs/yantrikclaw&type=date&legend=top-left" />
     </picture>
   </a>
 </p>

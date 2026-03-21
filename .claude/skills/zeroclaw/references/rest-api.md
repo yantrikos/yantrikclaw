@@ -1,6 +1,6 @@
-# ZeroClaw REST API Reference
+# YantrikClaw REST API Reference
 
-Complete endpoint reference for the ZeroClaw gateway HTTP API.
+Complete endpoint reference for the YantrikClaw gateway HTTP API.
 
 ## Table of Contents
 

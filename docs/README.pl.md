@@ -1,4 +1,4 @@
-# Centrum Dokumentacji ZeroClaw
+# Centrum Dokumentacji YantrikClaw
 
 Ta strona jest głównym punktem wejścia do systemu dokumentacji.
 
@@ -10,7 +10,7 @@ Zlokalizowane centra: [简体中文](README.zh-CN.md) · [日本語](README.ja.m
 
 | Chcę…                                                               | Przeczytaj to                                                                  |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Szybko zainstalować i uruchomić ZeroClaw                            | [README.md (Szybki Start)](../README.md#quick-start)                           |
+| Szybko zainstalować i uruchomić YantrikClaw                            | [README.md (Szybki Start)](../README.md#quick-start)                           |
 | Bootstrap jednym poleceniem                                         | [one-click-bootstrap.md](setup-guides/one-click-bootstrap.md)                   |
 | Znaleźć polecenia według zadania                                    | [commands-reference.md](reference/cli/commands-reference.md)                   |
 | Szybko sprawdzić klucze konfiguracji i wartości domyślne            | [config-reference.md](reference/api/config-reference.md)                       |
