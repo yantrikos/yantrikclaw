@@ -97,7 +97,7 @@ jobs:
           {
               "version": "${VERSION}",
               "description": "Zero overhead. Zero compromise. 100% Rust. The fastest, smallest AI assistant.",
-              "homepage": "https://github.com/zeroclaw-labs/zeroclaw",
+              "homepage": "https://github.com/yantrikos/yantrikclaw",
               "license": "MIT|Apache-2.0",
               "architecture": {
                   "64bit": {
@@ -107,16 +107,16 @@ jobs:
                   }
               },
               "checkver": {
-                  "github": "https://github.com/zeroclaw-labs/zeroclaw"
+                  "github": "https://github.com/yantrikos/yantrikclaw"
               },
               "autoupdate": {
                   "architecture": {
                       "64bit": {
-                          "url": "https://github.com/zeroclaw-labs/zeroclaw/releases/download/v\$version/zeroclaw-x86_64-pc-windows-msvc.zip"
+                          "url": "https://github.com/yantrikos/yantrikclaw/releases/download/v\$version/zeroclaw-x86_64-pc-windows-msvc.zip"
                       }
                   },
                   "hash": {
-                      "url": "https://github.com/zeroclaw-labs/zeroclaw/releases/download/v\$version/SHA256SUMS",
+                      "url": "https://github.com/yantrikos/yantrikclaw/releases/download/v\$version/SHA256SUMS",
                       "regex": "([a-f0-9]{64})\\\\s+zeroclaw-x86_64-pc-windows-msvc\\\\.zip"
                   }
               }

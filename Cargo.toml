@@ -3,13 +3,13 @@ members = [".", "crates/robot-kit"]
 resolver = "2"
 
 [package]
-name = "zeroclawlabs"
-version = "0.5.4"
+name = "yantrikclaw"
+version = "0.1.0"
 edition = "2021"
-authors = ["theonlyhennygod"]
+authors = ["spranab", "theonlyhennygod"]
 license = "MIT OR Apache-2.0"
-description = "Zero overhead. Zero compromise. 100% Rust. The fastest, smallest AI assistant."
-repository = "https://github.com/zeroclaw-labs/zeroclaw"
+description = "Personal AI assistant with cognitive memory, tier-aware tools, and 20+ messaging channels. Fork of ZeroClaw."
+repository = "https://github.com/yantrikos/yantrikclaw"
 readme = "README.md"
 keywords = ["ai", "agent", "cli", "assistant", "chatbot"]
 categories = ["command-line-utilities", "api-bindings"]
