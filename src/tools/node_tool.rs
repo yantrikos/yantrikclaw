@@ -9,7 +9,7 @@ use async_trait::async_trait;
 use tokio::time::Duration;
 
 use crate::gateway::nodes::{NodeInvocation, NodeRegistry};
-use crate::tools::traits::{Tool, ToolResult};
+use crate::tools::traits::{PermissionLevel, Tool, ToolResult};
 
 /// Default timeout for node invocations (30 seconds).
 const NODE_INVOKE_TIMEOUT_SECS: u64 = 30;
@@ -141,6 +141,14 @@ impl Tool for NodeTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "system"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

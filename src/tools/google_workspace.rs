@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::GoogleWorkspaceAllowedOperation;
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
@@ -459,6 +459,14 @@ impl Tool for GoogleWorkspaceTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "integrate"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

@@ -66,6 +66,35 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    depends_on:
+      searxng:
+        condition: service_healthy
+
+  # ── SearXNG — self-hosted metasearch engine ──────────────────────
+  # Provides web search for the agent without API keys.
+  # JSON API: http://searxng:8080/search?q=...&format=json
+  searxng:
+    image: searxng/searxng:latest
+    container_name: zeroclaw-searxng
+    restart: unless-stopped
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:${SEARXNG_PORT:-8888}/
+    volumes:
+      - searxng-data:/etc/searxng
+    ports:
+      - "${SEARXNG_PORT:-8888}:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   zeroclaw-data:
+  searxng-data:

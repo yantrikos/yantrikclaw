@@ -16,6 +16,9 @@ pub mod snapshot;
 pub mod sqlite;
 pub mod traits;
 pub mod vector;
+pub mod yantrikdb;
+#[cfg(feature = "memory-yantrikdb")]
+pub mod yantrikdb_native;
 
 #[allow(unused_imports)]
 pub use backend::{
@@ -59,6 +62,22 @@ where
         MemoryBackendKind::Postgres => postgres_builder(),
         MemoryBackendKind::Qdrant | MemoryBackendKind::Markdown => {
             Ok(Box::new(MarkdownMemory::new(workspace_dir)))
+        }
+        MemoryBackendKind::YantrikDb => {
+            // YantrikDB connects to a running Yantrik Companion server.
+            // The companion URL can be set via YANTRIK_URL env var.
+            let url = std::env::var("YANTRIK_URL").ok();
+            Ok(Box::new(yantrikdb::YantrikDbMemory::new(url.as_deref())))
+        }
+        #[cfg(feature = "memory-yantrikdb")]
+        MemoryBackendKind::YantrikDbNative => {
+            Ok(Box::new(yantrikdb_native::YantrikDbNativeMemory::new(workspace_dir)?))
+        }
+        #[cfg(not(feature = "memory-yantrikdb"))]
+        MemoryBackendKind::YantrikDbNative => {
+            anyhow::bail!(
+                "memory backend 'yantrikdb-native' requested but this build was compiled without `memory-yantrikdb`; rebuild with `--features memory-yantrikdb`"
+            );
         }
         MemoryBackendKind::None => Ok(Box::new(NoneMemory::new())),
         MemoryBackendKind::Unknown => {

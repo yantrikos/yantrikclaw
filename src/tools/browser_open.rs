@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
 use serde_json::json;
@@ -121,6 +121,14 @@ impl Tool for BrowserOpenTool {
                 error: Some(format!("Failed to open system browser: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "browse"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

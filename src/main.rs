@@ -76,6 +76,8 @@ mod approval;
 mod auth;
 mod channels;
 mod commands;
+mod companion_process;
+
 mod rag {
     pub use zeroclaw::rag::*;
 }
@@ -108,6 +110,7 @@ mod skillforge;
 mod skills;
 mod tools;
 mod tunnel;
+mod urge_loop;
 mod util;
 
 use config::Config;
@@ -917,6 +920,7 @@ async fn main() -> Result<()> {
     // All other commands need config loaded first
     let mut config = Box::pin(Config::load_or_init()).await?;
     config.apply_env_overrides();
+    crate::agent::loop_::set_max_permission_level(&config.autonomy.max_permission_level);
     observability::runtime_trace::init_from_config(&config.observability, &config.workspace_dir);
     if config.security.otp.enabled {
         let config_dir = config

@@ -367,6 +367,88 @@ pub struct Config {
     /// `LANG`, or `LC_ALL` environment variables (defaulting to `"en"`).
     #[serde(default)]
     pub locale: Option<String>,
+
+    /// Yantrik Companion configuration (`[companion]`).
+    ///
+    /// When enabled, the companion binary handles LLM inference, cognitive memory
+    /// (YantrikDB), tool execution, bond tracking, personality evolution, and
+    /// proactive cognition (urge pipeline). ZeroClaw acts as the channel/gateway
+    /// layer, forwarding messages via HTTP to the companion.
+    #[serde(default)]
+    pub companion: CompanionConfig,
+}
+
+/// Yantrik Companion configuration.
+///
+/// When enabled, the companion binary handles LLM inference, cognitive memory,
+/// tool execution, proactive triggers, and personality evolution. ZeroClaw
+/// acts purely as a channel/gateway layer forwarding messages via HTTP.
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct CompanionConfig {
+    /// Whether to use the companion as the brain.
+    #[serde(default)]
+    pub enabled: bool,
+
+    /// Companion HTTP API base URL (default: "http://127.0.0.1:8080").
+    #[serde(default = "default_companion_url")]
+    pub url: String,
+
+    /// Auto-start/stop the companion binary as a child process.
+    #[serde(default)]
+    pub manage_process: bool,
+
+    /// Path to the yantrik binary (required when `manage_process` is true).
+    #[serde(default)]
+    pub binary_path: Option<PathBuf>,
+
+    /// Path to the companion config file (passed as `--config` to the binary).
+    #[serde(default)]
+    pub config_path: Option<PathBuf>,
+
+    /// Enable proactive message delivery (urge polling).
+    #[serde(default = "default_companion_proactive")]
+    pub proactive_enabled: bool,
+
+    /// Default channel for delivering proactive messages (e.g. "telegram").
+    #[serde(default)]
+    pub proactive_channel: Option<String>,
+
+    /// Interval in seconds for polling companion urges (default: 30).
+    #[serde(default = "default_companion_urge_interval")]
+    pub urge_poll_interval_secs: u64,
+
+    /// Telegram chat ID for delivering proactive messages.
+    /// Required when proactive_channel is "telegram".
+    #[serde(default)]
+    pub proactive_chat_id: Option<i64>,
+}
+
+impl Default for CompanionConfig {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            url: default_companion_url(),
+            manage_process: false,
+            binary_path: None,
+            config_path: None,
+            proactive_enabled: true,
+            proactive_channel: None,
+            urge_poll_interval_secs: default_companion_urge_interval(),
+            proactive_chat_id: None,
+        }
+    }
+}
+
+fn default_companion_url() -> String {
+    "http://127.0.0.1:8080".to_string()
+}
+
+fn default_companion_proactive() -> bool {
+    true
+}
+
+fn default_companion_urge_interval() -> u64 {
+    30
 }
 
 /// Multi-client workspace isolation configuration.
@@ -2134,9 +2216,14 @@ pub struct WebSearchConfig {
     /// Enable `web_search_tool` for web searches
     #[serde(default)]
     pub enabled: bool,
-    /// Search provider: "duckduckgo" (free, no API key) or "brave" (requires API key)
+    /// Search provider: "searxng" (self-hosted, default), "duckduckgo" (free), or "brave" (requires API key)
     #[serde(default = "default_web_search_provider")]
     pub provider: String,
+    /// SearXNG instance URL (default: "http://127.0.0.1:8888").
+    /// Used when provider is "searxng". ZeroClaw ships a bundled SearXNG
+    /// instance via Docker; set this to point at an external instance if needed.
+    #[serde(default = "default_searxng_url")]
+    pub searxng_url: String,
     /// Brave Search API key (required if provider is "brave")
     #[serde(default)]
     pub brave_api_key: Option<String>,
@@ -2149,7 +2236,11 @@ pub struct WebSearchConfig {
 }
 
 fn default_web_search_provider() -> String {
-    "duckduckgo".into()
+    "searxng".into()
+}
+
+fn default_searxng_url() -> String {
+    "http://127.0.0.1:8888".into()
 }
 
 fn default_web_search_max_results() -> usize {
@@ -2165,6 +2256,7 @@ impl Default for WebSearchConfig {
         Self {
             enabled: false,
             provider: default_web_search_provider(),
+            searxng_url: default_searxng_url(),
             brave_api_key: None,
             max_results: default_web_search_max_results(),
             timeout_secs: default_web_search_timeout_secs(),
@@ -3826,6 +3918,16 @@ pub struct AutonomyConfig {
     /// model in tool specs.
     #[serde(default)]
     pub non_cli_excluded_tools: Vec<String>,
+
+    /// Maximum permission level for tool execution.
+    ///
+    /// Tools whose `permission()` exceeds this level are filtered out of the
+    /// LLM's tool set and blocked at execution time. Levels (lowest to highest):
+    /// `safe`, `standard`, `sensitive`, `dangerous`, `admin`.
+    ///
+    /// Default: `"admin"` (no restriction).
+    #[serde(default = "default_max_permission_level")]
+    pub max_permission_level: String,
 }
 
 fn default_auto_approve() -> Vec<String> {
@@ -3834,6 +3936,10 @@ fn default_auto_approve() -> Vec<String> {
 
 fn default_always_ask() -> Vec<String> {
     vec![]
+}
+
+fn default_max_permission_level() -> String {
+    "admin".into()
 }
 
 fn is_valid_env_var_name(name: &str) -> bool {
@@ -3894,6 +4000,7 @@ impl Default for AutonomyConfig {
             always_ask: default_always_ask(),
             allowed_roots: Vec::new(),
             non_cli_excluded_tools: Vec::new(),
+            max_permission_level: default_max_permission_level(),
         }
     }
 }
@@ -6345,6 +6452,7 @@ impl Default for Config {
             linkedin: LinkedInConfig::default(),
             plugins: PluginsConfig::default(),
             locale: None,
+            companion: CompanionConfig::default(),
         }
     }
 }
@@ -8731,6 +8839,7 @@ mod tests {
     use std::os::unix::fs::PermissionsExt;
     use std::path::PathBuf;
     use std::sync::{Arc, Mutex as StdMutex};
+    use tempfile::TempDir;
     #[cfg(unix)]
     use tempfile::TempDir;
     use tokio::sync::{Mutex, MutexGuard};
@@ -9082,6 +9191,7 @@ default_temperature = 0.7
                 always_ask: vec![],
                 allowed_roots: vec![],
                 non_cli_excluded_tools: vec![],
+                max_permission_level: "admin".into(),
             },
             backup: BackupConfig::default(),
             data_retention: DataRetentionConfig::default(),
@@ -9190,6 +9300,7 @@ default_temperature = 0.7
             linkedin: LinkedInConfig::default(),
             plugins: PluginsConfig::default(),
             locale: None,
+            companion: CompanionConfig::default(),
         };
 
         let toml_str = toml::to_string_pretty(&config).unwrap();
@@ -9527,6 +9638,7 @@ tool_dispatcher = "xml"
             linkedin: LinkedInConfig::default(),
             plugins: PluginsConfig::default(),
             locale: None,
+            companion: CompanionConfig::default(),
         };
 
         config.save().await.unwrap();

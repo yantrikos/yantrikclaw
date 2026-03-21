@@ -3,7 +3,7 @@
 //! Use when user asks to "read register values", "read memory at address", "dump lower memory", etc.
 //! Requires probe feature and Nucleo connected via USB.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 
@@ -135,6 +135,14 @@ impl Tool for HardwareMemoryReadTool {
                 ),
             })
         }
+    }
+
+    fn category(&self) -> &str {
+        "hardware"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Sensitive
     }
 }
 

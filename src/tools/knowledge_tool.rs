@@ -3,7 +3,7 @@
 //! Exposes the knowledge graph to the agent via the `Tool` trait with actions:
 //! capture, search, relate, suggest, expert_find, lessons_extract, graph_stats.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::memory::knowledge_graph::{KnowledgeGraph, NodeType, Relation};
 use async_trait::async_trait;
 use serde_json::json;
@@ -112,6 +112,14 @@ impl Tool for KnowledgeTool {
                 error: Some(format!("unknown action: {other}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "memory"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

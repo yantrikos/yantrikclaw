@@ -43,6 +43,7 @@ pub(crate) mod approval;
 pub(crate) mod auth;
 pub mod channels;
 pub mod commands;
+pub mod companion_process;
 pub mod config;
 pub(crate) mod cost;
 pub(crate) mod cron;
@@ -72,6 +73,7 @@ pub(crate) mod service;
 pub(crate) mod skills;
 pub mod tools;
 pub(crate) mod tunnel;
+pub mod urge_loop;
 pub(crate) mod util;
 
 #[cfg(feature = "plugins-wasm")]

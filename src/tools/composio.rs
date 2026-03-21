@@ -6,7 +6,7 @@
 // This is opt-in. Users who prefer sovereign/local-only mode skip this entirely.
 // The Composio API key is stored in the encrypted secret store.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::policy::ToolOperation;
 use crate::security::SecurityPolicy;
 use anyhow::Context;
@@ -885,6 +885,14 @@ impl Tool for ComposioTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "integrate"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

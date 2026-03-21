@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
 use serde_json::json;
@@ -169,6 +169,14 @@ impl Tool for FileWriteTool {
                 error: Some(format!("Failed to write file: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "files"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

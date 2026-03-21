@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 use std::path::PathBuf;
@@ -109,6 +109,14 @@ impl Tool for ReadSkillTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "files"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

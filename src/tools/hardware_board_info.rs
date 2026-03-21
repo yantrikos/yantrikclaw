@@ -3,7 +3,7 @@
 //! Use when user asks "what board do I have?", "board info", "connected hardware", etc.
 //! Uses probe-rs for Nucleo when available; otherwise static datasheet info.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 
@@ -152,6 +152,14 @@ impl Tool for HardwareBoardInfoTool {
             output,
             error: None,
         })
+    }
+
+    fn category(&self) -> &str {
+        "hardware"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Sensitive
     }
 }
 

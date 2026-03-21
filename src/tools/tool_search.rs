@@ -11,7 +11,7 @@ use std::sync::{Arc, Mutex};
 use async_trait::async_trait;
 
 use crate::tools::mcp_deferred::{ActivatedToolSet, DeferredMcpToolSet};
-use crate::tools::traits::{Tool, ToolResult};
+use crate::tools::traits::{PermissionLevel, Tool, ToolResult};
 
 /// Default maximum number of search results.
 const DEFAULT_MAX_RESULTS: usize = 5;
@@ -134,6 +134,14 @@ impl Tool for ToolSearchTool {
             output,
             error: None,
         })
+    }
+
+    fn category(&self) -> &str {
+        "utility"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

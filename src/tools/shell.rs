@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::runtime::RuntimeAdapter;
 use crate::security::traits::Sandbox;
 use crate::security::SecurityPolicy;
@@ -252,6 +252,14 @@ impl Tool for ShellTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "system"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Dangerous
     }
 }
 

@@ -17,6 +17,51 @@ pub struct ToolSpec {
     pub parameters: serde_json::Value,
 }
 
+/// Permission level required to execute a tool.
+///
+/// Tools declare their minimum permission level via `Tool::permission()`.
+/// The runtime enforces this against the configured maximum permission level.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+pub enum PermissionLevel {
+    /// Read-only operations (git status, file read, web search).
+    Safe = 0,
+    /// Write to local state (file write, git commit).
+    Standard = 1,
+    /// Credential access, remote execution (vault get, ssh run).
+    Sensitive = 2,
+    /// System-level changes (docker exec, kill process, shell).
+    Dangerous = 3,
+    /// Full unrestricted control.
+    Admin = 4,
+}
+
+impl PermissionLevel {
+    /// Parse a permission level from a string (case-insensitive).
+    /// Returns `Admin` for unrecognized values.
+    pub fn from_str_lossy(s: &str) -> Self {
+        match s.trim().to_lowercase().as_str() {
+            "safe" => Self::Safe,
+            "standard" => Self::Standard,
+            "sensitive" => Self::Sensitive,
+            "dangerous" => Self::Dangerous,
+            "admin" => Self::Admin,
+            _ => Self::Admin,
+        }
+    }
+}
+
+impl std::fmt::Display for PermissionLevel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Safe => write!(f, "safe"),
+            Self::Standard => write!(f, "standard"),
+            Self::Sensitive => write!(f, "sensitive"),
+            Self::Dangerous => write!(f, "dangerous"),
+            Self::Admin => write!(f, "admin"),
+        }
+    }
+}
+
 /// Core tool trait — implement for any capability
 #[async_trait]
 pub trait Tool: Send + Sync {
@@ -39,6 +84,18 @@ pub trait Tool: Send + Sync {
             description: self.description().to_string(),
             parameters: self.parameters_schema(),
         }
+    }
+
+    /// Tool category for family-based routing (e.g., "files", "browse", "memory").
+    /// Override to enable tier-aware tool selection.
+    fn category(&self) -> &str {
+        "general"
+    }
+
+    /// Permission level required to execute this tool.
+    /// Override to restrict dangerous tools.
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

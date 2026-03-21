@@ -5,7 +5,7 @@
 //! sprint summaries, and effort estimation.
 
 use super::report_templates;
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 use std::collections::HashMap;
@@ -516,6 +516,14 @@ impl Tool for ProjectIntelTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "utility"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

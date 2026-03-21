@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
 use futures_util::StreamExt;
@@ -261,6 +261,14 @@ impl Tool for WebFetchTool {
             output,
             error: None,
         })
+    }
+
+    fn category(&self) -> &str {
+        "browse"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

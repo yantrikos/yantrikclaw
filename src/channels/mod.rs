@@ -4399,6 +4399,50 @@ pub async fn start_channels(config: Config) -> Result<()> {
             .map(|ch| (ch.name().to_string(), Arc::clone(ch)))
             .collect::<HashMap<_, _>>(),
     );
+
+    // ── Companion process + urge loop ────────────────────────────────
+    if config.companion.enabled {
+        // Start managed companion process if configured.
+        if config.companion.manage_process {
+            if let Some(ref binary_path) = config.companion.binary_path {
+                let proc = std::sync::Arc::new(crate::companion_process::CompanionProcess::new(
+                    binary_path.clone(),
+                    config.companion.config_path.clone(),
+                    &config.companion.url,
+                ));
+                match proc.start().await {
+                    Ok(()) => {
+                        println!("  🧠 Companion: managed process started");
+                        proc.spawn_health_monitor();
+                    }
+                    Err(e) => {
+                        tracing::error!("Failed to start companion process: {e}");
+                    }
+                }
+            } else {
+                tracing::warn!(
+                    "companion.manage_process is true but binary_path is not set"
+                );
+            }
+        }
+
+        // Start urge delivery loop if proactive messages are enabled.
+        if config.companion.proactive_enabled {
+            crate::urge_loop::spawn_urge_loop(
+                Arc::clone(&channels_by_name),
+                crate::urge_loop::UrgeLoopConfig {
+                    companion_url: config.companion.url.clone(),
+                    poll_interval_secs: config.companion.urge_poll_interval_secs,
+                    default_channel: config.companion.proactive_channel.clone(),
+                    proactive_chat_id: config.companion.proactive_chat_id,
+                },
+            );
+            println!("  📣 Companion: urge loop active ({}s interval)", config.companion.urge_poll_interval_secs);
+        }
+
+        println!("  🔗 Companion: {}", config.companion.url);
+    }
+
     let max_in_flight_messages = compute_max_in_flight_messages(channels.len());
 
     println!("  🚦 In-flight message limit: {max_in_flight_messages}");

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::memory::Memory;
 use async_trait::async_trait;
 use serde_json::json;
@@ -85,6 +85,14 @@ impl Tool for MemoryRecallTool {
                 error: Some(format!("Memory recall failed: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "memory"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

@@ -33,6 +33,7 @@ pub mod reliable;
 pub mod router;
 pub mod telnyx;
 pub mod traits;
+pub mod yantrik;
 
 #[allow(unused_imports)]
 pub use traits::{
@@ -1535,6 +1536,11 @@ fn create_provider_with_url_and_options(
                 key,
                 Some(&base_url),
             )))
+        }
+
+        // ── Yantrik Companion (cognitive brain) ────────────
+        "yantrik" | "yantrik-companion" | "companion" => {
+            Ok(Box::new(yantrik::YantrikProvider::new(api_url, key)))
         }
 
         _ => anyhow::bail!(

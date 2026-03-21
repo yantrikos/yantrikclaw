@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 use sha2::{Digest, Sha256};
@@ -295,6 +295,14 @@ impl Tool for BackupTool {
                 error: Some(format!("Unknown command: {other}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "system"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

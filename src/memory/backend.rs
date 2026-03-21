@@ -5,6 +5,8 @@ pub enum MemoryBackendKind {
     Postgres,
     Qdrant,
     Markdown,
+    YantrikDb,
+    YantrikDbNative,
     None,
     Unknown,
 }
@@ -74,6 +76,24 @@ const NONE_PROFILE: MemoryBackendProfile = MemoryBackendProfile {
     optional_dependency: false,
 };
 
+const YANTRIKDB_PROFILE: MemoryBackendProfile = MemoryBackendProfile {
+    key: "yantrikdb",
+    label: "YantrikDB — cognitive memory with relevance scoring, consolidation, and entity graphs",
+    auto_save_default: true,
+    uses_sqlite_hygiene: false,
+    sqlite_based: false,
+    optional_dependency: false,
+};
+
+const YANTRIKDB_NATIVE_PROFILE: MemoryBackendProfile = MemoryBackendProfile {
+    key: "yantrikdb-native",
+    label: "YantrikDB Native — in-process cognitive memory engine (no server needed)",
+    auto_save_default: true,
+    uses_sqlite_hygiene: false,
+    sqlite_based: false,
+    optional_dependency: true,
+};
+
 const CUSTOM_PROFILE: MemoryBackendProfile = MemoryBackendProfile {
     key: "custom",
     label: "Custom backend — extension point",
@@ -105,6 +125,8 @@ pub fn classify_memory_backend(backend: &str) -> MemoryBackendKind {
         "postgres" => MemoryBackendKind::Postgres,
         "qdrant" => MemoryBackendKind::Qdrant,
         "markdown" => MemoryBackendKind::Markdown,
+        "yantrikdb" | "yantrik" => MemoryBackendKind::YantrikDb,
+        "yantrikdb-native" | "yantrik-native" => MemoryBackendKind::YantrikDbNative,
         "none" => MemoryBackendKind::None,
         _ => MemoryBackendKind::Unknown,
     }
@@ -117,6 +139,8 @@ pub fn memory_backend_profile(backend: &str) -> MemoryBackendProfile {
         MemoryBackendKind::Postgres => POSTGRES_PROFILE,
         MemoryBackendKind::Qdrant => QDRANT_PROFILE,
         MemoryBackendKind::Markdown => MARKDOWN_PROFILE,
+        MemoryBackendKind::YantrikDb => YANTRIKDB_PROFILE,
+        MemoryBackendKind::YantrikDbNative => YANTRIKDB_NATIVE_PROFILE,
         MemoryBackendKind::None => NONE_PROFILE,
         MemoryBackendKind::Unknown => CUSTOM_PROFILE,
     }

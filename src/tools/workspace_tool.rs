@@ -2,7 +2,7 @@
 //!
 //! Provides `workspace` subcommands: list, switch, create, info, export.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::workspace::WorkspaceManager;
 use crate::security::policy::ToolOperation;
 use crate::security::SecurityPolicy;
@@ -251,6 +251,14 @@ impl Tool for WorkspaceTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "system"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

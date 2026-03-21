@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::Config;
 use crate::cron::{self, JobType};
 use crate::security::SecurityPolicy;
@@ -147,6 +147,14 @@ impl Tool for CronRunTool {
                 Some("cron job execution failed".to_string())
             },
         })
+    }
+
+    fn category(&self) -> &str {
+        "schedule"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

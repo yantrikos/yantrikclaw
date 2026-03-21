@@ -10,7 +10,7 @@ pub mod types;
 
 use crate::security::policy::ToolOperation;
 use crate::security::SecurityPolicy;
-use crate::tools::traits::{Tool, ToolResult};
+use crate::tools::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 use std::sync::Arc;
@@ -503,6 +503,14 @@ impl Tool for Microsoft365Tool {
                 error: Some(format!("microsoft365.{action} failed: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "integrate"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

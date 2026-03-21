@@ -3,7 +3,7 @@
 //! Provides a built-in set of cloud migration and modernization patterns,
 //! with pattern matching against workload descriptions.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::util::truncate_with_ellipsis;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
@@ -133,6 +133,14 @@ impl Tool for CloudPatternsTool {
                 error: Some(format!("Unknown action '{}'. Valid: match, list", action)),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "cloud"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::{ClassificationRule, Config, DelegateAgentConfig, ModelRouteConfig};
 use crate::security::SecurityPolicy;
 use crate::util::MaybeSet;
@@ -963,6 +963,14 @@ impl Tool for ModelRoutingConfigTool {
                 error: Some(error.to_string()),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "config"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::memory::{Memory, MemoryCategory};
 use crate::security::policy::ToolOperation;
 use crate::security::SecurityPolicy;
@@ -90,6 +90,14 @@ impl Tool for MemoryStoreTool {
                 error: Some(format!("Failed to store memory: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "memory"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

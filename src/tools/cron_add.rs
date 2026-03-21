@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::Config;
 use crate::cron::{
     self, deserialize_maybe_stringified, DeliveryConfig, JobType, Schedule, SessionTarget,
@@ -365,6 +365,14 @@ impl Tool for CronAddTool {
                 error: Some(e.to_string()),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "schedule"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::memory::Memory;
 use crate::security::policy::ToolOperation;
 use crate::security::SecurityPolicy;
@@ -75,6 +75,14 @@ impl Tool for MemoryForgetTool {
                 error: Some(format!("Failed to forget memory: {e}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "memory"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

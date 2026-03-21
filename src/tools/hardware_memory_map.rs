@@ -4,7 +4,7 @@
 //! returns the memory map. Uses probe-rs for Nucleo/STM32 when available; otherwise
 //! returns static maps from datasheets.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 
@@ -140,6 +140,14 @@ impl Tool for HardwareMemoryMapTool {
             output,
             error: None,
         })
+    }
+
+    fn category(&self) -> &str {
+        "hardware"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Sensitive
     }
 }
 

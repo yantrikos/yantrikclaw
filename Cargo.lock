@@ -2334,6 +2334,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42703706b716c37f96a77aea830392ad231f44c9e9a67872fa5548707e11b11c"
 
 [[package]]
+name = "fstr"
+version = "0.2.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "390f4f9e50e38200d6f446be02569f1784e5ce19d7c1aa3f1ff55a885d0d9d18"
+
+[[package]]
 name = "funty"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7639,6 +7645,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "uuid7"
+version = "1.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fc80a662c15d8ec5df0b3b2a9c462c8eac25fcf28b2f40bc86f91cb421b622f"
+dependencies = [
+ "fstr",
+ "rand 0.9.2",
+ "rand_chacha 0.9.0",
+ "rand_core 0.6.4",
+]
+
+[[package]]
 name = "valuable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -9115,6 +9133,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fdd20c5420375476fbd4394763288da7eb0cc0b8c11deed431a91562af7335d3"
 
 [[package]]
+name = "yantrikdb"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "088c39f00c16faf17286ba5c1124c0d1c6996c40d0a66fdc779ebf9f88464703"
+dependencies = [
+ "aes-gcm",
+ "base64",
+ "blake3",
+ "hex",
+ "rand 0.8.5",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tracing",
+ "uuid7",
+ "zstd",
+]
+
+[[package]]
 name = "yoke"
 version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -9274,6 +9312,7 @@ dependencies = [
  "webpki-roots 1.0.6",
  "which",
  "wiremock",
+ "yantrikdb",
  "zip",
 ]
 

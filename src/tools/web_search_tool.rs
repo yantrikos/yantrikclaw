@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use regex::Regex;
 use serde_json::json;
@@ -6,7 +6,8 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 /// Web search tool for searching the internet.
-/// Supports multiple providers: DuckDuckGo (free), Brave (requires API key).
+/// Supports multiple providers: SearXNG (self-hosted, default), DuckDuckGo (free),
+/// Brave (requires API key).
 ///
 /// The Brave API key is resolved lazily at execution time: if the boot-time key
 /// is missing or still encrypted, the tool re-reads `config.toml`, decrypts the
@@ -14,6 +15,8 @@ use std::time::Duration;
 /// keys set or rotated after boot, and encrypted keys, are correctly picked up.
 pub struct WebSearchTool {
     provider: String,
+    /// SearXNG instance base URL (e.g. "http://127.0.0.1:8888").
+    searxng_url: String,
     /// Boot-time key snapshot (may be `None` if not yet configured at startup).
     boot_brave_api_key: Option<String>,
     max_results: usize,
@@ -33,6 +36,7 @@ impl WebSearchTool {
     ) -> Self {
         Self {
             provider: provider.trim().to_lowercase(),
+            searxng_url: "http://127.0.0.1:8888".to_string(),
             boot_brave_api_key: brave_api_key,
             max_results: max_results.clamp(1, 10),
             timeout_secs: timeout_secs.max(1),
@@ -48,6 +52,7 @@ impl WebSearchTool {
     /// key is decrypted via `SecretStore`.
     pub fn new_with_config(
         provider: String,
+        searxng_url: String,
         brave_api_key: Option<String>,
         max_results: usize,
         timeout_secs: u64,
@@ -56,6 +61,7 @@ impl WebSearchTool {
     ) -> Self {
         Self {
             provider: provider.trim().to_lowercase(),
+            searxng_url,
             boot_brave_api_key: brave_api_key,
             max_results: max_results.clamp(1, 10),
             timeout_secs: timeout_secs.max(1),
@@ -246,6 +252,82 @@ impl WebSearchTool {
 
         Ok(lines.join("\n"))
     }
+
+    /// Search via a self-hosted SearXNG instance (JSON API).
+    ///
+    /// SearXNG aggregates results from multiple engines (Google, Bing, DuckDuckGo,
+    /// etc.) without API keys. ZeroClaw ships a bundled SearXNG container.
+    async fn search_searxng(&self, query: &str) -> anyhow::Result<String> {
+        let encoded_query = urlencoding::encode(query);
+        let search_url = format!(
+            "{}/search?q={}&format=json&categories=general&language=en&pageno=1",
+            self.searxng_url.trim_end_matches('/'),
+            encoded_query,
+        );
+
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(self.timeout_secs))
+            .build()?;
+
+        let response = client
+            .get(&search_url)
+            .header("Accept", "application/json")
+            .send()
+            .await?;
+
+        if !response.status().is_success() {
+            anyhow::bail!(
+                "SearXNG search failed with status: {} (is SearXNG running at {}?)",
+                response.status(),
+                self.searxng_url,
+            );
+        }
+
+        let json: serde_json::Value = response.json().await?;
+        self.parse_searxng_results(&json, query)
+    }
+
+    fn parse_searxng_results(
+        &self,
+        json: &serde_json::Value,
+        query: &str,
+    ) -> anyhow::Result<String> {
+        let results = json
+            .get("results")
+            .and_then(|r| r.as_array())
+            .ok_or_else(|| anyhow::anyhow!("Invalid SearXNG response — no 'results' array"))?;
+
+        if results.is_empty() {
+            return Ok(format!("No results found for: {}", query));
+        }
+
+        let mut lines = vec![format!("Search results for: {} (via SearXNG)", query)];
+
+        for (i, result) in results.iter().take(self.max_results).enumerate() {
+            let title = result
+                .get("title")
+                .and_then(|t| t.as_str())
+                .unwrap_or("No title");
+            let url = result.get("url").and_then(|u| u.as_str()).unwrap_or("");
+            let content = result
+                .get("content")
+                .and_then(|c| c.as_str())
+                .unwrap_or("");
+
+            lines.push(format!("{}. {}", i + 1, title));
+            lines.push(format!("   {}", url));
+            if !content.is_empty() {
+                // SearXNG content may contain HTML — strip tags.
+                let clean = strip_tags(content);
+                let clean = clean.trim();
+                if !clean.is_empty() {
+                    lines.push(format!("   {}", clean));
+                }
+            }
+        }
+
+        Ok(lines.join("\n"))
+    }
 }
 
 fn decode_ddg_redirect_url(raw_url: &str) -> String {
@@ -301,10 +383,11 @@ impl Tool for WebSearchTool {
         tracing::info!("Searching web for: {}", query);
 
         let result = match self.provider.as_str() {
+            "searxng" => self.search_searxng(query).await?,
             "duckduckgo" | "ddg" => self.search_duckduckgo(query).await?,
             "brave" => self.search_brave(query).await?,
             _ => anyhow::bail!(
-                "Unknown search provider: '{}'. Set tools.web_search.provider to 'duckduckgo' or 'brave' in config.toml",
+                "Unknown search provider: '{}'. Set web_search.provider to 'searxng', 'duckduckgo', or 'brave' in config.toml",
                 self.provider
             ),
         };
@@ -314,6 +397,14 @@ impl Tool for WebSearchTool {
             output: result,
             error: None,
         })
+    }
+
+    fn category(&self) -> &str {
+        "browse"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 
@@ -437,7 +528,7 @@ mod tests {
 
         // No boot key -- forces reload from config
         let tool =
-            WebSearchTool::new_with_config("brave".to_string(), None, 5, 15, config_path, false);
+            WebSearchTool::new_with_config("brave".to_string(), String::new(), None, 5, 15, config_path, false);
         let key = tool.resolve_brave_api_key().unwrap();
         assert_eq!(key, "fresh-key-from-disk");
     }
@@ -458,6 +549,7 @@ mod tests {
         // Boot key is the encrypted blob -- should trigger reload + decrypt
         let tool = WebSearchTool::new_with_config(
             "brave".to_string(),
+            String::new(),
             Some(encrypted),
             5,
             15,
@@ -478,6 +570,7 @@ mod tests {
 
         let tool = WebSearchTool::new_with_config(
             "brave".to_string(),
+            String::new(),
             None,
             5,
             15,
@@ -498,5 +591,63 @@ mod tests {
         // Now should succeed with the updated key
         let key = tool.resolve_brave_api_key().unwrap();
         assert_eq!(key, "runtime-updated-key");
+    }
+
+    #[test]
+    fn test_parse_searxng_results_empty() {
+        let tool = WebSearchTool::new("searxng".to_string(), None, 5, 15);
+        let json = serde_json::json!({"results": []});
+        let result = tool.parse_searxng_results(&json, "test").unwrap();
+        assert!(result.contains("No results found"));
+    }
+
+    #[test]
+    fn test_parse_searxng_results_with_data() {
+        let tool = WebSearchTool::new("searxng".to_string(), None, 5, 15);
+        let json = serde_json::json!({
+            "results": [
+                {
+                    "title": "Rust Programming",
+                    "url": "https://www.rust-lang.org",
+                    "content": "A language empowering everyone to build reliable software."
+                },
+                {
+                    "title": "Rust Book",
+                    "url": "https://doc.rust-lang.org/book/",
+                    "content": "The <b>Rust</b> Programming Language book."
+                }
+            ]
+        });
+        let result = tool.parse_searxng_results(&json, "rust").unwrap();
+        assert!(result.contains("Rust Programming"));
+        assert!(result.contains("https://www.rust-lang.org"));
+        assert!(result.contains("reliable software"));
+        assert!(result.contains("via SearXNG"));
+        // HTML tags should be stripped
+        assert!(!result.contains("<b>"));
+    }
+
+    #[test]
+    fn test_parse_searxng_results_respects_max() {
+        let tool = WebSearchTool::new("searxng".to_string(), None, 2, 15);
+        let json = serde_json::json!({
+            "results": [
+                {"title": "A", "url": "https://a.com", "content": "a"},
+                {"title": "B", "url": "https://b.com", "content": "b"},
+                {"title": "C", "url": "https://c.com", "content": "c"},
+            ]
+        });
+        let result = tool.parse_searxng_results(&json, "test").unwrap();
+        assert!(result.contains("1. A"));
+        assert!(result.contains("2. B"));
+        assert!(!result.contains("3. C"));
+    }
+
+    #[test]
+    fn test_parse_searxng_results_invalid_response() {
+        let tool = WebSearchTool::new("searxng".to_string(), None, 5, 15);
+        let json = serde_json::json!({"error": "bad request"});
+        let result = tool.parse_searxng_results(&json, "test");
+        assert!(result.is_err());
     }
 }

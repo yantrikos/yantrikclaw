@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 use std::path::{Path, PathBuf};
@@ -128,6 +128,14 @@ impl Tool for DataManagementTool {
                 error: Some(format!("Unknown command: {other}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "system"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

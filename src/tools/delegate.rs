@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::agent::loop_::run_tool_call_loop;
 use crate::config::{DelegateAgentConfig, DelegateToolConfig};
 use crate::observability::traits::{Observer, ObserverEvent, ObserverMetric};
@@ -470,6 +470,14 @@ impl DelegateTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "agent"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::{AutonomyLevel, SecurityPolicy};
 use async_trait::async_trait;
 use serde_json::json;
@@ -563,6 +563,14 @@ impl Tool for GitOperationsTool {
                 error: Some(format!("Unknown operation: {operation}")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "git"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

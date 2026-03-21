@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
 use serde_json::json;
@@ -211,6 +211,14 @@ impl Tool for PushoverTool {
                 error: Some("Pushover API returned an application-level error".into()),
             })
         }
+    }
+
+    fn category(&self) -> &str {
+        "notify"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

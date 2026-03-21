@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use serde_json::json;
 
@@ -146,6 +146,14 @@ impl Tool for CalculatorTool {
                 error: Some(err),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "utility"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

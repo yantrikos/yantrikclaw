@@ -78,6 +78,10 @@ pub mod shell;
 pub mod swarm;
 pub mod text_browser;
 pub mod tool_search;
+pub mod tier;
+pub mod family;
+pub mod mcq;
+pub mod selector;
 pub mod traits;
 pub mod web_fetch;
 pub mod web_search_tool;
@@ -184,6 +188,14 @@ impl Tool for ArcToolRef {
     async fn execute(&self, args: serde_json::Value) -> anyhow::Result<ToolResult> {
         self.0.execute(args).await
     }
+
+    fn category(&self) -> &str {
+        self.0.category()
+    }
+
+    fn permission(&self) -> traits::PermissionLevel {
+        self.0.permission()
+    }
 }
 
 #[derive(Clone)]
@@ -213,6 +225,14 @@ impl Tool for ArcDelegatingTool {
 
     async fn execute(&self, args: serde_json::Value) -> anyhow::Result<ToolResult> {
         self.inner.execute(args).await
+    }
+
+    fn category(&self) -> &str {
+        self.inner.category()
+    }
+
+    fn permission(&self) -> traits::PermissionLevel {
+        self.inner.permission()
     }
 }
 
@@ -415,6 +435,7 @@ pub fn all_tools_with_runtime(
     if root_config.web_search.enabled {
         tool_arcs.push(Arc::new(WebSearchTool::new_with_config(
             root_config.web_search.provider.clone(),
+            root_config.web_search.searxng_url.clone(),
             root_config.web_search.brave_api_key.clone(),
             root_config.web_search.max_results,
             root_config.web_search.timeout_secs,

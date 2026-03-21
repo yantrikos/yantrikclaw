@@ -8,7 +8,7 @@ use async_trait::async_trait;
 use serde_json::json;
 use std::path::PathBuf;
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::SecurityOpsConfig;
 use crate::security::playbook::{
     evaluate_step, load_playbooks, severity_level, Playbook, StepStatus,
@@ -430,6 +430,14 @@ impl Tool for SecurityOpsTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "security"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Sensitive
     }
 }
 

@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::agent::loop_::get_model_switch_state;
 use crate::providers;
 use crate::security::policy::ToolOperation;
@@ -77,6 +77,14 @@ impl Tool for ModelSwitchTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "config"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

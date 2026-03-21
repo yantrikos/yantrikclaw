@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::security::{policy::ToolOperation, SecurityPolicy};
 use async_trait::async_trait;
 use reqwest::Client;
@@ -626,6 +626,14 @@ impl Tool for JiraTool {
                 error: Some(e.to_string()),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "integrate"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

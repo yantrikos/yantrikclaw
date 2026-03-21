@@ -23,6 +23,18 @@ use std::time::{Duration, Instant};
 use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
+/// Global maximum permission level for tool execution, set at startup from config.
+/// Default: "admin" (no restriction). Updated via `set_max_permission_level`.
+static GLOBAL_MAX_PERMISSION_LEVEL: LazyLock<Mutex<String>> =
+    LazyLock::new(|| Mutex::new("admin".to_string()));
+
+/// Set the global maximum permission level (called once at startup from config).
+pub fn set_max_permission_level(level: &str) {
+    if let Ok(mut guard) = GLOBAL_MAX_PERMISSION_LEVEL.lock() {
+        *guard = level.to_string();
+    }
+}
+
 /// Minimum characters per chunk when relaying LLM text to a streaming draft.
 const STREAM_CHUNK_MIN_CHARS: usize = 80;
 
@@ -2320,6 +2332,69 @@ fn maybe_inject_channel_delivery_defaults(
     }
 }
 
+/// Extract tool arguments from a user query for MCQ-selected tools.
+///
+/// For tools with no required parameters, returns an empty object.
+/// For tools with parameters, asks the LLM to produce a JSON object.
+async fn extract_mcq_tool_args(
+    provider: &dyn Provider,
+    model: &str,
+    query: &str,
+    tool_name: &str,
+    schema: &serde_json::Value,
+) -> serde_json::Value {
+    // If the tool has no required parameters, skip LLM arg extraction
+    let required = schema
+        .get("required")
+        .and_then(|r| r.as_array())
+        .map(|a| a.len())
+        .unwrap_or(0);
+    let properties = schema
+        .get("properties")
+        .and_then(|p| p.as_object())
+        .map(|o| o.len())
+        .unwrap_or(0);
+
+    if required == 0 && properties == 0 {
+        return serde_json::json!({});
+    }
+
+    // Build a compact extraction prompt
+    let prompt = format!(
+        "Extract arguments for the tool \"{tool_name}\" from the user's request.\n\
+         Output ONLY valid JSON matching this schema (no extra text):\n\
+         {schema}\n\n\
+         User request: \"{query}\"\n\n\
+         JSON:",
+        schema = serde_json::to_string_pretty(schema).unwrap_or_default(),
+    );
+
+    match provider.simple_chat(&prompt, model, 0.1).await {
+        Ok(response) => {
+            let text = response.trim();
+            // Try to parse JSON from response (may have markdown fences)
+            let json_text = text
+                .strip_prefix("```json")
+                .or_else(|| text.strip_prefix("```"))
+                .and_then(|t| t.strip_suffix("```"))
+                .unwrap_or(text)
+                .trim();
+            serde_json::from_str(json_text).unwrap_or_else(|_| {
+                tracing::warn!(
+                    tool = tool_name,
+                    response = text,
+                    "MCQ arg extraction: failed to parse JSON, using empty args"
+                );
+                serde_json::json!({})
+            })
+        }
+        Err(e) => {
+            tracing::warn!(tool = tool_name, error = %e, "MCQ arg extraction failed");
+            serde_json::json!({})
+        }
+    }
+}
+
 async fn execute_one_tool(
     call_name: &str,
     call_arguments: serde_json::Value,
@@ -2585,6 +2660,93 @@ pub(crate) async fn run_tool_call_loop(
                 }
             }
         }
+
+        // ── Tier-aware tool selection + permission enforcement ─────
+        // 1. Always filter tools by permission level (read from global config).
+        // 2. For smaller models, also apply ToolFamily keyword routing + budget.
+        let max_perm = crate::tools::traits::PermissionLevel::from_str_lossy(
+            &GLOBAL_MAX_PERMISSION_LEVEL.lock().unwrap_or_else(|e| e.into_inner()),
+        );
+        let tier_profile = crate::tools::tier::ModelCapabilityProfile::detect(model);
+        {
+            let user_text = history
+                .iter()
+                .rev()
+                .find(|m| m.role == "user")
+                .map(|m| m.content.as_str())
+                .unwrap_or("");
+            let tool_refs: Vec<&dyn crate::tools::Tool> = tools_registry
+                .iter()
+                .filter(|t| !excluded_tools.iter().any(|ex| ex == t.name()))
+                .map(|t| t.as_ref())
+                .collect();
+            let selected = crate::tools::selector::select_tools_for_tier(
+                user_text,
+                &tier_profile,
+                &tool_refs,
+                max_perm,
+            );
+            tool_specs = crate::tools::selector::filter_specs_by_selection(tool_specs, &selected);
+        }
+
+        // ── MCQ batched selection for Tiny models ──────────────────
+        // Tiny models can't produce structured tool calls. Instead, use MCQ
+        // to pick a tool, extract arguments, execute, feed the result back,
+        // and let the LLM generate the final text response.
+        if tier_profile.uses_mcq_selection() && !tool_specs.is_empty() {
+            let user_text = history
+                .iter()
+                .rev()
+                .find(|m| m.role == "user")
+                .map(|m| m.content.as_str())
+                .unwrap_or("");
+
+            let candidates = crate::tools::mcq::build_candidates(
+                &tool_specs.iter().map(|s| s.name.clone()).collect::<Vec<_>>(),
+                tools_registry,
+            );
+
+            if !candidates.is_empty() {
+                if let Some(tool_name) = crate::tools::mcq::mcq_batch_select(
+                    provider,
+                    model,
+                    user_text,
+                    &candidates,
+                    5,  // batch_size
+                    3,  // max_rounds
+                )
+                .await
+                {
+                    // MCQ selected a tool — extract arguments via a simple LLM call
+                    let tool_spec = tool_specs.iter().find(|s| s.name == tool_name);
+                    let args = if let Some(spec) = tool_spec {
+                        extract_mcq_tool_args(provider, model, user_text, &tool_name, &spec.parameters).await
+                    } else {
+                        serde_json::json!({})
+                    };
+
+                    // Execute the selected tool
+                    let outcome = execute_one_tool(
+                        &tool_name,
+                        args,
+                        tools_registry,
+                        activated_tools,
+                        observer,
+                        cancellation_token.as_ref(),
+                    )
+                    .await?;
+
+                    // Add tool result to history and let LLM generate final text
+                    history.push(ChatMessage::assistant(format!(
+                        "[Tool: {tool_name}] {}", outcome.output
+                    )));
+
+                    // Clear tool_specs so the main LLM call generates text, not tool calls
+                    tool_specs.clear();
+                }
+            }
+        }
+
         let use_native_tools = provider.supports_native_tools() && !tool_specs.is_empty();
 
         let image_marker_count = multimodal::count_image_markers(history);

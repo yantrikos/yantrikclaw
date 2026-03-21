@@ -1,5 +1,5 @@
 use super::linkedin_client::{ImageGenerator, LinkedInClient};
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::{LinkedInContentConfig, LinkedInImageConfig};
 use crate::security::SecurityPolicy;
 use async_trait::async_trait;
@@ -438,6 +438,14 @@ impl Tool for LinkedInTool {
                 error: Some(format!("Unknown action: '{unknown}'")),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "integrate"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

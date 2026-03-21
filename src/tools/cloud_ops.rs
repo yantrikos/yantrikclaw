@@ -4,7 +4,7 @@
 //! cost analysis, and Well-Architected Framework architecture review.
 //! This tool does NOT create, modify, or delete cloud resources.
 
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::CloudOpsConfig;
 use crate::util::truncate_with_ellipsis;
 use async_trait::async_trait;
@@ -116,6 +116,14 @@ impl Tool for CloudOpsTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "cloud"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Safe
     }
 }
 

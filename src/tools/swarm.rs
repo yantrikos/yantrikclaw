@@ -1,4 +1,4 @@
-use super::traits::{Tool, ToolResult};
+use super::traits::{PermissionLevel, Tool, ToolResult};
 use crate::config::{DelegateAgentConfig, SwarmConfig, SwarmStrategy};
 use crate::providers::{self, Provider};
 use crate::security::policy::ToolOperation;
@@ -540,6 +540,14 @@ impl Tool for SwarmTool {
             SwarmStrategy::Parallel => self.execute_parallel(swarm_config, prompt, context).await,
             SwarmStrategy::Router => self.execute_router(swarm_config, prompt, context).await,
         }
+    }
+
+    fn category(&self) -> &str {
+        "agent"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 

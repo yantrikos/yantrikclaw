@@ -11,7 +11,7 @@
 //! invocations.
 
 use crate::security::SecurityPolicy;
-use crate::tools::traits::{Tool, ToolResult};
+use crate::tools::traits::{PermissionLevel, Tool, ToolResult};
 use async_trait::async_trait;
 use regex::Regex;
 use schemars::JsonSchema;
@@ -347,6 +347,14 @@ impl Tool for BrowserDelegateTool {
                 )),
             }),
         }
+    }
+
+    fn category(&self) -> &str {
+        "browse"
+    }
+
+    fn permission(&self) -> PermissionLevel {
+        PermissionLevel::Standard
     }
 }
 
