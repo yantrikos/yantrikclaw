@@ -32,9 +32,9 @@ pub fn select_tools_for_tier(
         .copied()
         .collect();
 
-    // Short-circuit: if total permitted tools fit within budget, pass them all through.
-    // No need for family routing when the registry is small enough.
-    if permitted.len() <= profile.max_tools_per_prompt {
+    // Short-circuit: if total permitted tools fit within budget and family
+    // routing is disabled, pass them all through without filtering.
+    if permitted.len() <= profile.max_tools_per_prompt && !profile.use_family_routing {
         let all_names: Vec<String> = permitted.iter().map(|t| t.name().to_string()).collect();
         debug!(
             tier = %profile.tier,
@@ -85,6 +85,18 @@ pub fn select_tools_for_tier(
         let remaining_budget = profile.max_tools_per_prompt.saturating_sub(selected.len());
         for (tool, _) in scored.iter().take(remaining_budget) {
             selected.push(tool.name().to_string());
+        }
+    }
+
+    // Fallback: if family routing + always-on selected nothing (or only always-on),
+    // and all permitted tools fit within budget, include them all rather than
+    // leaving tools with "general" category stranded.
+    if selected.len() < permitted.len() && permitted.len() <= profile.max_tools_per_prompt {
+        for tool in &permitted {
+            let name = tool.name().to_string();
+            if !selected.contains(&name) {
+                selected.push(name);
+            }
         }
     }
 
