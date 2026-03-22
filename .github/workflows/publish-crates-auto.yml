@@ -2,9 +2,8 @@ name: Auto-sync crates.io
 
 on:
   push:
-    branches: [master]
-    paths:
-      - "Cargo.toml"
+    tags:
+      - "v*"
 
 concurrency:
   group: publish-crates-auto
