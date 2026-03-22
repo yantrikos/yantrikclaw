@@ -9,13 +9,13 @@ use serde::{Deserialize, Serialize};
 /// Broad capability tier derived from model parameter count.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum ModelTier {
-    /// 0.5–1.5B params. Very constrained — MCQ routing, 10 tools max.
+    /// 0.5–1.5B params. Very constrained — MCQ routing, 5 tools max.
     Tiny,
-    /// 1.5–4B params. Limited — structured JSON, 20 tools, basic multi-step.
+    /// 1.5–7B params. Limited — structured JSON, 8 tools, basic multi-step.
     Small,
-    /// 4–14B params. Capable — structured JSON, 25 tools, family routing.
+    /// 7–70B params. Capable — native function calls, 10–15 tools, family routing.
     Medium,
-    /// 14B+ params. Strong — native function calls, 30 tools, full agent loop.
+    /// 70B+ params or cloud APIs. Strong — native function calls, 15+ tools, full agent loop.
     Large,
 }
 
@@ -30,8 +30,8 @@ impl ModelTier {
         if let Some(params_b) = Self::extract_param_count(model) {
             match params_b {
                 x if x < 1.5 => ModelTier::Tiny,
-                x if x < 4.0 => ModelTier::Small,
-                x if x < 14.0 => ModelTier::Medium,
+                x if x < 7.0 => ModelTier::Small,
+                x if x < 70.0 => ModelTier::Medium,
                 _ => ModelTier::Large,
             }
         } else {
@@ -256,7 +256,7 @@ mod tests {
     fn detect_ollama_large() {
         assert_eq!(
             ModelTier::from_model_name("qwen3.5:27b-nothink"),
-            ModelTier::Large
+            ModelTier::Medium
         );
         assert_eq!(ModelTier::from_model_name("llama3.3:70b"), ModelTier::Large);
     }
@@ -328,7 +328,7 @@ mod tests {
             ModelCapabilityProfile::detect("qwen3.5:27b")
                 .always_on_tools()
                 .len(),
-            12
+            10
         );
     }
 
