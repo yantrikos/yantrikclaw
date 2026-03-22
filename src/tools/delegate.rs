@@ -1119,12 +1119,15 @@ mod tests {
             .await
             .unwrap();
 
-        assert!(!result.success);
-        assert!(result
-            .error
-            .as_deref()
-            .unwrap_or("")
-            .contains("maximum tool iterations (2)"));
+        // After the fallback summarization fix, exhausting iterations produces
+        // a best-effort response rather than an error.  The delegate wraps that
+        // in a success ToolResult, so we just verify a non-empty reply was
+        // returned (the old assertion expected an error).
+        assert!(result.success);
+        assert!(
+            !result.output.is_empty(),
+            "expected non-empty fallback response after iteration exhaustion"
+        );
     }
 
     #[tokio::test]

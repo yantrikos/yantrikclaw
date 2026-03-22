@@ -4,7 +4,7 @@ resolver = "2"
 
 [package]
 name = "yantrikclaw"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["spranab", "theonlyhennygod"]
 license = "MIT OR Apache-2.0"
@@ -130,7 +130,7 @@ prost = { version = "0.14", default-features = false, features = ["derive"], opt
 
 # Memory / persistence
 rusqlite = { version = "0.37", features = ["bundled"] }
-yantrikdb = { version = "0.2", optional = true }
+yantrikdb = { version = "0.3", optional = true }
 postgres = { version = "0.19", features = ["with-chrono-0_4"], optional = true }
 chrono = { version = "0.4", default-features = false, features = ["clock", "std", "serde"] }
 chrono-tz = "0.10"

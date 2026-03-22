@@ -1018,12 +1018,22 @@ async fn run_gateway_chat_simple(state: &AppState, message: &str) -> anyhow::Res
         .await
 }
 
-/// Full-featured chat with tools for channel handlers (WhatsApp, Linq, Nextcloud Talk).
+/// Full-featured chat with tools for webhook endpoint.
+///
+/// When tools are configured, uses `process_message` to run the full agent
+/// loop (tool calling, tier-aware selection, etc.). When no tools are available
+/// (e.g. in tests or minimal deployments), falls back to a simple provider call
+/// for speed and compatibility.
 async fn run_gateway_chat_with_tools(
     state: &AppState,
     message: &str,
     session_id: Option<&str>,
 ) -> anyhow::Result<String> {
+    // Fast path: no tools → simple provider call (avoids full agent bootstrap)
+    if state.tools_registry.is_empty() {
+        return run_gateway_chat_simple(state, message).await;
+    }
+
     let config = state.config.lock().clone();
     Box::pin(crate::agent::process_message(config, message, session_id)).await
 }
@@ -1155,7 +1165,7 @@ async fn handle_webhook(
             messages_count: 1,
         });
 
-    match run_gateway_chat_simple(&state, message).await {
+    match run_gateway_chat_with_tools(&state, message, session_id.as_deref()).await {
         Ok(response) => {
             let duration = started_at.elapsed();
             state
@@ -2269,6 +2279,21 @@ mod tests {
         ) -> anyhow::Result<String> {
             self.calls.fetch_add(1, Ordering::SeqCst);
             Ok("ok".into())
+        }
+
+        async fn chat(
+            &self,
+            _request: crate::providers::traits::ChatRequest<'_>,
+            _model: &str,
+            _temperature: f64,
+        ) -> anyhow::Result<crate::providers::traits::ChatResponse> {
+            self.calls.fetch_add(1, Ordering::SeqCst);
+            Ok(crate::providers::traits::ChatResponse {
+                text: Some("ok".into()),
+                tool_calls: vec![],
+                usage: None,
+                reasoning_content: None,
+            })
         }
     }
 

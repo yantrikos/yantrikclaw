@@ -34,11 +34,7 @@ pub struct CompanionProcess {
 }
 
 impl CompanionProcess {
-    pub fn new(
-        binary_path: PathBuf,
-        config_path: Option<PathBuf>,
-        companion_url: &str,
-    ) -> Self {
+    pub fn new(binary_path: PathBuf, config_path: Option<PathBuf>, companion_url: &str) -> Self {
         Self {
             binary_path,
             config_path,
@@ -203,9 +199,7 @@ impl CompanionProcess {
 
                 if this.is_healthy().await {
                     if consecutive_failures > 0 {
-                        info!(
-                            "companion health recovered after {consecutive_failures} failures"
-                        );
+                        info!("companion health recovered after {consecutive_failures} failures");
                         consecutive_failures = 0;
                     }
                 } else {
@@ -264,11 +258,7 @@ mod tests {
 
     #[test]
     fn new_without_config_path() {
-        let proc = CompanionProcess::new(
-            PathBuf::from("yantrik"),
-            None,
-            "http://localhost:9000",
-        );
+        let proc = CompanionProcess::new(PathBuf::from("yantrik"), None, "http://localhost:9000");
         assert!(proc.config_path.is_none());
         assert_eq!(proc.health_url, "http://localhost:9000/health");
     }

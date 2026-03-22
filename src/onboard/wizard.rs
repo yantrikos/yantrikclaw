@@ -2370,7 +2370,9 @@ async fn setup_provider(workspace_dir: &Path) -> Result<(String, String, String,
             style("Custom Provider Setup").white().bold(),
             style("— any OpenAI-compatible API").dim()
         );
-        print_bullet("YantrikClaw works with ANY API that speaks the OpenAI chat completions format.");
+        print_bullet(
+            "YantrikClaw works with ANY API that speaks the OpenAI chat completions format.",
+        );
         print_bullet("Examples: LiteLLM, LocalAI, vLLM, text-generation-webui, LM Studio, etc.");
         println!();
 
@@ -4037,7 +4039,9 @@ fn setup_channels() -> Result<ChannelsConfig> {
                     continue;
                 }
 
-                print_bullet("YantrikClaw reads your iMessage database and replies via AppleScript.");
+                print_bullet(
+                    "YantrikClaw reads your iMessage database and replies via AppleScript.",
+                );
                 print_bullet(
                     "You need to grant Full Disk Access to your terminal in System Settings.",
                 );

@@ -498,6 +498,12 @@ impl OllamaProvider {
             }
         };
 
+        tracing::debug!(
+            "Ollama parsed: tool_calls={}, content_len={}",
+            chat_response.message.tool_calls.len(),
+            chat_response.message.content.len(),
+        );
+
         Ok(chat_response)
     }
 
@@ -824,13 +830,11 @@ impl Provider for OllamaProvider {
     }
 
     fn supports_native_tools(&self) -> bool {
-        // Default to prompt-guided tool calling (XML instructions in system prompt)
-        // because many Ollama-served models do not support Ollama's native
-        // /api/chat tool-calling parameter. Models that lack support silently
-        // ignore the tools array and emit tool-call JSON as plain text, which the
-        // agent loop cannot parse without the XML protocol instructions.
-        // See: https://github.com/yantrikclaw-labs/yantrikclaw/issues/3999
-        false
+        // Ollama supports native tool calling for models that implement it
+        // (Qwen 2.5+, Llama 3.1+, Mistral, etc.). When enabled, the tools
+        // array is sent via /api/chat and the model returns structured
+        // tool_calls in the response rather than text-based XML.
+        true
     }
 
     async fn chat(

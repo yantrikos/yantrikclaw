@@ -9,13 +9,13 @@ use serde::{Deserialize, Serialize};
 /// Broad capability tier derived from model parameter count.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum ModelTier {
-    /// 0.5–1.5B params. Very constrained — MCQ routing, 10 tools max.
+    /// 0.5–1.5B params. Very constrained — MCQ routing, 5 tools max.
     Tiny,
-    /// 1.5–4B params. Limited — structured JSON, 20 tools, basic multi-step.
+    /// 1.5–7B params. Limited — structured JSON, 8 tools, basic multi-step.
     Small,
-    /// 4–14B params. Capable — structured JSON, 25 tools, family routing.
+    /// 7–70B params. Capable — native function calls, 10–15 tools, family routing.
     Medium,
-    /// 14B+ params. Strong — native function calls, 30 tools, full agent loop.
+    /// 70B+ params or cloud APIs. Strong — native function calls, 15+ tools, full agent loop.
     Large,
 }
 
@@ -30,8 +30,8 @@ impl ModelTier {
         if let Some(params_b) = Self::extract_param_count(model) {
             match params_b {
                 x if x < 1.5 => ModelTier::Tiny,
-                x if x < 4.0 => ModelTier::Small,
-                x if x < 14.0 => ModelTier::Medium,
+                x if x < 7.0 => ModelTier::Small,
+                x if x < 70.0 => ModelTier::Medium,
                 _ => ModelTier::Large,
             }
         } else {
@@ -97,7 +97,7 @@ impl std::fmt::Display for ModelTier {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ToolCallMode {
     /// Multiple-choice: "Which tool? A) recall B) web_search" → model outputs "A"
-    MCQ,
+    Mcq,
     /// Model outputs structured JSON: `{"tool": "recall", "args": {"query": "..."}}`
     StructuredJSON,
     /// Standard OpenAI/Anthropic function-calling format via API tools parameter.
@@ -124,8 +124,8 @@ impl ModelCapabilityProfile {
         match tier {
             ModelTier::Tiny => Self {
                 tier,
-                max_tools_per_prompt: 10,
-                tool_call_mode: ToolCallMode::MCQ,
+                max_tools_per_prompt: 5,
+                tool_call_mode: ToolCallMode::Mcq,
                 use_family_routing: false,
                 max_agent_steps: 3,
                 supports_repair_loop: false,
@@ -134,7 +134,7 @@ impl ModelCapabilityProfile {
             },
             ModelTier::Small => Self {
                 tier,
-                max_tools_per_prompt: 20,
+                max_tools_per_prompt: 8,
                 tool_call_mode: ToolCallMode::StructuredJSON,
                 use_family_routing: true,
                 max_agent_steps: 5,
@@ -144,8 +144,8 @@ impl ModelCapabilityProfile {
             },
             ModelTier::Medium => Self {
                 tier,
-                max_tools_per_prompt: 25,
-                tool_call_mode: ToolCallMode::StructuredJSON,
+                max_tools_per_prompt: 10,
+                tool_call_mode: ToolCallMode::NativeFunctionCall,
                 use_family_routing: true,
                 max_agent_steps: 10,
                 supports_repair_loop: true,
@@ -154,9 +154,9 @@ impl ModelCapabilityProfile {
             },
             ModelTier::Large => Self {
                 tier,
-                max_tools_per_prompt: 30,
+                max_tools_per_prompt: 15,
                 tool_call_mode: ToolCallMode::NativeFunctionCall,
-                use_family_routing: false,
+                use_family_routing: true,
                 max_agent_steps: 15,
                 supports_repair_loop: true,
                 max_repair_attempts: 3,
@@ -167,7 +167,57 @@ impl ModelCapabilityProfile {
 
     /// Whether this tier uses MCQ batched selection instead of native function calling.
     pub fn uses_mcq_selection(&self) -> bool {
-        self.tool_call_mode == ToolCallMode::MCQ
+        self.tool_call_mode == ToolCallMode::Mcq
+    }
+
+    /// Tools that are always sent to the model regardless of query.
+    ///
+    /// These are the minimal, high-frequency, low-ambiguity tools that every
+    /// tier should have access to. Additional tools are activated on demand
+    /// via `discover_tools`.
+    pub fn always_on_tools(&self) -> &'static [&'static str] {
+        match self.tier {
+            // Tiny: absolute minimum — discover + recall + calculator
+            ModelTier::Tiny => &["discover_tools", "calculator", "memory_recall"],
+            // Small: + memory write, knowledge, web search, web fetch
+            ModelTier::Small => &[
+                "discover_tools",
+                "calculator",
+                "memory_recall",
+                "memory_store",
+                "knowledge",
+                "web_search",
+                "web_fetch",
+            ],
+            // Medium: + memory forget, file read, content search, web fetch
+            ModelTier::Medium => &[
+                "discover_tools",
+                "calculator",
+                "memory_recall",
+                "memory_store",
+                "memory_forget",
+                "knowledge",
+                "web_search",
+                "web_fetch",
+                "file_read",
+                "content_search",
+            ],
+            // Large: + web fetch, glob search, git (read), project intel
+            ModelTier::Large => &[
+                "discover_tools",
+                "calculator",
+                "memory_recall",
+                "memory_store",
+                "memory_forget",
+                "knowledge",
+                "web_search",
+                "web_fetch",
+                "file_read",
+                "content_search",
+                "glob_search",
+                "project_intel",
+            ],
+        }
     }
 }
 
@@ -206,21 +256,15 @@ mod tests {
     fn detect_ollama_large() {
         assert_eq!(
             ModelTier::from_model_name("qwen3.5:27b-nothink"),
-            ModelTier::Large
+            ModelTier::Medium
         );
-        assert_eq!(
-            ModelTier::from_model_name("llama3.3:70b"),
-            ModelTier::Large
-        );
+        assert_eq!(ModelTier::from_model_name("llama3.3:70b"), ModelTier::Large);
     }
 
     #[test]
     fn detect_huggingface_format() {
         assert_eq!(ModelTier::from_model_name("Qwen3.5-9B"), ModelTier::Medium);
-        assert_eq!(
-            ModelTier::from_model_name("Llama-3.2-1B"),
-            ModelTier::Tiny
-        );
+        assert_eq!(ModelTier::from_model_name("Llama-3.2-1B"), ModelTier::Tiny);
     }
 
     #[test]
@@ -249,7 +293,7 @@ mod tests {
         let profile = ModelCapabilityProfile::detect("qwen3.5:0.6b");
         assert_eq!(profile.tier, ModelTier::Tiny);
         assert!(profile.uses_mcq_selection());
-        assert_eq!(profile.max_tools_per_prompt, 10);
+        assert_eq!(profile.max_tools_per_prompt, 5);
     }
 
     #[test]
@@ -257,7 +301,35 @@ mod tests {
         let profile = ModelCapabilityProfile::detect("gpt-4o");
         assert_eq!(profile.tier, ModelTier::Large);
         assert_eq!(profile.tool_call_mode, ToolCallMode::NativeFunctionCall);
-        assert_eq!(profile.max_tools_per_prompt, 30);
+        assert_eq!(profile.max_tools_per_prompt, 15);
+    }
+
+    #[test]
+    fn always_on_tools_tier_sizes() {
+        assert_eq!(
+            ModelCapabilityProfile::detect("qwen3.5:0.6b")
+                .always_on_tools()
+                .len(),
+            3
+        );
+        assert_eq!(
+            ModelCapabilityProfile::detect("qwen2.5:3b")
+                .always_on_tools()
+                .len(),
+            7
+        );
+        assert_eq!(
+            ModelCapabilityProfile::detect("qwen3.5:9b")
+                .always_on_tools()
+                .len(),
+            10
+        );
+        assert_eq!(
+            ModelCapabilityProfile::detect("qwen3.5:27b")
+                .always_on_tools()
+                .len(),
+            10
+        );
     }
 
     #[test]

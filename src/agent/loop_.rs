@@ -2625,6 +2625,30 @@ pub(crate) async fn run_tool_call_loop(
             return Err(ToolLoopCancelled.into());
         }
 
+        // ── Deadline pressure: warn the model when iterations are running low ──
+        let remaining = max_iterations - iteration;
+        if remaining == 2 {
+            history.push(ChatMessage::system(
+                "IMPORTANT: You have only 2 tool iterations remaining. \
+                 Prioritize producing a final answer. If you have enough information, \
+                 respond with your answer now WITHOUT making more tool calls. \
+                 If you must use a tool, make it your last one — the next iteration \
+                 should be your final text response."
+                    .to_string(),
+            ));
+            tracing::info!("Injected deadline pressure at iteration {iteration}/{max_iterations}");
+        } else if remaining == 1 {
+            history.push(ChatMessage::system(
+                "FINAL ITERATION: You MUST respond with your final answer NOW. \
+                 Do NOT make any tool calls. Summarize everything you have gathered \
+                 and provide your complete answer to the user."
+                    .to_string(),
+            ));
+            tracing::info!(
+                "Injected final-iteration directive at iteration {iteration}/{max_iterations}"
+            );
+        }
+
         // Check if model switch was requested via model_switch tool
         if let Some(ref callback) = model_switch_callback {
             if let Ok(guard) = callback.lock() {
@@ -2665,7 +2689,9 @@ pub(crate) async fn run_tool_call_loop(
         // 1. Always filter tools by permission level (read from global config).
         // 2. For smaller models, also apply ToolFamily keyword routing + budget.
         let max_perm = crate::tools::traits::PermissionLevel::from_str_lossy(
-            &GLOBAL_MAX_PERMISSION_LEVEL.lock().unwrap_or_else(|e| e.into_inner()),
+            &GLOBAL_MAX_PERMISSION_LEVEL
+                .lock()
+                .unwrap_or_else(|e| e.into_inner()),
         );
         let tier_profile = crate::tools::tier::ModelCapabilityProfile::detect(model);
         {
@@ -2680,12 +2706,23 @@ pub(crate) async fn run_tool_call_loop(
                 .filter(|t| !excluded_tools.iter().any(|ex| ex == t.name()))
                 .map(|t| t.as_ref())
                 .collect();
-            let selected = crate::tools::selector::select_tools_for_tier(
+            let mut selected = crate::tools::selector::select_tools_for_tier(
                 user_text,
                 &tier_profile,
                 &tool_refs,
                 max_perm,
             );
+
+            // Merge tools activated via discover_tools during this session
+            {
+                let activated = crate::tools::DISCOVER_TOOLS_ACTIVATED.lock();
+                selected = crate::tools::selector::merge_activated_tools(
+                    selected,
+                    &activated,
+                    tier_profile.max_tools_per_prompt + 5, // allow a few extra for discovered tools
+                );
+            }
+
             tool_specs = crate::tools::selector::filter_specs_by_selection(tool_specs, &selected);
         }
 
@@ -2702,7 +2739,10 @@ pub(crate) async fn run_tool_call_loop(
                 .unwrap_or("");
 
             let candidates = crate::tools::mcq::build_candidates(
-                &tool_specs.iter().map(|s| s.name.clone()).collect::<Vec<_>>(),
+                &tool_specs
+                    .iter()
+                    .map(|s| s.name.clone())
+                    .collect::<Vec<_>>(),
                 tools_registry,
             );
 
@@ -2712,15 +2752,22 @@ pub(crate) async fn run_tool_call_loop(
                     model,
                     user_text,
                     &candidates,
-                    5,  // batch_size
-                    3,  // max_rounds
+                    5, // batch_size
+                    3, // max_rounds
                 )
                 .await
                 {
                     // MCQ selected a tool — extract arguments via a simple LLM call
                     let tool_spec = tool_specs.iter().find(|s| s.name == tool_name);
                     let args = if let Some(spec) = tool_spec {
-                        extract_mcq_tool_args(provider, model, user_text, &tool_name, &spec.parameters).await
+                        extract_mcq_tool_args(
+                            provider,
+                            model,
+                            user_text,
+                            &tool_name,
+                            &spec.parameters,
+                        )
+                        .await
                     } else {
                         serde_json::json!({})
                     };
@@ -2738,7 +2785,8 @@ pub(crate) async fn run_tool_call_loop(
 
                     // Add tool result to history and let LLM generate final text
                     history.push(ChatMessage::assistant(format!(
-                        "[Tool: {tool_name}] {}", outcome.output
+                        "[Tool: {tool_name}] {}",
+                        outcome.output
                     )));
 
                     // Clear tool_specs so the main LLM call generates text, not tool calls
@@ -3367,12 +3415,101 @@ pub(crate) async fn run_tool_call_loop(
         Some(model),
         Some(&turn_id),
         Some(false),
-        Some("agent exceeded maximum tool iterations"),
+        Some("agent exceeded maximum tool iterations — forcing final summary"),
         serde_json::json!({
             "max_iterations": max_iterations,
         }),
     );
-    anyhow::bail!("Agent exceeded maximum tool iterations ({max_iterations})")
+
+    // ── Final summarization call (no tools) ───────────────────────
+    // Instead of bailing with an error (which discards all tool work), make one
+    // last LLM call WITHOUT tools so the model synthesizes a final response from
+    // the accumulated tool results in the conversation history.
+    tracing::warn!(
+        "Agent hit {max_iterations} tool iterations — making final summary call without tools"
+    );
+    history.push(ChatMessage::system(
+        "You have used all available tool iterations. \
+         Based on the tool results gathered so far, provide your best final answer to the user's original request. \
+         Do NOT attempt any more tool calls — just summarize what you found and answer the question."
+            .to_string(),
+    ));
+
+    if let Some(ref tx) = on_delta {
+        let _ = tx
+            .send("\u{1f4dd} Summarizing results...\n".to_string())
+            .await;
+    }
+
+    let prepared_messages =
+        multimodal::prepare_messages_for_provider(history, multimodal_config).await?;
+
+    let summary_result = provider
+        .chat(
+            ChatRequest {
+                messages: &prepared_messages.messages,
+                tools: None, // No tools — force text response
+            },
+            model,
+            temperature,
+        )
+        .await;
+
+    match summary_result {
+        Ok(resp) => {
+            let summary_text = resp.text.clone().unwrap_or_default();
+            let display = strip_tool_result_blocks(&summary_text);
+
+            runtime_trace::record_event(
+                "turn_final_response",
+                Some(channel_name),
+                Some(provider_name),
+                Some(model),
+                Some(&turn_id),
+                Some(true),
+                None,
+                serde_json::json!({
+                    "iteration": "summary_after_exhaustion",
+                    "text": scrub_credentials(&display),
+                }),
+            );
+
+            if let Some(ref tx) = on_delta {
+                let _ = tx.send(DRAFT_CLEAR_SENTINEL.to_string()).await;
+                let mut chunk = String::new();
+                for word in display.split_inclusive(char::is_whitespace) {
+                    chunk.push_str(word);
+                    if chunk.len() >= STREAM_CHUNK_MIN_CHARS
+                        && tx.send(std::mem::take(&mut chunk)).await.is_err()
+                    {
+                        break;
+                    }
+                }
+                if !chunk.is_empty() {
+                    let _ = tx.send(chunk).await;
+                }
+            }
+            history.push(ChatMessage::assistant(summary_text));
+            Ok(display)
+        }
+        Err(e) => {
+            // If even the summary call fails, return the last tool results as-is
+            // rather than losing everything.
+            let fallback = history
+                .iter()
+                .rev()
+                .find(|m| m.role == "assistant" && !m.content.is_empty())
+                .map(|m| m.content.clone())
+                .unwrap_or_else(|| {
+                    format!(
+                        "I completed {max_iterations} rounds of tool calls but could not \
+                         generate a final summary. Error: {}",
+                        crate::providers::sanitize_api_error(&e.to_string())
+                    )
+                });
+            Ok(fallback)
+        }
+    }
 }
 
 /// Build the tool instruction block for the system prompt so the LLM knows

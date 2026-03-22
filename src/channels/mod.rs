@@ -4420,9 +4420,7 @@ pub async fn start_channels(config: Config) -> Result<()> {
                     }
                 }
             } else {
-                tracing::warn!(
-                    "companion.manage_process is true but binary_path is not set"
-                );
+                tracing::warn!("companion.manage_process is true but binary_path is not set");
             }
         }
 
@@ -4437,7 +4435,10 @@ pub async fn start_channels(config: Config) -> Result<()> {
                     proactive_chat_id: config.companion.proactive_chat_id,
                 },
             );
-            println!("  📣 Companion: urge loop active ({}s interval)", config.companion.urge_poll_interval_secs);
+            println!(
+                "  📣 Companion: urge loop active ({}s interval)",
+                config.companion.urge_poll_interval_secs
+            );
         }
 
         println!("  🔗 Companion: {}", config.companion.url);
@@ -4594,7 +4595,11 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         // Create minimal workspace files
         std::fs::write(tmp.path().join("SOUL.md"), "# Soul\nBe helpful.").unwrap();
-        std::fs::write(tmp.path().join("IDENTITY.md"), "# Identity\nName: YantrikClaw").unwrap();
+        std::fs::write(
+            tmp.path().join("IDENTITY.md"),
+            "# Identity\nName: YantrikClaw",
+        )
+        .unwrap();
         std::fs::write(tmp.path().join("USER.md"), "# User\nName: Test User").unwrap();
         std::fs::write(
             tmp.path().join("AGENTS.md"),
@@ -6503,8 +6508,19 @@ BTC is currently around $65,000 based on latest tool output."#
         let sent_messages = channel_impl.sent_messages.lock().await;
         assert!(!sent_messages.is_empty());
         let reply = sent_messages.last().unwrap();
-        assert!(reply.starts_with("chat-iter-fail:"));
-        assert!(reply.contains("⚠️ Error: Agent exceeded maximum tool iterations (3)"));
+        assert!(
+            reply.starts_with("chat-iter-fail:"),
+            "reply should target the correct chat: {reply}"
+        );
+        // After the recipe fix, the agent no longer errors on exhaustion — it
+        // returns a fallback response (summary or last assistant text) instead
+        // of discarding all work.  The exact wording depends on the mock
+        // provider, so just verify a non-empty reply was sent.
+        let reply_text = reply.strip_prefix("chat-iter-fail:").unwrap_or(reply);
+        assert!(
+            !reply_text.is_empty(),
+            "agent should produce a fallback reply after exhausting iterations"
+        );
     }
 
     struct NoopMemory;

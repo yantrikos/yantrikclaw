@@ -274,7 +274,8 @@ impl Memory for YantrikDbMemory {
 
         match self.client.delete(&url).send().await {
             Ok(r) if r.status().is_success() => {
-                let res: ForgetResponse = r.json().await.unwrap_or(ForgetResponse { deleted: true });
+                let res: ForgetResponse =
+                    r.json().await.unwrap_or(ForgetResponse { deleted: true });
                 Ok(res.deleted)
             }
             Ok(r) => {
@@ -296,7 +297,7 @@ impl Memory for YantrikDbMemory {
         match self.client.get(&url).send().await {
             Ok(r) if r.status().is_success() => {
                 let status: StatusResponse = r.json().await?;
-                Ok(status.memory_count as usize)
+                Ok(usize::try_from(status.memory_count).unwrap_or(0))
             }
             Ok(_) | Err(_) => {
                 // Fallback: try dedicated count endpoint.
@@ -315,12 +316,11 @@ impl Memory for YantrikDbMemory {
     async fn health_check(&self) -> bool {
         let url = format!("{}/health", self.base_url);
         match self.client.get(&url).send().await {
-            Ok(r) if r.status().is_success() => {
-                r.json::<HealthResponse>()
-                    .await
-                    .map(|h| h.ok)
-                    .unwrap_or(false)
-            }
+            Ok(r) if r.status().is_success() => r
+                .json::<HealthResponse>()
+                .await
+                .map(|h| h.ok)
+                .unwrap_or(false),
             _ => false,
         }
     }
@@ -344,7 +344,10 @@ mod tests {
 
     #[test]
     fn parse_category_known() {
-        assert_eq!(YantrikDbMemory::parse_category("core"), MemoryCategory::Core);
+        assert_eq!(
+            YantrikDbMemory::parse_category("core"),
+            MemoryCategory::Core
+        );
         assert_eq!(
             YantrikDbMemory::parse_category("daily"),
             MemoryCategory::Daily

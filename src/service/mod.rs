@@ -150,7 +150,11 @@ fn start_linux(init_system: InitSystem) -> Result<()> {
     match init_system {
         InitSystem::Systemd => {
             run_checked(Command::new("systemctl").args(["--user", "daemon-reload"]))?;
-            run_checked(Command::new("systemctl").args(["--user", "start", "yantrikclaw.service"]))?;
+            run_checked(Command::new("systemctl").args([
+                "--user",
+                "start",
+                "yantrikclaw.service",
+            ]))?;
         }
         InitSystem::Openrc => {
             run_checked(Command::new("rc-service").args(["yantrikclaw", "start"]))?;
@@ -191,8 +195,11 @@ fn stop(config: &Config, init_system: InitSystem) -> Result<()> {
 fn stop_linux(init_system: InitSystem) -> Result<()> {
     match init_system {
         InitSystem::Systemd => {
-            let _ =
-                run_checked(Command::new("systemctl").args(["--user", "stop", "yantrikclaw.service"]));
+            let _ = run_checked(Command::new("systemctl").args([
+                "--user",
+                "stop",
+                "yantrikclaw.service",
+            ]));
         }
         InitSystem::Openrc => {
             let _ = run_checked(Command::new("rc-service").args(["yantrikclaw", "stop"]));
@@ -230,7 +237,11 @@ fn restart_linux(init_system: InitSystem) -> Result<()> {
     match init_system {
         InitSystem::Systemd => {
             run_checked(Command::new("systemctl").args(["--user", "daemon-reload"]))?;
-            run_checked(Command::new("systemctl").args(["--user", "restart", "yantrikclaw.service"]))?;
+            run_checked(Command::new("systemctl").args([
+                "--user",
+                "restart",
+                "yantrikclaw.service",
+            ]))?;
         }
         InitSystem::Openrc => {
             run_checked(Command::new("rc-service").args(["yantrikclaw", "restart"]))?;
@@ -552,7 +563,8 @@ fn install_linux_systemd(config: &Config) -> Result<()> {
 
     fs::write(&file, unit)?;
     let _ = run_checked(Command::new("systemctl").args(["--user", "daemon-reload"]));
-    let _ = run_checked(Command::new("systemctl").args(["--user", "enable", "yantrikclaw.service"]));
+    let _ =
+        run_checked(Command::new("systemctl").args(["--user", "enable", "yantrikclaw.service"]));
     println!("✅ Installed systemd user service: {}", file.display());
     println!("   Start with: yantrikclaw service start");
     Ok(())
@@ -576,7 +588,9 @@ fn is_root() -> bool {
 /// Returns Ok if user doesn't exist (OpenRC will handle creation or fail gracefully).
 /// Returns error if user exists but has unexpected properties.
 fn check_yantrikclaw_user() -> Result<()> {
-    let output = Command::new("getent").args(["passwd", "yantrikclaw"]).output();
+    let output = Command::new("getent")
+        .args(["passwd", "yantrikclaw"])
+        .output();
     let is_alpine = Path::new("/etc/alpine-release").exists();
 
     let (del_cmd, add_cmd) = if is_alpine {
@@ -585,7 +599,10 @@ fn check_yantrikclaw_user() -> Result<()> {
             "addgroup -S yantrikclaw && adduser -S -s /sbin/nologin -H -D -G yantrikclaw yantrikclaw",
         )
     } else {
-        ("userdel yantrikclaw", "useradd -r -s /sbin/nologin yantrikclaw")
+        (
+            "userdel yantrikclaw",
+            "useradd -r -s /sbin/nologin yantrikclaw",
+        )
     };
 
     match output {
@@ -632,7 +649,9 @@ fn check_yantrikclaw_user() -> Result<()> {
 }
 
 fn ensure_yantrikclaw_user() -> Result<()> {
-    let output = Command::new("getent").args(["passwd", "yantrikclaw"]).output();
+    let output = Command::new("getent")
+        .args(["passwd", "yantrikclaw"])
+        .output();
     if let Ok(output) = output {
         if output.status.success() {
             return check_yantrikclaw_user();
@@ -642,7 +661,9 @@ fn ensure_yantrikclaw_user() -> Result<()> {
     let is_alpine = Path::new("/etc/alpine-release").exists();
 
     if is_alpine {
-        let group_output = Command::new("getent").args(["group", "yantrikclaw"]).output();
+        let group_output = Command::new("getent")
+            .args(["group", "yantrikclaw"])
+            .output();
         let group_exists = group_output.map(|o| o.status.success()).unwrap_or(false);
 
         if !group_exists {
@@ -1423,7 +1444,10 @@ mod tests {
     fn detect_homebrew_var_dir_from_cellar_path() {
         let exe = PathBuf::from("/opt/homebrew/Cellar/yantrikclaw/1.2.3/bin/yantrikclaw");
         let var_dir = detect_homebrew_var_dir(&exe);
-        assert_eq!(var_dir, Some(PathBuf::from("/opt/homebrew/var/yantrikclaw")));
+        assert_eq!(
+            var_dir,
+            Some(PathBuf::from("/opt/homebrew/var/yantrikclaw"))
+        );
     }
 
     #[test]

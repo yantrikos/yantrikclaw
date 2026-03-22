@@ -408,7 +408,10 @@ impl Provider for OpenRouterProvider {
             .http_client()
             .post("https://openrouter.ai/api/v1/chat/completions")
             .header("Authorization", format!("Bearer {credential}"))
-            .header("HTTP-Referer", "https://github.com/yantrikclaw-labs/yantrikclaw")
+            .header(
+                "HTTP-Referer",
+                "https://github.com/yantrikclaw-labs/yantrikclaw",
+            )
             .header("X-Title", "YantrikClaw")
             .json(&request)
             .send()
@@ -457,7 +460,10 @@ impl Provider for OpenRouterProvider {
             .http_client()
             .post("https://openrouter.ai/api/v1/chat/completions")
             .header("Authorization", format!("Bearer {credential}"))
-            .header("HTTP-Referer", "https://github.com/yantrikclaw-labs/yantrikclaw")
+            .header(
+                "HTTP-Referer",
+                "https://github.com/yantrikclaw-labs/yantrikclaw",
+            )
             .header("X-Title", "YantrikClaw")
             .json(&request)
             .send()
@@ -504,7 +510,10 @@ impl Provider for OpenRouterProvider {
             .http_client()
             .post("https://openrouter.ai/api/v1/chat/completions")
             .header("Authorization", format!("Bearer {credential}"))
-            .header("HTTP-Referer", "https://github.com/yantrikclaw-labs/yantrikclaw")
+            .header(
+                "HTTP-Referer",
+                "https://github.com/yantrikclaw-labs/yantrikclaw",
+            )
             .header("X-Title", "YantrikClaw")
             .json(&native_request)
             .send()
@@ -598,7 +607,10 @@ impl Provider for OpenRouterProvider {
             .http_client()
             .post("https://openrouter.ai/api/v1/chat/completions")
             .header("Authorization", format!("Bearer {credential}"))
-            .header("HTTP-Referer", "https://github.com/yantrikclaw-labs/yantrikclaw")
+            .header(
+                "HTTP-Referer",
+                "https://github.com/yantrikclaw-labs/yantrikclaw",
+            )
             .header("X-Title", "YantrikClaw")
             .json(&native_request)
             .send()

@@ -41,55 +41,130 @@ impl ToolFamily {
     ];
 
     /// Keywords that map to this family (for lightweight routing).
-    pub fn keywords(&self) -> &'static [&'static str] {
+    pub fn keywords(self) -> &'static [&'static str] {
         match self {
             ToolFamily::Communicate => &[
-                "email", "mail", "inbox", "send", "reply", "message",
-                "whatsapp", "telegram", "notify", "notification", "draft",
+                "email",
+                "mail",
+                "inbox",
+                "send",
+                "reply",
+                "message",
+                "whatsapp",
+                "telegram",
+                "notify",
+                "notification",
+                "draft",
             ],
             ToolFamily::Schedule => &[
-                "calendar", "event", "meeting", "schedule", "appointment",
-                "today", "tomorrow", "free time", "busy", "agenda",
-                "cron", "recurring",
+                "calendar",
+                "event",
+                "meeting",
+                "schedule",
+                "appointment",
+                "today",
+                "tomorrow",
+                "free time",
+                "busy",
+                "agenda",
+                "cron",
+                "recurring",
             ],
             ToolFamily::Remember => &[
-                "remember", "recall", "memory", "memories", "forget",
-                "note", "notes", "what did", "preference",
+                "remember",
+                "recall",
+                "memory",
+                "memories",
+                "forget",
+                "note",
+                "notes",
+                "what did",
+                "preference",
             ],
             ToolFamily::Browse => &[
-                "search", "browse", "website", "web", "url", "http", "fetch",
-                "download", "look up", "find online", "google",
+                "search",
+                "browse",
+                "website",
+                "web",
+                "url",
+                "http",
+                "fetch",
+                "download",
+                "look up",
+                "find online",
+                "google",
             ],
             ToolFamily::Files => &[
-                "file", "read", "write", "directory", "folder", "edit",
-                "grep", "glob", "code", "script", "save file", "git",
+                "file",
+                "read",
+                "write",
+                "directory",
+                "folder",
+                "edit",
+                "grep",
+                "glob",
+                "code",
+                "script",
+                "save file",
+                "git",
             ],
             ToolFamily::System => &[
-                "system", "process", "disk", "cpu", "reminder", "timer",
-                "alarm", "uptime", "run command", "execute", "screenshot",
-                "vault", "password", "credential", "secret", "calculate",
+                "system",
+                "process",
+                "disk",
+                "cpu",
+                "reminder",
+                "timer",
+                "alarm",
+                "uptime",
+                "run command",
+                "execute",
+                "screenshot",
+                "vault",
+                "password",
+                "credential",
+                "secret",
+                "calculate",
             ],
             ToolFamily::Delegate => &[
-                "parallel", "simultaneously", "multiple tasks", "spawn",
-                "complex", "analyze deeply", "think hard", "delegate", "swarm",
+                "parallel",
+                "simultaneously",
+                "multiple tasks",
+                "spawn",
+                "complex",
+                "analyze deeply",
+                "think hard",
+                "delegate",
+                "swarm",
             ],
             ToolFamily::World => &[
-                "weather", "temperature", "forecast", "rain", "news",
-                "jira", "notion", "linkedin", "cloud", "backup",
-                "composio", "integration",
+                "weather",
+                "temperature",
+                "forecast",
+                "rain",
+                "news",
+                "jira",
+                "notion",
+                "linkedin",
+                "cloud",
+                "backup",
+                "composio",
+                "integration",
             ],
         }
     }
 
     /// YantrikClaw tool categories that belong to this family.
-    pub fn categories(&self) -> &'static [&'static str] {
+    pub fn categories(self) -> &'static [&'static str] {
         match self {
             ToolFamily::Communicate => &["integrate"],
             ToolFamily::Schedule => &["schedule"],
             ToolFamily::Remember => &["memory"],
             ToolFamily::Browse => &["browse"],
             ToolFamily::Files => &["files", "git"],
-            ToolFamily::System => &["system", "utility", "media", "security", "hardware", "config", "sop"],
+            ToolFamily::System => &[
+                "system", "utility", "media", "security", "hardware", "config", "sop",
+            ],
             ToolFamily::Delegate => &["agent"],
             ToolFamily::World => &["integrate", "cloud", "notify"],
         }
@@ -123,7 +198,7 @@ impl ToolFamily {
     }
 
     /// Check if a tool category belongs to this family.
-    pub fn matches_category(&self, category: &str) -> bool {
+    pub fn matches_category(self, category: &str) -> bool {
         self.categories().contains(&category)
     }
 }

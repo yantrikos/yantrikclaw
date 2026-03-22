@@ -7,12 +7,116 @@
 use crate::memory::traits::{Memory, MemoryCategory, MemoryEntry};
 use async_trait::async_trait;
 use parking_lot::Mutex;
+use std::collections::HashMap;
 use std::path::PathBuf;
 use tracing::{debug, warn};
 use yantrikdb::YantrikDB;
 
 const DEFAULT_EMBEDDING_DIM: usize = 384;
 const DEFAULT_DB_FILENAME: &str = "yantrikdb.sqlite";
+
+/// Lightweight hash-based text embedder for in-process use.
+///
+/// Uses character n-gram hashing to produce fixed-size vectors without any
+/// external ML model. Not as semantically rich as sentence-transformers but
+/// sufficient for keyword-level recall and runs anywhere with zero dependencies.
+struct HashEmbedder {
+    dim: usize,
+}
+
+impl HashEmbedder {
+    fn new(dim: usize) -> Self {
+        Self { dim }
+    }
+
+    /// Simple FNV-1a-inspired hash for a byte slice.
+    fn fnv_hash(bytes: &[u8]) -> u64 {
+        let mut h: u64 = 0xcbf29ce484222325;
+        for &b in bytes {
+            h ^= b as u64;
+            h = h.wrapping_mul(0x100000001b3);
+        }
+        h
+    }
+}
+
+impl yantrikdb::Embedder for HashEmbedder {
+    fn embed(
+        &self,
+        text: &str,
+    ) -> std::result::Result<Vec<f32>, Box<dyn std::error::Error + Send + Sync>> {
+        let mut vec = vec![0.0f32; self.dim];
+        let lower = text.to_lowercase();
+        let words: Vec<&str> = lower.split_whitespace().collect();
+
+        // Word-level hashing
+        for word in &words {
+            let h = Self::fnv_hash(word.as_bytes());
+            let idx = (h as usize) % self.dim;
+            // Use sign bit for positive/negative projection (sparse random projection)
+            if (h >> 32) & 1 == 0 {
+                vec[idx] += 1.0;
+            } else {
+                vec[idx] -= 1.0;
+            }
+        }
+
+        // Character trigram hashing for partial matching
+        let chars: Vec<char> = lower.chars().collect();
+        for window in chars.windows(3) {
+            let s: String = window.iter().collect();
+            let h = Self::fnv_hash(s.as_bytes());
+            let idx = (h as usize) % self.dim;
+            if (h >> 32) & 1 == 0 {
+                vec[idx] += 0.3;
+            } else {
+                vec[idx] -= 0.3;
+            }
+        }
+
+        // Word bigram hashing for phrase-level similarity
+        for pair in words.windows(2) {
+            let bigram = format!("{} {}", pair[0], pair[1]);
+            let h = Self::fnv_hash(bigram.as_bytes());
+            let idx = (h as usize) % self.dim;
+            if (h >> 32) & 1 == 0 {
+                vec[idx] += 0.5;
+            } else {
+                vec[idx] -= 0.5;
+            }
+        }
+
+        // TF-IDF-like weighting: rarer tokens get higher weight via inverse frequency heuristic
+        let mut word_counts: HashMap<&str, usize> = HashMap::new();
+        for w in &words {
+            *word_counts.entry(w).or_default() += 1;
+        }
+        let n = words.len().max(1) as f32;
+        for (word, count) in &word_counts {
+            let tf = *count as f32 / n;
+            // Longer words tend to be more specific (heuristic IDF proxy)
+            let idf = 1.0 + (word.len() as f32).ln();
+            let weight = tf * idf;
+            let h = Self::fnv_hash(word.as_bytes());
+            let idx = (h as usize) % self.dim;
+            vec[idx] *= weight;
+        }
+
+        // L2 normalize
+        let norm: f32 = vec.iter().map(|x| x * x).sum::<f32>().sqrt();
+        if norm > 1e-9 {
+            for v in &mut vec {
+                *v /= norm;
+            }
+        }
+
+        Ok(vec)
+    }
+
+    fn dim(&self) -> usize {
+        self.dim
+    }
+}
 
 pub struct YantrikDbNativeMemory {
     db: Mutex<YantrikDB>,
@@ -27,10 +131,13 @@ impl YantrikDbNativeMemory {
             .to_str()
             .ok_or_else(|| anyhow::anyhow!("invalid UTF-8 in workspace path"))?;
 
-        let db = YantrikDB::new(db_path_str, DEFAULT_EMBEDDING_DIM)
+        let mut db = YantrikDB::new(db_path_str, DEFAULT_EMBEDDING_DIM)
             .map_err(|e| anyhow::anyhow!("failed to open YantrikDB at {db_path_str}: {e}"))?;
 
-        debug!("yantrikdb-native opened at {db_path_str}");
+        db.set_embedder(Box::new(HashEmbedder::new(DEFAULT_EMBEDDING_DIM)));
+        debug!(
+            "yantrikdb-native opened at {db_path_str} (hash embedder, dim={DEFAULT_EMBEDDING_DIM})"
+        );
 
         Ok(Self {
             db: Mutex::new(db),
@@ -91,7 +198,7 @@ impl Memory for YantrikDbNativeMemory {
             168.0, // half_life (1 week in hours)
             &metadata,
             "default",
-            0.9,   // certainty
+            0.9, // certainty
             "general",
             "yantrikclaw",
             None, // emotional_state
@@ -116,10 +223,12 @@ impl Memory for YantrikDbNativeMemory {
         let db = self.db.lock();
         match db.recall_text(query, limit) {
             Ok(results) => {
+                let scores: Vec<f64> = results.iter().map(|r| r.score).collect();
                 debug!(
-                    "yantrikdb-native recall: query={}, {} results",
+                    "yantrikdb-native recall: query={}, {} results, scores={:?}",
                     query,
-                    results.len()
+                    results.len(),
+                    scores,
                 );
                 Ok(results
                     .into_iter()
@@ -244,7 +353,10 @@ impl Memory for YantrikDbNativeMemory {
                 if let Some(found) = entry {
                     match db.forget(&found.rid) {
                         Ok(deleted) => {
-                            debug!("yantrikdb-native forget: key={key}, rid={}, deleted={deleted}", found.rid);
+                            debug!(
+                                "yantrikdb-native forget: key={key}, rid={}, deleted={deleted}",
+                                found.rid
+                            );
                             Ok(deleted)
                         }
                         Err(e) => {
@@ -314,9 +426,7 @@ mod tests {
             "episode"
         );
         assert_eq!(
-            YantrikDbNativeMemory::category_to_memory_type(&MemoryCategory::Custom(
-                "notes".into()
-            )),
+            YantrikDbNativeMemory::category_to_memory_type(&MemoryCategory::Custom("notes".into())),
             "notes"
         );
     }
@@ -342,9 +452,14 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let mem = YantrikDbNativeMemory::new(tmp.path()).unwrap();
 
-        mem.store("fav_lang", "Rust is my favorite language", MemoryCategory::Core, None)
-            .await
-            .unwrap();
+        mem.store(
+            "fav_lang",
+            "Rust is my favorite language",
+            MemoryCategory::Core,
+            None,
+        )
+        .await
+        .unwrap();
 
         let results = mem.recall("favorite language", 5, None).await.unwrap();
         assert!(!results.is_empty());

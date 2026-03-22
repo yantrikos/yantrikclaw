@@ -2408,7 +2408,8 @@ mod tests {
 
     #[test]
     fn onboard_cli_bare_parses() {
-        let cli = Cli::try_parse_from(["yantrikclaw", "onboard"]).expect("bare onboard should parse");
+        let cli =
+            Cli::try_parse_from(["yantrikclaw", "onboard"]).expect("bare onboard should parse");
 
         match cli.command {
             Commands::Onboard { .. } => {}
@@ -2418,7 +2419,8 @@ mod tests {
 
     #[test]
     fn cli_parses_estop_default_engage() {
-        let cli = Cli::try_parse_from(["yantrikclaw", "estop"]).expect("estop command should parse");
+        let cli =
+            Cli::try_parse_from(["yantrikclaw", "estop"]).expect("estop command should parse");
 
         match cli.command {
             Commands::Estop {
@@ -2438,8 +2440,9 @@ mod tests {
 
     #[test]
     fn cli_parses_estop_resume_domain() {
-        let cli = Cli::try_parse_from(["yantrikclaw", "estop", "resume", "--domain", "*.chase.com"])
-            .expect("estop resume command should parse");
+        let cli =
+            Cli::try_parse_from(["yantrikclaw", "estop", "resume", "--domain", "*.chase.com"])
+                .expect("estop resume command should parse");
 
         match cli.command {
             Commands::Estop {
@@ -2478,9 +2481,13 @@ mod tests {
 
     #[test]
     fn agent_command_parses_session_state_file() {
-        let cli =
-            Cli::try_parse_from(["yantrikclaw", "agent", "--session-state-file", "session.json"])
-                .expect("agent command with session state file should parse");
+        let cli = Cli::try_parse_from([
+            "yantrikclaw",
+            "agent",
+            "--session-state-file",
+            "session.json",
+        ])
+        .expect("agent command with session state file should parse");
 
         match cli.command {
             Commands::Agent {

@@ -149,6 +149,14 @@ impl PromptSection for ToolsSection {
     }
 
     fn build(&self, ctx: &PromptContext<'_>) -> Result<String> {
+        // When using native tool calling (dispatcher_instructions is empty),
+        // tool schemas are sent via the API's `tools` parameter — no need to
+        // duplicate them in the system prompt, which wastes context tokens
+        // and can overwhelm smaller models.
+        if ctx.dispatcher_instructions.is_empty() {
+            return Ok(String::new());
+        }
+
         let mut out = String::from("## Tools\n\n");
         for tool in ctx.tools {
             let desc = ctx
@@ -163,10 +171,8 @@ impl PromptSection for ToolsSection {
                 tool.parameters_schema()
             );
         }
-        if !ctx.dispatcher_instructions.is_empty() {
-            out.push('\n');
-            out.push_str(ctx.dispatcher_instructions);
-        }
+        out.push('\n');
+        out.push_str(ctx.dispatcher_instructions);
         Ok(out)
     }
 }
