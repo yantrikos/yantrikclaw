@@ -2680,12 +2680,23 @@ pub(crate) async fn run_tool_call_loop(
                 .filter(|t| !excluded_tools.iter().any(|ex| ex == t.name()))
                 .map(|t| t.as_ref())
                 .collect();
-            let selected = crate::tools::selector::select_tools_for_tier(
+            let mut selected = crate::tools::selector::select_tools_for_tier(
                 user_text,
                 &tier_profile,
                 &tool_refs,
                 max_perm,
             );
+
+            // Merge tools activated via discover_tools during this session
+            {
+                let activated = crate::tools::DISCOVER_TOOLS_ACTIVATED.lock();
+                selected = crate::tools::selector::merge_activated_tools(
+                    selected,
+                    &activated,
+                    tier_profile.max_tools_per_prompt + 5, // allow a few extra for discovered tools
+                );
+            }
+
             tool_specs = crate::tools::selector::filter_specs_by_selection(tool_specs, &selected);
         }
 

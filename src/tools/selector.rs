@@ -13,14 +13,12 @@ use tracing::debug;
 
 /// Select which tools to expose to the LLM for a given user query.
 ///
-/// Returns the names of selected tools, ordered by relevance score (best first).
+/// Returns the names of selected tools, combining:
+/// 1. **Always-on tools** for this tier (from `ModelCapabilityProfile::always_on_tools`)
+/// 2. **Query-relevant tools** discovered via ToolFamily keyword routing
+/// 3. **Session-activated tools** (previously discovered via `discover_tools`)
 ///
-/// Selection logic:
-/// 1. Filter out tools above the allowed permission level.
-/// 2. If `use_family_routing`: score each tool by ToolFamily keyword match to
-///    the user query, boosting tools in matching families.
-/// 3. Always-include tools (category "general") get a baseline score.
-/// 4. Cap at `max_tools_per_prompt` from the capability profile.
+/// Total is capped at `max_tools_per_prompt`.
 pub fn select_tools_for_tier(
     user_input: &str,
     profile: &ModelCapabilityProfile,
@@ -34,71 +32,55 @@ pub fn select_tools_for_tier(
         .copied()
         .collect();
 
-    // Large models with family routing disabled: return all permitted tools (up to budget)
-    if !profile.use_family_routing {
-        let selected: Vec<String> = permitted
-            .iter()
-            .take(profile.max_tools_per_prompt)
-            .map(|t| t.name().to_string())
-            .collect();
-        debug!(
-            tier = %profile.tier,
-            total = permitted.len(),
-            selected = selected.len(),
-            "tool-selector: no family routing, returning all permitted (capped)"
-        );
-        return selected;
+    let always_on = profile.always_on_tools();
+    let mut selected: Vec<String> = Vec::new();
+
+    // Step 2: Always-on tools first (if they exist in the registry)
+    for &name in always_on {
+        if permitted.iter().any(|t| t.name() == name) && !selected.contains(&name.to_string()) {
+            selected.push(name.to_string());
+        }
     }
 
-    // Step 2: Score tools using ToolFamily routing
-    let family_scores = ToolFamily::route_query(user_input);
-    let top_families: Vec<&ToolFamily> = family_scores.iter().map(|(f, _)| f).collect();
+    // Step 3: Query-relevant tools via ToolFamily routing (fill remaining budget)
+    if profile.use_family_routing {
+        let family_scores = ToolFamily::route_query(user_input);
+        let top_families: Vec<&ToolFamily> = family_scores.iter().map(|(f, _)| f).collect();
 
-    let mut scored: Vec<(&dyn Tool, f64)> = permitted
-        .iter()
-        .map(|&tool| {
-            let cat = tool.category();
-            let mut score = 0.0;
+        let mut scored: Vec<(&dyn Tool, f64)> = permitted
+            .iter()
+            .filter(|t| !selected.contains(&t.name().to_string()))
+            .map(|&tool| {
+                let cat = tool.category();
+                let mut score = 0.0;
 
-            // Boost tools whose category matches a top-scoring family
-            for (i, family) in top_families.iter().enumerate() {
-                if family.matches_category(cat) {
-                    // Higher boost for better-matching families, decay by rank
-                    let family_score = family_scores[i].1;
-                    score += family_score * (1.0 / (i as f64 + 1.0));
+                for (i, family) in top_families.iter().enumerate() {
+                    if family.matches_category(cat) {
+                        let family_score = family_scores[i].1;
+                        score += family_score * (1.0 / (i as f64 + 1.0));
+                    }
                 }
-            }
 
-            // Baseline score for "general" category tools (always somewhat relevant)
-            if cat == "general" {
-                score += 0.1;
-            }
+                (tool, score)
+            })
+            .filter(|(_, score)| *score > 0.0) // Only add if actually relevant
+            .collect();
 
-            // Small baseline so tools with no family match still have a chance
-            // if we haven't filled the budget
-            score += 0.01;
+        scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
 
-            (tool, score)
-        })
-        .collect();
-
-    // Sort by score descending
-    scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-
-    // Step 3: Cap at budget
-    let selected: Vec<String> = scored
-        .iter()
-        .take(profile.max_tools_per_prompt)
-        .map(|(t, _)| t.name().to_string())
-        .collect();
+        let remaining_budget = profile.max_tools_per_prompt.saturating_sub(selected.len());
+        for (tool, _) in scored.iter().take(remaining_budget) {
+            selected.push(tool.name().to_string());
+        }
+    }
 
     debug!(
         tier = %profile.tier,
-        families = ?top_families.iter().map(|f| f.to_string()).collect::<Vec<_>>(),
-        total = permitted.len(),
-        selected = selected.len(),
+        always_on = always_on.len(),
+        total_selected = selected.len(),
         budget = profile.max_tools_per_prompt,
-        "tool-selector: family routing applied"
+        tools = ?selected,
+        "tool-selector: always-on + family routing"
     );
 
     selected
@@ -114,6 +96,21 @@ pub fn filter_specs_by_selection(
         .into_iter()
         .filter(|spec| selected_names.iter().any(|name| name == &spec.name))
         .collect()
+}
+
+/// Merge session-activated tool names (from discover_tools) into the selected set.
+/// Returns the union, capped at the budget.
+pub fn merge_activated_tools(
+    mut selected: Vec<String>,
+    activated: &std::collections::HashSet<String>,
+    budget: usize,
+) -> Vec<String> {
+    for name in activated {
+        if !selected.contains(name) && selected.len() < budget {
+            selected.push(name.clone());
+        }
+    }
+    selected
 }
 
 #[cfg(test)]
@@ -179,14 +176,14 @@ mod tests {
     }
 
     #[test]
-    fn family_routing_boosts_matching_tools() {
+    fn family_routing_adds_query_relevant_tools() {
         let t_file = make_tool("file_read", "files", PermissionLevel::Safe);
         let t_git = make_tool("git_operations", "git", PermissionLevel::Standard);
         let t_mem = make_tool("memory_recall", "memory", PermissionLevel::Safe);
         let t_browse = make_tool("web_search", "browse", PermissionLevel::Safe);
         let tools: Vec<&dyn Tool> = vec![&t_file, &t_git, &t_mem, &t_browse];
 
-        // Query about files — Files family should rank higher
+        // Query about files — Files family tools should appear in the selected set
         let profile = ModelCapabilityProfile::detect("qwen3.5:9b");
         let selected = select_tools_for_tier(
             "read the config file and check git status",
@@ -195,9 +192,10 @@ mod tests {
             PermissionLevel::Admin,
         );
 
-        // file_read and git_operations should be ranked first (Files family matches "file" and "git")
-        assert_eq!(selected[0], "file_read");
-        assert_eq!(selected[1], "git_operations");
+        // file_read should be selected (always-on for medium) and git_operations
+        // should be added via family routing
+        assert!(selected.contains(&"file_read".to_string()));
+        assert!(selected.contains(&"git_operations".to_string()));
     }
 
     #[test]
@@ -210,7 +208,7 @@ mod tests {
             .collect();
         let tools: Vec<&dyn Tool> = tools_data.iter().map(|t| t as &dyn Tool).collect();
 
-        // Tiny model: max 10 tools
+        // Tiny model: max 5 tools
         let profile = ModelCapabilityProfile::detect("qwen3.5:0.6b");
         let selected = select_tools_for_tier(
             "do something",
@@ -218,18 +216,17 @@ mod tests {
             &tools,
             PermissionLevel::Admin,
         );
-        assert_eq!(selected.len(), 10);
+        assert!(selected.len() <= profile.max_tools_per_prompt);
     }
 
     #[test]
-    fn large_model_no_family_routing_returns_all() {
+    fn large_model_uses_always_on_plus_routing() {
         let t1 = make_tool("file_read", "files", PermissionLevel::Safe);
         let t2 = make_tool("shell", "system", PermissionLevel::Dangerous);
         let t3 = make_tool("memory_recall", "memory", PermissionLevel::Safe);
         let tools: Vec<&dyn Tool> = vec![&t1, &t2, &t3];
 
         let profile = ModelCapabilityProfile::detect("gpt-4o");
-        assert!(!profile.use_family_routing);
 
         let selected = select_tools_for_tier(
             "read a file",
@@ -237,8 +234,9 @@ mod tests {
             &tools,
             PermissionLevel::Admin,
         );
-        // All 3 tools returned (no family filtering for large models)
-        assert_eq!(selected.len(), 3);
+        // file_read and memory_recall are always-on for large; shell only if query-relevant
+        assert!(selected.contains(&"file_read".to_string()));
+        assert!(selected.contains(&"memory_recall".to_string()));
     }
 
     #[test]

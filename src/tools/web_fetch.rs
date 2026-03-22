@@ -174,7 +174,7 @@ impl Tool for WebFetchTool {
             .timeout(Duration::from_secs(timeout_secs))
             .connect_timeout(Duration::from_secs(10))
             .redirect(redirect_policy)
-            .user_agent("YantrikClaw/0.1 (web_fetch)");
+            .user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
         let builder = crate::config::apply_runtime_proxy_to_builder(builder, "tool.web_fetch");
         let client = match builder.build() {
             Ok(c) => c,

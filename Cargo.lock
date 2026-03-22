@@ -9168,6 +9168,7 @@ dependencies = [
  "matrix-sdk",
  "mime_guess",
  "nanohtml2text",
+ "nix 0.29.0",
  "nostr-sdk",
  "nusb",
  "opentelemetry",
@@ -9251,14 +9252,15 @@ dependencies = [
 
 [[package]]
 name = "yantrikdb"
-version = "0.2.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "088c39f00c16faf17286ba5c1124c0d1c6996c40d0a66fdc779ebf9f88464703"
+checksum = "3bfc0d179972b10d1f90c890855c796d3f54bd362e566121fde3e80583ef040f"
 dependencies = [
  "aes-gcm",
  "base64",
  "blake3",
  "hex",
+ "js-sys",
  "rand 0.8.5",
  "rusqlite",
  "serde",

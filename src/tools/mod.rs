@@ -20,6 +20,7 @@ pub mod browser;
 pub mod browser_delegate;
 pub mod browser_open;
 pub mod calculator;
+pub mod discover_tools;
 pub mod cli_discovery;
 pub mod cloud_ops;
 pub mod cloud_patterns;
@@ -161,8 +162,14 @@ use crate::runtime::{NativeRuntime, RuntimeAdapter};
 use crate::security::{create_sandbox, SecurityPolicy};
 use async_trait::async_trait;
 use parking_lot::RwLock;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
+
+/// Global set of tools activated via `discover_tools` during the current session.
+/// The discover_tools tool adds entries here; the selector reads them to include
+/// activated tools in the tool_specs sent to the LLM.
+pub static DISCOVER_TOOLS_ACTIVATED: std::sync::LazyLock<parking_lot::Mutex<HashSet<String>>> =
+    std::sync::LazyLock::new(|| parking_lot::Mutex::new(HashSet::new()));
 
 /// Shared handle to the delegate tool's parent-tools list.
 /// Callers can push additional tools (e.g. MCP wrappers) after construction.
@@ -767,6 +774,23 @@ pub fn all_tools_with_runtime(
             }
         }
     }
+
+    // ── discover_tools meta-tool ──
+    // Build discoverable info from all registered tools, then add the
+    // discover_tools tool itself. The activated handle is stored in the
+    // tool and can be retrieved later by the agent loop.
+    let discoverable_info: Vec<discover_tools::DiscoverableToolInfo> = tool_arcs
+        .iter()
+        .map(|t| discover_tools::DiscoverableToolInfo {
+            name: t.name().to_string(),
+            description: t.description().to_string(),
+            category: t.category().to_string(),
+            permission: t.permission(),
+        })
+        .collect();
+    tool_arcs.push(Arc::new(discover_tools::DiscoverToolsTool::new(
+        discoverable_info,
+    )));
 
     (boxed_registry_from_arcs(tool_arcs), delegate_handle)
 }
