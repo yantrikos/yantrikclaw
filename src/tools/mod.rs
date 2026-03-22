@@ -83,6 +83,10 @@ pub mod family;
 pub mod mcq;
 pub mod selector;
 pub mod traits;
+pub mod vault_delete;
+pub mod vault_get;
+pub mod vault_list;
+pub mod vault_store;
 pub mod web_fetch;
 pub mod web_search_tool;
 pub mod workspace_tool;
@@ -149,6 +153,10 @@ pub use swarm::SwarmTool;
 pub use text_browser::TextBrowserTool;
 pub use tool_search::ToolSearchTool;
 pub use traits::Tool;
+pub use vault_delete::VaultDeleteTool;
+pub use vault_get::VaultGetTool;
+pub use vault_list::VaultListTool;
+pub use vault_store::VaultStoreTool;
 #[allow(unused_imports)]
 pub use traits::{ToolResult, ToolSpec};
 pub use web_fetch::WebFetchTool;
@@ -500,6 +508,42 @@ pub fn all_tools_with_runtime(
         tool_arcs.push(Arc::new(SecurityOpsTool::new(
             root_config.security_ops.clone(),
         )));
+    }
+
+    // Encrypted credential vault tools (always registered)
+    {
+        let yantrikclaw_dir = root_config
+            .config_path
+            .parent()
+            .unwrap_or(std::path::Path::new("."));
+        let secret_store =
+            crate::security::SecretStore::new(yantrikclaw_dir, root_config.secrets.encrypt);
+        let vault = Arc::new(crate::security::CredentialVault::new(
+            yantrikclaw_dir,
+            secret_store.clone(),
+        ));
+
+        tool_arcs.push(Arc::new(VaultStoreTool::new(Arc::clone(&vault))));
+        tool_arcs.push(Arc::new(VaultListTool::new(Arc::clone(&vault))));
+        tool_arcs.push(Arc::new(VaultDeleteTool::new(Arc::clone(&vault))));
+
+        // vault_get requires OTP authenticator when OTP is enabled
+        let otp_validator = if root_config.security.otp.enabled {
+            match crate::security::OtpValidator::from_config(
+                &root_config.security.otp,
+                yantrikclaw_dir,
+                &secret_store,
+            ) {
+                Ok((validator, _)) => Some(Arc::new(validator)),
+                Err(e) => {
+                    tracing::warn!("vault_get: OTP init failed, credential retrieval disabled: {e}");
+                    None
+                }
+            }
+        } else {
+            None
+        };
+        tool_arcs.push(Arc::new(VaultGetTool::new(vault, otp_validator)));
     }
 
     // Backup tool (enabled by default)

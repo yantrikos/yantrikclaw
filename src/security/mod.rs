@@ -21,6 +21,7 @@
 pub mod audit;
 #[cfg(feature = "sandbox-bubblewrap")]
 pub mod bubblewrap;
+pub mod credential_vault;
 pub mod detect;
 pub mod docker;
 
@@ -47,6 +48,7 @@ pub mod workspace_boundary;
 #[allow(unused_imports)]
 pub use audit::{AuditEvent, AuditEventType, AuditLogger};
 #[allow(unused_imports)]
+pub use credential_vault::CredentialVault;
 pub use detect::create_sandbox;
 pub use domain_matcher::DomainMatcher;
 #[allow(unused_imports)]
