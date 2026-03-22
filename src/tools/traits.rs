@@ -44,7 +44,6 @@ impl PermissionLevel {
             "standard" => Self::Standard,
             "sensitive" => Self::Sensitive,
             "dangerous" => Self::Dangerous,
-            "admin" => Self::Admin,
             _ => Self::Admin,
         }
     }

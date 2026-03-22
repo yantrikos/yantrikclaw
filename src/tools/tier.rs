@@ -97,7 +97,7 @@ impl std::fmt::Display for ModelTier {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ToolCallMode {
     /// Multiple-choice: "Which tool? A) recall B) web_search" → model outputs "A"
-    MCQ,
+    Mcq,
     /// Model outputs structured JSON: `{"tool": "recall", "args": {"query": "..."}}`
     StructuredJSON,
     /// Standard OpenAI/Anthropic function-calling format via API tools parameter.
@@ -125,7 +125,7 @@ impl ModelCapabilityProfile {
             ModelTier::Tiny => Self {
                 tier,
                 max_tools_per_prompt: 5,
-                tool_call_mode: ToolCallMode::MCQ,
+                tool_call_mode: ToolCallMode::Mcq,
                 use_family_routing: false,
                 max_agent_steps: 3,
                 supports_repair_loop: false,
@@ -167,7 +167,7 @@ impl ModelCapabilityProfile {
 
     /// Whether this tier uses MCQ batched selection instead of native function calling.
     pub fn uses_mcq_selection(&self) -> bool {
-        self.tool_call_mode == ToolCallMode::MCQ
+        self.tool_call_mode == ToolCallMode::Mcq
     }
 
     /// Tools that are always sent to the model regardless of query.

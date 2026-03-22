@@ -297,7 +297,7 @@ impl Memory for YantrikDbMemory {
         match self.client.get(&url).send().await {
             Ok(r) if r.status().is_success() => {
                 let status: StatusResponse = r.json().await?;
-                Ok(status.memory_count as usize)
+                Ok(usize::try_from(status.memory_count).unwrap_or(0))
             }
             Ok(_) | Err(_) => {
                 // Fallback: try dedicated count endpoint.

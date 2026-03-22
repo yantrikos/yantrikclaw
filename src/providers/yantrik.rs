@@ -138,7 +138,6 @@ impl YantrikProvider {
                         attempt + 1
                     );
                     tokio::time::sleep(std::time::Duration::from_secs(10)).await;
-                    continue;
                 }
                 Ok(r) if !r.status().is_success() => {
                     let status = r.status();
@@ -327,16 +326,16 @@ impl Provider for YantrikProvider {
                         if let Ok(chunk) = serde_json::from_str::<OaiStreamChunk>(data) {
                             for choice in &chunk.choices {
                                 if let Some(ref content) = choice.delta.content {
-                                    if !content.is_empty() && content != "__REPLACE__" {
-                                        if tx
+                                    if !content.is_empty()
+                                        && content != "__REPLACE__"
+                                        && tx
                                             .send(Ok(
                                                 StreamChunk::delta(content).with_token_estimate()
                                             ))
                                             .await
                                             .is_err()
-                                        {
-                                            return; // Receiver dropped.
-                                        }
+                                    {
+                                        return; // Receiver dropped.
                                     }
                                 }
                                 if choice.finish_reason.as_deref() == Some("stop") {

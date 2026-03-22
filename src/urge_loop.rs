@@ -47,8 +47,8 @@ struct CompanionUrge {
 ///
 /// This runs indefinitely, polling the companion for pending urges and
 /// delivering them via registered channels.
-pub fn spawn_urge_loop(
-    channels_by_name: Arc<HashMap<String, Arc<dyn Channel>>>,
+pub fn spawn_urge_loop<S: ::std::hash::BuildHasher + Send + Sync + 'static>(
+    channels_by_name: Arc<HashMap<String, Arc<dyn Channel>, S>>,
     config: UrgeLoopConfig,
 ) {
     let interval = Duration::from_secs(config.poll_interval_secs);
@@ -75,10 +75,10 @@ pub fn spawn_urge_loop(
 }
 
 /// Single poll-and-deliver cycle.
-async fn poll_and_deliver(
+async fn poll_and_deliver<S: ::std::hash::BuildHasher>(
     client: &Client,
     config: &UrgeLoopConfig,
-    channels: &HashMap<String, Arc<dyn Channel>>,
+    channels: &HashMap<String, Arc<dyn Channel>, S>,
 ) -> Result<(), String> {
     let url = format!("{}/urges", config.companion_url);
 

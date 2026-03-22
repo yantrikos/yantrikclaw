@@ -41,7 +41,7 @@ impl ToolFamily {
     ];
 
     /// Keywords that map to this family (for lightweight routing).
-    pub fn keywords(&self) -> &'static [&'static str] {
+    pub fn keywords(self) -> &'static [&'static str] {
         match self {
             ToolFamily::Communicate => &[
                 "email",
@@ -155,7 +155,7 @@ impl ToolFamily {
     }
 
     /// YantrikClaw tool categories that belong to this family.
-    pub fn categories(&self) -> &'static [&'static str] {
+    pub fn categories(self) -> &'static [&'static str] {
         match self {
             ToolFamily::Communicate => &["integrate"],
             ToolFamily::Schedule => &["schedule"],
@@ -198,7 +198,7 @@ impl ToolFamily {
     }
 
     /// Check if a tool category belongs to this family.
-    pub fn matches_category(&self, category: &str) -> bool {
+    pub fn matches_category(self, category: &str) -> bool {
         self.categories().contains(&category)
     }
 }

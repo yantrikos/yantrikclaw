@@ -169,15 +169,17 @@ impl Tool for DiscoverToolsTool {
         }
 
         let mut output = serde_json::to_string_pretty(&results).unwrap_or_default();
-        if !auto_activated.is_empty() {
-            output.push_str(&format!(
-                "\n\nAuto-activated: {}. These tools are now available for use in this session.",
-                auto_activated.join(", ")
-            ));
-        } else {
+        if auto_activated.is_empty() {
             output.push_str(
                 "\n\nTo activate tools, call discover_tools again with the 'activate' parameter \
                  containing the tool names you want to use.",
+            );
+        } else {
+            use std::fmt::Write;
+            let _ = write!(
+                output,
+                "\n\nAuto-activated: {}. These tools are now available for use in this session.",
+                auto_activated.join(", ")
             );
         }
 

@@ -100,9 +100,9 @@ pub fn filter_specs_by_selection(
 
 /// Merge session-activated tool names (from discover_tools) into the selected set.
 /// Returns the union, capped at the budget.
-pub fn merge_activated_tools(
+pub fn merge_activated_tools<S: ::std::hash::BuildHasher>(
     mut selected: Vec<String>,
-    activated: &std::collections::HashSet<String>,
+    activated: &std::collections::HashSet<String, S>,
     budget: usize,
 ) -> Vec<String> {
     for name in activated {
