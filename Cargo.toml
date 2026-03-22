@@ -4,7 +4,7 @@ resolver = "2"
 
 [package]
 name = "yantrikclaw"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["spranab", "theonlyhennygod"]
 license = "MIT OR Apache-2.0"
