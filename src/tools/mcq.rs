@@ -128,8 +128,7 @@ fn parse_mcq_response(response: &str) -> Option<usize> {
     for (i, &b) in bytes.iter().enumerate() {
         if matches!(b, b'A' | b'B' | b'C' | b'D' | b'E') {
             // Check it's not inside a word (preceded by a letter)
-            let preceded_by_letter =
-                i > 0 && bytes[i - 1].is_ascii_alphabetic();
+            let preceded_by_letter = i > 0 && bytes[i - 1].is_ascii_alphabetic();
             if !preceded_by_letter {
                 return match b {
                     b'A' => Some(0),
@@ -218,7 +217,10 @@ pub async fn mcq_batch_select(
                     }
                 }
                 // NO_TOOL or invalid — continue to next batch
-                debug!(round = round + 1, "MCQ round returned NO_TOOL, trying next batch");
+                debug!(
+                    round = round + 1,
+                    "MCQ round returned NO_TOOL, trying next batch"
+                );
             }
             Err(e) => {
                 warn!(round = round + 1, error = %e, "MCQ batch LLM call failed");

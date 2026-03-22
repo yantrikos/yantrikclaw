@@ -64,10 +64,7 @@ impl Tool for DiscoverToolsTool {
     }
 
     async fn execute(&self, args: serde_json::Value) -> anyhow::Result<ToolResult> {
-        let query = args
-            .get("query")
-            .and_then(|v| v.as_str())
-            .unwrap_or("");
+        let query = args.get("query").and_then(|v| v.as_str()).unwrap_or("");
 
         // Handle explicit activation
         if let Some(activate) = args.get("activate").and_then(|v| v.as_array()) {

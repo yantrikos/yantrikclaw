@@ -105,10 +105,7 @@ async fn poll_and_deliver(
 
     for urge in &urges {
         // Determine target channel.
-        let target_channel = config
-            .default_channel
-            .as_deref()
-            .unwrap_or("telegram");
+        let target_channel = config.default_channel.as_deref().unwrap_or("telegram");
 
         let channel = match channels.get(target_channel) {
             Some(ch) => Arc::clone(ch),

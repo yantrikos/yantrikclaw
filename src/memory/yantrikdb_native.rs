@@ -41,7 +41,10 @@ impl HashEmbedder {
 }
 
 impl yantrikdb::Embedder for HashEmbedder {
-    fn embed(&self, text: &str) -> std::result::Result<Vec<f32>, Box<dyn std::error::Error + Send + Sync>> {
+    fn embed(
+        &self,
+        text: &str,
+    ) -> std::result::Result<Vec<f32>, Box<dyn std::error::Error + Send + Sync>> {
         let mut vec = vec![0.0f32; self.dim];
         let lower = text.to_lowercase();
         let words: Vec<&str> = lower.split_whitespace().collect();
@@ -132,7 +135,9 @@ impl YantrikDbNativeMemory {
             .map_err(|e| anyhow::anyhow!("failed to open YantrikDB at {db_path_str}: {e}"))?;
 
         db.set_embedder(Box::new(HashEmbedder::new(DEFAULT_EMBEDDING_DIM)));
-        debug!("yantrikdb-native opened at {db_path_str} (hash embedder, dim={DEFAULT_EMBEDDING_DIM})");
+        debug!(
+            "yantrikdb-native opened at {db_path_str} (hash embedder, dim={DEFAULT_EMBEDDING_DIM})"
+        );
 
         Ok(Self {
             db: Mutex::new(db),
@@ -193,7 +198,7 @@ impl Memory for YantrikDbNativeMemory {
             168.0, // half_life (1 week in hours)
             &metadata,
             "default",
-            0.9,   // certainty
+            0.9, // certainty
             "general",
             "yantrikclaw",
             None, // emotional_state
@@ -348,7 +353,10 @@ impl Memory for YantrikDbNativeMemory {
                 if let Some(found) = entry {
                     match db.forget(&found.rid) {
                         Ok(deleted) => {
-                            debug!("yantrikdb-native forget: key={key}, rid={}, deleted={deleted}", found.rid);
+                            debug!(
+                                "yantrikdb-native forget: key={key}, rid={}, deleted={deleted}",
+                                found.rid
+                            );
                             Ok(deleted)
                         }
                         Err(e) => {
@@ -418,9 +426,7 @@ mod tests {
             "episode"
         );
         assert_eq!(
-            YantrikDbNativeMemory::category_to_memory_type(&MemoryCategory::Custom(
-                "notes".into()
-            )),
+            YantrikDbNativeMemory::category_to_memory_type(&MemoryCategory::Custom("notes".into())),
             "notes"
         );
     }
@@ -446,9 +452,14 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let mem = YantrikDbNativeMemory::new(tmp.path()).unwrap();
 
-        mem.store("fav_lang", "Rust is my favorite language", MemoryCategory::Core, None)
-            .await
-            .unwrap();
+        mem.store(
+            "fav_lang",
+            "Rust is my favorite language",
+            MemoryCategory::Core,
+            None,
+        )
+        .await
+        .unwrap();
 
         let results = mem.recall("favorite language", 5, None).await.unwrap();
         assert!(!results.is_empty());

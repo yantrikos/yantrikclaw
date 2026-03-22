@@ -4420,9 +4420,7 @@ pub async fn start_channels(config: Config) -> Result<()> {
                     }
                 }
             } else {
-                tracing::warn!(
-                    "companion.manage_process is true but binary_path is not set"
-                );
+                tracing::warn!("companion.manage_process is true but binary_path is not set");
             }
         }
 
@@ -4437,7 +4435,10 @@ pub async fn start_channels(config: Config) -> Result<()> {
                     proactive_chat_id: config.companion.proactive_chat_id,
                 },
             );
-            println!("  📣 Companion: urge loop active ({}s interval)", config.companion.urge_poll_interval_secs);
+            println!(
+                "  📣 Companion: urge loop active ({}s interval)",
+                config.companion.urge_poll_interval_secs
+            );
         }
 
         println!("  🔗 Companion: {}", config.companion.url);
@@ -4594,7 +4595,11 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         // Create minimal workspace files
         std::fs::write(tmp.path().join("SOUL.md"), "# Soul\nBe helpful.").unwrap();
-        std::fs::write(tmp.path().join("IDENTITY.md"), "# Identity\nName: YantrikClaw").unwrap();
+        std::fs::write(
+            tmp.path().join("IDENTITY.md"),
+            "# Identity\nName: YantrikClaw",
+        )
+        .unwrap();
         std::fs::write(tmp.path().join("USER.md"), "# User\nName: Test User").unwrap();
         std::fs::write(
             tmp.path().join("AGENTS.md"),

@@ -6851,7 +6851,9 @@ pub fn parse_extra_headers_env(raw: &str) -> Vec<(String, String)> {
             let key = key.trim();
             let value = value.trim();
             if key.is_empty() {
-                tracing::warn!("Ignoring extra header with empty name in YANTRIKCLAW_EXTRA_HEADERS");
+                tracing::warn!(
+                    "Ignoring extra header with empty name in YANTRIKCLAW_EXTRA_HEADERS"
+                );
                 continue;
             }
             result.push((key.to_string(), value.to_string()));
@@ -8010,7 +8012,8 @@ impl Config {
     /// Apply environment variable overrides to config
     pub fn apply_env_overrides(&mut self) {
         // API Key: YANTRIKCLAW_API_KEY or API_KEY (generic)
-        if let Ok(key) = std::env::var("YANTRIKCLAW_API_KEY").or_else(|_| std::env::var("API_KEY")) {
+        if let Ok(key) = std::env::var("YANTRIKCLAW_API_KEY").or_else(|_| std::env::var("API_KEY"))
+        {
             if !key.is_empty() {
                 self.api_key = Some(key);
             }
@@ -8151,7 +8154,8 @@ impl Config {
         }
 
         // Gateway host: YANTRIKCLAW_GATEWAY_HOST or HOST
-        if let Ok(host) = std::env::var("YANTRIKCLAW_GATEWAY_HOST").or_else(|_| std::env::var("HOST"))
+        if let Ok(host) =
+            std::env::var("YANTRIKCLAW_GATEWAY_HOST").or_else(|_| std::env::var("HOST"))
         {
             if !host.is_empty() {
                 self.gateway.host = host;
@@ -9372,7 +9376,10 @@ provider_timeout_secs = 300
             headers[0],
             ("User-Agent".to_string(), "MyApp/1.0".to_string())
         );
-        assert_eq!(headers[1], ("X-Title".to_string(), "yantrikclaw".to_string()));
+        assert_eq!(
+            headers[1],
+            ("X-Title".to_string(), "yantrikclaw".to_string())
+        );
     }
 
     #[test]
@@ -9382,7 +9389,10 @@ provider_timeout_secs = 300
         assert_eq!(headers.len(), 1);
         // Only splits on first colon, preserving URL colons in value
         assert_eq!(headers[0].0, "HTTP-Referer");
-        assert_eq!(headers[0].1, "https://github.com/yantrikclaw-labs/yantrikclaw");
+        assert_eq!(
+            headers[0].1,
+            "https://github.com/yantrikclaw-labs/yantrikclaw"
+        );
     }
 
     #[test]
@@ -9395,7 +9405,10 @@ provider_timeout_secs = 300
     async fn parse_extra_headers_env_whitespace_trimming() {
         let headers = parse_extra_headers_env("  X-Title : yantrikclaw , User-Agent : cli/1.0 ");
         assert_eq!(headers.len(), 2);
-        assert_eq!(headers[0], ("X-Title".to_string(), "yantrikclaw".to_string()));
+        assert_eq!(
+            headers[0],
+            ("X-Title".to_string(), "yantrikclaw".to_string())
+        );
         assert_eq!(
             headers[1],
             ("User-Agent".to_string(), "cli/1.0".to_string())
@@ -9428,7 +9441,10 @@ provider_timeout_secs = 300
     async fn parse_extra_headers_env_trailing_comma() {
         let headers = parse_extra_headers_env("X-Title:yantrikclaw,");
         assert_eq!(headers.len(), 1);
-        assert_eq!(headers[0], ("X-Title".to_string(), "yantrikclaw".to_string()));
+        assert_eq!(
+            headers[0],
+            ("X-Title".to_string(), "yantrikclaw".to_string())
+        );
     }
 
     #[test]

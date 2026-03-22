@@ -178,11 +178,7 @@ impl ModelCapabilityProfile {
     pub fn always_on_tools(&self) -> &'static [&'static str] {
         match self.tier {
             // Tiny: absolute minimum — discover + recall + calculator
-            ModelTier::Tiny => &[
-                "discover_tools",
-                "calculator",
-                "memory_recall",
-            ],
+            ModelTier::Tiny => &["discover_tools", "calculator", "memory_recall"],
             // Small: + memory write, knowledge, web search, web fetch
             ModelTier::Small => &[
                 "discover_tools",
@@ -262,19 +258,13 @@ mod tests {
             ModelTier::from_model_name("qwen3.5:27b-nothink"),
             ModelTier::Large
         );
-        assert_eq!(
-            ModelTier::from_model_name("llama3.3:70b"),
-            ModelTier::Large
-        );
+        assert_eq!(ModelTier::from_model_name("llama3.3:70b"), ModelTier::Large);
     }
 
     #[test]
     fn detect_huggingface_format() {
         assert_eq!(ModelTier::from_model_name("Qwen3.5-9B"), ModelTier::Medium);
-        assert_eq!(
-            ModelTier::from_model_name("Llama-3.2-1B"),
-            ModelTier::Tiny
-        );
+        assert_eq!(ModelTier::from_model_name("Llama-3.2-1B"), ModelTier::Tiny);
     }
 
     #[test]
@@ -317,19 +307,27 @@ mod tests {
     #[test]
     fn always_on_tools_tier_sizes() {
         assert_eq!(
-            ModelCapabilityProfile::detect("qwen3.5:0.6b").always_on_tools().len(),
+            ModelCapabilityProfile::detect("qwen3.5:0.6b")
+                .always_on_tools()
+                .len(),
             3
         );
         assert_eq!(
-            ModelCapabilityProfile::detect("qwen2.5:3b").always_on_tools().len(),
+            ModelCapabilityProfile::detect("qwen2.5:3b")
+                .always_on_tools()
+                .len(),
             7
         );
         assert_eq!(
-            ModelCapabilityProfile::detect("qwen3.5:9b").always_on_tools().len(),
+            ModelCapabilityProfile::detect("qwen3.5:9b")
+                .always_on_tools()
+                .len(),
             10
         );
         assert_eq!(
-            ModelCapabilityProfile::detect("qwen3.5:27b").always_on_tools().len(),
+            ModelCapabilityProfile::detect("qwen3.5:27b")
+                .always_on_tools()
+                .len(),
             12
         );
     }

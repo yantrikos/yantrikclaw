@@ -2299,7 +2299,10 @@ mod tests {
     #[test]
     fn resolve_qwen_oauth_context_uses_env_token_and_resource_url() {
         let _env_lock = env_lock();
-        let fake_home = format!("/tmp/yantrikclaw-qwen-oauth-home-{}-env", std::process::id());
+        let fake_home = format!(
+            "/tmp/yantrikclaw-qwen-oauth-home-{}-env",
+            std::process::id()
+        );
         let _home_guard = EnvGuard::set("HOME", Some(fake_home.as_str()));
         let _token_guard = EnvGuard::set(QWEN_OAUTH_TOKEN_ENV, Some("oauth-token"));
         let _refresh_guard = EnvGuard::set(QWEN_OAUTH_REFRESH_TOKEN_ENV, None);
@@ -2321,7 +2324,10 @@ mod tests {
     #[test]
     fn resolve_qwen_oauth_context_reads_cached_credentials_file() {
         let _env_lock = env_lock();
-        let fake_home = format!("/tmp/yantrikclaw-qwen-oauth-home-{}-file", std::process::id());
+        let fake_home = format!(
+            "/tmp/yantrikclaw-qwen-oauth-home-{}-file",
+            std::process::id()
+        );
         let creds_dir = PathBuf::from(&fake_home).join(".qwen");
         std::fs::create_dir_all(&creds_dir).unwrap();
         let creds_path = creds_dir.join("oauth_creds.json");

@@ -2644,7 +2644,9 @@ pub(crate) async fn run_tool_call_loop(
                  and provide your complete answer to the user."
                     .to_string(),
             ));
-            tracing::info!("Injected final-iteration directive at iteration {iteration}/{max_iterations}");
+            tracing::info!(
+                "Injected final-iteration directive at iteration {iteration}/{max_iterations}"
+            );
         }
 
         // Check if model switch was requested via model_switch tool
@@ -2687,7 +2689,9 @@ pub(crate) async fn run_tool_call_loop(
         // 1. Always filter tools by permission level (read from global config).
         // 2. For smaller models, also apply ToolFamily keyword routing + budget.
         let max_perm = crate::tools::traits::PermissionLevel::from_str_lossy(
-            &GLOBAL_MAX_PERMISSION_LEVEL.lock().unwrap_or_else(|e| e.into_inner()),
+            &GLOBAL_MAX_PERMISSION_LEVEL
+                .lock()
+                .unwrap_or_else(|e| e.into_inner()),
         );
         let tier_profile = crate::tools::tier::ModelCapabilityProfile::detect(model);
         {
@@ -2735,7 +2739,10 @@ pub(crate) async fn run_tool_call_loop(
                 .unwrap_or("");
 
             let candidates = crate::tools::mcq::build_candidates(
-                &tool_specs.iter().map(|s| s.name.clone()).collect::<Vec<_>>(),
+                &tool_specs
+                    .iter()
+                    .map(|s| s.name.clone())
+                    .collect::<Vec<_>>(),
                 tools_registry,
             );
 
@@ -2745,15 +2752,22 @@ pub(crate) async fn run_tool_call_loop(
                     model,
                     user_text,
                     &candidates,
-                    5,  // batch_size
-                    3,  // max_rounds
+                    5, // batch_size
+                    3, // max_rounds
                 )
                 .await
                 {
                     // MCQ selected a tool — extract arguments via a simple LLM call
                     let tool_spec = tool_specs.iter().find(|s| s.name == tool_name);
                     let args = if let Some(spec) = tool_spec {
-                        extract_mcq_tool_args(provider, model, user_text, &tool_name, &spec.parameters).await
+                        extract_mcq_tool_args(
+                            provider,
+                            model,
+                            user_text,
+                            &tool_name,
+                            &spec.parameters,
+                        )
+                        .await
                     } else {
                         serde_json::json!({})
                     };
@@ -2771,7 +2785,8 @@ pub(crate) async fn run_tool_call_loop(
 
                     // Add tool result to history and let LLM generate final text
                     history.push(ChatMessage::assistant(format!(
-                        "[Tool: {tool_name}] {}", outcome.output
+                        "[Tool: {tool_name}] {}",
+                        outcome.output
                     )));
 
                     // Clear tool_specs so the main LLM call generates text, not tool calls

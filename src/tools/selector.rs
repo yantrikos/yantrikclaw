@@ -210,12 +210,8 @@ mod tests {
 
         // Tiny model: max 5 tools
         let profile = ModelCapabilityProfile::detect("qwen3.5:0.6b");
-        let selected = select_tools_for_tier(
-            "do something",
-            &profile,
-            &tools,
-            PermissionLevel::Admin,
-        );
+        let selected =
+            select_tools_for_tier("do something", &profile, &tools, PermissionLevel::Admin);
         assert!(selected.len() <= profile.max_tools_per_prompt);
     }
 
@@ -228,12 +224,8 @@ mod tests {
 
         let profile = ModelCapabilityProfile::detect("gpt-4o");
 
-        let selected = select_tools_for_tier(
-            "read a file",
-            &profile,
-            &tools,
-            PermissionLevel::Admin,
-        );
+        let selected =
+            select_tools_for_tier("read a file", &profile, &tools, PermissionLevel::Admin);
         // file_read and memory_recall are always-on for large; shell only if query-relevant
         assert!(selected.contains(&"file_read".to_string()));
         assert!(selected.contains(&"memory_recall".to_string()));

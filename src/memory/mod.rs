@@ -70,9 +70,9 @@ where
             Ok(Box::new(yantrikdb::YantrikDbMemory::new(url.as_deref())))
         }
         #[cfg(feature = "memory-yantrikdb")]
-        MemoryBackendKind::YantrikDbNative => {
-            Ok(Box::new(yantrikdb_native::YantrikDbNativeMemory::new(workspace_dir)?))
-        }
+        MemoryBackendKind::YantrikDbNative => Ok(Box::new(
+            yantrikdb_native::YantrikDbNativeMemory::new(workspace_dir)?,
+        )),
         #[cfg(not(feature = "memory-yantrikdb"))]
         MemoryBackendKind::YantrikDbNative => {
             anyhow::bail!(
