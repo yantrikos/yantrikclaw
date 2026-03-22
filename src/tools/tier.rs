@@ -144,7 +144,7 @@ impl ModelCapabilityProfile {
             },
             ModelTier::Medium => Self {
                 tier,
-                max_tools_per_prompt: 10,
+                max_tools_per_prompt: 15,
                 tool_call_mode: ToolCallMode::NativeFunctionCall,
                 use_family_routing: true,
                 max_agent_steps: 10,
@@ -154,7 +154,7 @@ impl ModelCapabilityProfile {
             },
             ModelTier::Large => Self {
                 tier,
-                max_tools_per_prompt: 15,
+                max_tools_per_prompt: 20,
                 tool_call_mode: ToolCallMode::NativeFunctionCall,
                 use_family_routing: true,
                 max_agent_steps: 15,
@@ -186,10 +186,10 @@ impl ModelCapabilityProfile {
                 "memory_recall",
                 "memory_store",
                 "knowledge",
-                "web_search",
+                "web_search_tool",
                 "web_fetch",
             ],
-            // Medium: + memory forget, file read, content search, web fetch
+            // Medium: + memory forget, file read, content search, vault tools
             ModelTier::Medium => &[
                 "discover_tools",
                 "calculator",
@@ -197,12 +197,15 @@ impl ModelCapabilityProfile {
                 "memory_store",
                 "memory_forget",
                 "knowledge",
-                "web_search",
+                "web_search_tool",
                 "web_fetch",
                 "file_read",
                 "content_search",
+                "vault_store",
+                "vault_list",
+                "vault_get",
             ],
-            // Large: + web fetch, glob search, git (read), project intel
+            // Large: + glob search, project intel, vault delete
             ModelTier::Large => &[
                 "discover_tools",
                 "calculator",
@@ -210,12 +213,16 @@ impl ModelCapabilityProfile {
                 "memory_store",
                 "memory_forget",
                 "knowledge",
-                "web_search",
+                "web_search_tool",
                 "web_fetch",
                 "file_read",
                 "content_search",
                 "glob_search",
                 "project_intel",
+                "vault_store",
+                "vault_list",
+                "vault_get",
+                "vault_delete",
             ],
         }
     }
@@ -301,7 +308,7 @@ mod tests {
         let profile = ModelCapabilityProfile::detect("gpt-4o");
         assert_eq!(profile.tier, ModelTier::Large);
         assert_eq!(profile.tool_call_mode, ToolCallMode::NativeFunctionCall);
-        assert_eq!(profile.max_tools_per_prompt, 15);
+        assert_eq!(profile.max_tools_per_prompt, 20);
     }
 
     #[test]
@@ -318,17 +325,18 @@ mod tests {
                 .len(),
             7
         );
+        // Medium: 10 base + 3 vault tools (store, list, get)
         assert_eq!(
             ModelCapabilityProfile::detect("qwen3.5:9b")
                 .always_on_tools()
                 .len(),
-            10
+            13
         );
         assert_eq!(
             ModelCapabilityProfile::detect("qwen3.5:27b")
                 .always_on_tools()
                 .len(),
-            10
+            13
         );
     }
 

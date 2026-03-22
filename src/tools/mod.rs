@@ -154,12 +154,12 @@ pub use swarm::SwarmTool;
 pub use text_browser::TextBrowserTool;
 pub use tool_search::ToolSearchTool;
 pub use traits::Tool;
+#[allow(unused_imports)]
+pub use traits::{ToolResult, ToolSpec};
 pub use vault_delete::VaultDeleteTool;
 pub use vault_get::VaultGetTool;
 pub use vault_list::VaultListTool;
 pub use vault_store::VaultStoreTool;
-#[allow(unused_imports)]
-pub use traits::{ToolResult, ToolSpec};
 pub use web_fetch::WebFetchTool;
 pub use web_search_tool::WebSearchTool;
 pub use workspace_tool::WorkspaceTool;
@@ -543,7 +543,9 @@ pub fn all_tools_with_runtime(
             ) {
                 Ok((validator, _)) => Some(Arc::new(validator)),
                 Err(e) => {
-                    tracing::warn!("vault_get: OTP init failed, credential retrieval disabled: {e}");
+                    tracing::warn!(
+                        "vault_get: OTP init failed, credential retrieval disabled: {e}"
+                    );
                     None
                 }
             }
