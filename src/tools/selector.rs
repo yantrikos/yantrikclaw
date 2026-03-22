@@ -32,6 +32,20 @@ pub fn select_tools_for_tier(
         .copied()
         .collect();
 
+    // Short-circuit: if total permitted tools fit within budget, pass them all through.
+    // No need for family routing when the registry is small enough.
+    if permitted.len() <= profile.max_tools_per_prompt {
+        let all_names: Vec<String> = permitted.iter().map(|t| t.name().to_string()).collect();
+        debug!(
+            tier = %profile.tier,
+            total_selected = all_names.len(),
+            budget = profile.max_tools_per_prompt,
+            tools = ?all_names,
+            "tool-selector: all tools within budget, skipping family routing"
+        );
+        return all_names;
+    }
+
     let always_on = profile.always_on_tools();
     let mut selected: Vec<String> = Vec::new();
 
