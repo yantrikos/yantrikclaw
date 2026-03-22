@@ -78,7 +78,9 @@ impl Tool for VaultGetTool {
             return Ok(ToolResult {
                 success: false,
                 output: String::new(),
-                error: Some("'otp_code' is required. Ask the user for their authenticator code.".into()),
+                error: Some(
+                    "'otp_code' is required. Ask the user for their authenticator code.".into(),
+                ),
             });
         }
 

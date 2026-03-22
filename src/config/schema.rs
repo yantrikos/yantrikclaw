@@ -2134,8 +2134,8 @@ fn default_http_timeout_secs() -> u64 {
 /// If `allowed_domains` is empty, all requests are rejected (deny-by-default).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct WebFetchConfig {
-    /// Enable `web_fetch` tool for fetching web page content
-    #[serde(default)]
+    /// Enable `web_fetch` tool for fetching web page content. Default: `true`.
+    #[serde(default = "default_true")]
     pub enabled: bool,
     /// Allowed domains for web fetch (exact or subdomain match; `["*"]` = all public hosts)
     #[serde(default = "default_web_fetch_allowed_domains")]
@@ -2166,7 +2166,7 @@ fn default_web_fetch_allowed_domains() -> Vec<String> {
 impl Default for WebFetchConfig {
     fn default() -> Self {
         Self {
-            enabled: false,
+            enabled: true,
             allowed_domains: vec!["*".into()],
             blocked_domains: vec![],
             max_response_size: default_web_fetch_max_response_size(),
@@ -2213,8 +2213,8 @@ impl Default for TextBrowserConfig {
 /// Web search tool configuration (`[web_search]` section).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct WebSearchConfig {
-    /// Enable `web_search_tool` for web searches
-    #[serde(default)]
+    /// Enable `web_search_tool` for web searches. Default: `true`.
+    #[serde(default = "default_true")]
     pub enabled: bool,
     /// Search provider: "searxng" (self-hosted, default), "duckduckgo" (free), or "brave" (requires API key)
     #[serde(default = "default_web_search_provider")]
@@ -2254,7 +2254,7 @@ fn default_web_search_timeout_secs() -> u64 {
 impl Default for WebSearchConfig {
     fn default() -> Self {
         Self {
-            enabled: false,
+            enabled: true,
             provider: default_web_search_provider(),
             searxng_url: default_searxng_url(),
             brave_api_key: None,
@@ -3931,7 +3931,23 @@ pub struct AutonomyConfig {
 }
 
 fn default_auto_approve() -> Vec<String> {
-    vec!["file_read".into(), "memory_recall".into()]
+    vec![
+        "file_read".into(),
+        "memory_recall".into(),
+        "memory_store".into(),
+        "memory_forget".into(),
+        "vault_store".into(),
+        "vault_list".into(),
+        "vault_get".into(),
+        "vault_delete".into(),
+        "web_search_tool".into(),
+        "web_fetch".into(),
+        "calculator".into(),
+        "cron_create".into(),
+        "cron_list".into(),
+        "content_search".into(),
+        "glob_search".into(),
+    ]
 }
 
 fn default_always_ask() -> Vec<String> {

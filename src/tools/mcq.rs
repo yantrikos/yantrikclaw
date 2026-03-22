@@ -269,7 +269,7 @@ mod tests {
         names
             .iter()
             .map(|(name, score)| McqCandidate {
-                name: name.to_string(),
+                name: (*name).to_string(),
                 description: format!("Tool for {name}"),
                 score: *score,
             })
