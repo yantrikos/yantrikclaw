@@ -9,7 +9,7 @@ COPY web/ .
 RUN npm run build
 
 # ── Stage 1: Build ────────────────────────────────────────────
-FROM rust:1.94-slim@sha256:da9dab7a6b8dd428e71718402e97207bb3e54167d37b5708616050b1e8f60ed6 AS builder
+FROM rust:1.91-slim AS builder
 
 WORKDIR /app
 ARG YANTRIKCLAW_CARGO_FEATURES="memory-postgres"
@@ -81,7 +81,7 @@ RUN mkdir -p /yantrikclaw-data/.yantrikclaw /yantrikclaw-data/workspace && \
     chown -R 65534:65534 /yantrikclaw-data
 
 # ── Stage 2: Development Runtime (Debian) ────────────────────
-FROM debian:trixie-slim@sha256:f6e2cfac5cf956ea044b4bd75e6397b4372ad88fe00908045e9a0d21712ae3ba AS dev
+FROM debian:bookworm-slim AS dev
 
 # Install essential runtime dependencies only (use docker-compose.override.yml for dev tools)
 RUN apt-get update && apt-get install -y \
@@ -119,7 +119,7 @@ ENTRYPOINT ["yantrikclaw"]
 CMD ["daemon"]
 
 # ── Stage 3: Production Runtime (Distroless) ─────────────────
-FROM gcr.io/distroless/cc-debian13:nonroot@sha256:84fcd3c223b144b0cb6edc5ecc75641819842a9679a3a58fd6294bec47532bf7 AS release
+FROM gcr.io/distroless/cc-debian12:nonroot AS release
 
 COPY --from=builder /app/yantrikclaw /usr/local/bin/yantrikclaw
 COPY --from=builder /yantrikclaw-data /yantrikclaw-data
