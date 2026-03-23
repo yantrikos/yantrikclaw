@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 env:
   CARGO_TERM_COLOR: always
@@ -114,3 +115,45 @@ jobs:
             --repo "${{ github.repository }}" \
             --title "$TAG" \
             --generate-notes
+
+  docker:
+    name: Docker (linux/amd64 + linux/arm64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version tag
+        id: meta
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          target: release
+          tags: |
+            ghcr.io/yantrikos/yantrikclaw:${{ steps.meta.outputs.tag }}
+            ghcr.io/yantrikos/yantrikclaw:${{ steps.meta.outputs.version }}
+            ghcr.io/yantrikos/yantrikclaw:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
