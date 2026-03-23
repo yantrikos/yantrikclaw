@@ -35,9 +35,9 @@ RUN --mount=type=cache,id=yantrikclaw-cargo-registry,target=/usr/local/cargo/reg
     --mount=type=cache,id=yantrikclaw-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=yantrikclaw-target,target=/app/target,sharing=locked \
     if [ -n "$YANTRIKCLAW_CARGO_FEATURES" ]; then \
-      cargo build --release --locked --features "$YANTRIKCLAW_CARGO_FEATURES"; \
+      cargo build --release --features "$YANTRIKCLAW_CARGO_FEATURES"; \
     else \
-      cargo build --release --locked; \
+      cargo build --release; \
     fi
 RUN rm -rf src benches
 
@@ -54,9 +54,9 @@ RUN --mount=type=cache,id=yantrikclaw-cargo-registry,target=/usr/local/cargo/reg
            target/release/deps/yantrikclawlabs-* \
            target/release/incremental/yantrikclawlabs-* && \
     if [ -n "$YANTRIKCLAW_CARGO_FEATURES" ]; then \
-      cargo build --release --locked --features "$YANTRIKCLAW_CARGO_FEATURES"; \
+      cargo build --release --features "$YANTRIKCLAW_CARGO_FEATURES"; \
     else \
-      cargo build --release --locked; \
+      cargo build --release; \
     fi && \
     cp target/release/yantrikclaw /app/yantrikclaw && \
     strip /app/yantrikclaw
